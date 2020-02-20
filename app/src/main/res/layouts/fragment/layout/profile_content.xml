@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:showIn="@layout/profile_fragment"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:orientation="vertical"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_info1"
+                android:layout_gravity="start"
+                android:layout_marginRight="15dp"
+                ></ImageView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="BASIC INFO"
+                android:textColor="#6097D5"
+                android:textSize="17dp"
+                android:textStyle="bold"
+                />
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="130dp"
+                android:layout_gravity="end"
+                android:id="@+id/change_basic_info"
+               android:src="@drawable/ic_next"
+                ></ImageView>
+        </LinearLayout>
+        <View style="@style/DetailsView"
+            android:background="#F0DBDB"/>
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:layout_marginTop="10dp"
+           android:orientation="horizontal"
+           android:layout_marginLeft="20dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Name"
+                android:textColor="#A09B9B"
+                android:textSize="14sp"
+                >
+
+            </TextView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/rm_profile_name"
+                android:text="               "
+                android:textSize="15sp"
+                android:textColor="#1D1919"
+                ></TextView>
+        </LinearLayout>
+           <ImageView
+               android:id="@+id/rm_edit_name"
+               android:layout_width="30dp"
+               android:layout_height="30dp"
+               android:layout_marginLeft="170dp"
+               android:src="@drawable/ic_pencil"
+               android:layout_gravity="center_vertical"
+               ></ImageView>
+       </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Email"
+                android:textColor="#A09B9B"
+                android:textSize="14sp"
+                >
+
+            </TextView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/rm_profile_email"
+                android:text="                        "
+                android:textSize="15sp"
+                android:textColor="#1D1919"
+                ></TextView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Phone"
+                android:textColor="#A09B9B"
+                android:textSize="14sp"
+                >
+
+            </TextView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/rm_profile_phone"
+                android:text="             "
+                android:textSize="15sp"
+                android:textColor="#1D1919"
+                ></TextView>
+        </LinearLayout>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:orientation="vertical"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_security"
+                android:layout_gravity="start"
+                android:layout_marginRight="15dp"
+                ></ImageView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="SECURITY "
+                android:textColor="#6097D5"
+                android:textSize="17dp"
+                android:textStyle="bold"
+                />
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="50dp"
+                android:layout_marginLeft="130dp"
+                android:layout_gravity="end"
+                android:id="@+id/change_security_info"
+                android:src="@drawable/ic_next"
+                ></ImageView>
+        </LinearLayout>
+        <View style="@style/DetailsView"
+            android:background="#F0DBDB"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:layout_marginLeft="20dp">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Password"
+                android:textColor="#A09B9B"
+                android:textSize="14sp"
+                >
+
+            </TextView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/rm_profile_password"
+                android:text="**********"
+                android:textSize="15sp"
+                android:textColor="#1D1919"
+                ></TextView>
+
+        </LinearLayout>
+            <ImageView
+                android:id="@+id/rm_edit_password"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="180dp"
+                android:src="@drawable/ic_pencil"
+                android:layout_gravity="center_vertical"
+                ></ImageView>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:orientation="vertical"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:orientation="horizontal"
+            android:id="@+id/myMachine">
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_machine"
+                android:layout_gravity="start"
+                android:layout_marginRight="15dp"
+                ></ImageView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="MY MACHINES "
+                android:textColor="#6097D5"
+                android:textSize="17dp"
+                android:textStyle="bold"
+                />
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="50dp"
+                android:layout_marginLeft="92dp"
+                android:layout_gravity="end"
+                android:id="@+id/check_machine"
+                android:src="@drawable/ic_next"
+                ></ImageView>
+        </LinearLayout>
+        <View style="@style/DetailsView"
+            android:background="#F0DBDB"/>
+    </LinearLayout>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

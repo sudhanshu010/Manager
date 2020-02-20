@@ -1,0 +1,77 @@
+package com.example.inventory.serviceMan;
+
+import android.os.Bundle;
+import android.util.Log;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.inventory.R;
+import com.example.inventory.model.Complaint;
+import com.example.inventory.serviceMan.adapters.PendingComplaintAdapter;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class PendingComplaintsActivity extends AppCompatActivity {
+
+    RecyclerView recyclerView_complaints;
+    PendingComplaintAdapter myPendingComplaintAdapter;
+
+    List<String> pendingComplaintList;
+
+    List<Complaint> pendingComplaintObjectList;
+
+    FirebaseDatabase firebaseDatabase;
+    DatabaseReference serviceManReference, pendingComplaintListReference, complaintReference, responsibleManReference;
+
+    FirebaseAuth auth;
+    FirebaseUser user;
+
+    String name;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_pending_complaints);
+
+        recyclerView_complaints = findViewById(R.id.recyclerView_complaints);
+        recyclerView_complaints.setLayoutManager(new LinearLayoutManager(this));
+
+        Log.i("vikas activity","hello");
+
+        auth = FirebaseAuth.getInstance();
+        user = auth.getCurrentUser();
+
+        Log.i("vikas activity","hello1");
+
+        pendingComplaintObjectList = new ArrayList<>();
+
+        myPendingComplaintAdapter = new PendingComplaintAdapter(getApplicationContext(),pendingComplaintObjectList);
+        recyclerView_complaints.setAdapter(myPendingComplaintAdapter);
+
+        Log.i("vikas activity","hello2");
+
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        serviceManReference = firebaseDatabase.getReference("Users").child("ServiceMan").child(user.getUid());
+        pendingComplaintListReference = serviceManReference.child("pendingComplaintList");
+        responsibleManReference = firebaseDatabase.getReference("Users").child("ResponsibleMan");
+        complaintReference = firebaseDatabase.getReference("Complaints");
+
+        Log.i("vikas activity","hello3");
+
+
+        pendingComplaintListReference.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable 

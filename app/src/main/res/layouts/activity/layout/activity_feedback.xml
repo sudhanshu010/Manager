@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_marginTop="50dp"
+    tools:context=".FeedbackActivity">
+
+
+
+    <EditText
+        android:background="@drawable/border_feedback"
+        android:id="@+id/edit_text_feedback"
+        android:layout_width="match_parent"
+        android:padding="5dp"
+        android:layout_height="200dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:inputType="text|textMultiLine"
+        android:hint="Write your Feedback here"
+        app:layout_constraintTop_toTopOf="parent"
+        android:gravity="start"
+
+        />
+
+    <Button
+        android:id="@+id/submit_button"
+        style="@style/loginButton"
+        android:padding="16dp"
+        android:text="Submit"
+        android:textSize="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edit_text_feedback"
+        app:layout_constraintVertical_bias="0.189" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

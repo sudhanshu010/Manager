@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".RequestStepIndicator">
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:orientation="vertical"
+        android:padding="16dp"
+        tools:ignore="HardcodedText">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/ic_status1">
+
+            </ImageView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:text="Complaint Status"/>
+
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#918F8F"
+           android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            />
+        <com.transferwise.sequencelayout.SequenceLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp">
+
+            <com.transferwise.sequencelayout.SequenceStep
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/step1"
+                app:anchor="30 Nov"
+                app:anchorMaxWidth="100dp"
+                app:title="Complaint Generated"
+                app:titleTextAppearance="@style/normalText"
+                app:subtitleTextAppearance="@style/subTitle"
+                />
+
+            <com.transferwise.sequencelayout.SequenceStep
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/step2"
+                app:anchorMaxWidth="100dp"
+                app:title="Complaint assigned for Serviceman"
+                app:titleTextAppearance="@style/normalText"
+                app:subtitleTextAppearance="@style/subTitle"
+                />
+
+            <com.transferwise.sequencelayout.SequenceStep
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:anchorMaxWidth="100dp"
+                android:id="@+id/step3"
+                app:title="Approval request generated"
+                app:titleTextAppearance="@style/normalText"
+                app:subtitleTextAppearance="@style/subTitle"
+                />
+
+            <com.transferwise.sequencelayout.SequenceStep
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/step4"
+                app:anchorMaxWidth="100dp"
+                app:title="Request approved"
+                app:titleTextAppearance="@style/normalText"
+                app:subtitleTextAppearance="@style/subTitle"/>
+
+            <com.transferwise.sequencelayout.SequenceStep
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/step5"
+                app:anchorMaxWidth="100dp"
+                app:titleTextAppearance="@style/normalText"
+                app:title="Work Done. Hurray!!!!"
+                app:subtitleTextAppearance="@style/subTitle"/>
+        </com.transferwise.sequencelayout.SequenceLayout>
+
+    </LinearLayout>
+</ScrollView>
