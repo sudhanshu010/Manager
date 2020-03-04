@@ -57,8 +57,8 @@ public class PendingRequestActivity extends AppCompatActivity {
         Log.i("danda ghus gya","Hello");
 
         firebaseDatabase = FirebaseDatabase.getInstance();
-        responsibleManReference = firebaseDatabase.getReference("Users").child("ResponsibleMan").child(user.getUid());
-        serviceManReference = firebaseDatabase.getReference("Users").child("ServiceMan");
+        responsibleManReference = firebaseDatabase.getReference("Users").child("Manager").child(user.getUid());
+        serviceManReference = firebaseDatabase.getReference("Users").child("Mechanic");
         pendimgRequestListReference = responsibleManReference.child("pendingRequestList");
         requestReference = firebaseDatabase.getReference("Requests");
 

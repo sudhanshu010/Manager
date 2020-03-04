@@ -48,7 +48,7 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.home_fragment, container, false);
 
-         viewPager= (ViewPager)view.findViewById(R.id.viewpager);
+        viewPager= (ViewPager)view.findViewById(R.id.viewpager);
 
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getActivity().getApplicationContext());
         viewPager.setAdapter(viewPagerAdapter);
@@ -89,12 +89,12 @@ public class HomeFragment extends Fragment {
 
                     Activity activity = getActivity();
                     if(activity!=null)
-                    dots[i].setImageDrawable(ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.active_dot));
+                        dots[i].setImageDrawable(ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.active_dot));
                 }
 
                 Activity activity = getActivity();
                 if(activity!=null)
-                dots[position].setImageDrawable(ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.nonactive_dot));
+                    dots[position].setImageDrawable(ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.nonactive_dot));
 
             }
 
@@ -105,7 +105,7 @@ public class HomeFragment extends Fragment {
         });
 
         //timer in viewpager
-       autoScroll();
+        autoScroll();
 
         scan =(CardView) view.findViewById(R.id.scan);
         generate = (CardView) view.findViewById(R.id.generate);

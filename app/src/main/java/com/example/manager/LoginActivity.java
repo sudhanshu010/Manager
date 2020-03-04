@@ -49,6 +49,10 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         mAuth = FirebaseAuth.getInstance();
+        if(mAuth.getCurrentUser()!=null)
+        {
+            startActivity(new Intent(LoginActivity.this,BottomNavigationActivity.class));
+        }
         customDialogBox = new CustomDialogBox(LoginActivity.this);
         customDialogBox.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
@@ -57,7 +61,8 @@ public class LoginActivity extends AppCompatActivity {
         loginButton = findViewById(R.id.loginButton);
 
         firebaseDatabase = FirebaseDatabase.getInstance();
-        serviceManReference = firebaseDatabase.getReference("Users").child("ServiceMan");
+        serviceManReference = firebaseDatabase.getReference("Users").child("Mechanic");
+
 
         loginButton.setOnClickListener(new View.OnClickListener() {
 

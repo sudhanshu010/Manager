@@ -9,7 +9,7 @@ import android.widget.RatingBar;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.manager.models.ServiceMan;
+import com.example.manager.models.Mechanic;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -26,7 +26,7 @@ public class RatingActivity extends AppCompatActivity {
     String serviceManUid ;
     DatabaseReference databaseReference;
 
-    ServiceMan serviceMan;
+    Mechanic mechanic;
     float rating;
 
     @Override
@@ -39,7 +39,7 @@ public class RatingActivity extends AppCompatActivity {
 
         serviceManUid = getIntent().getStringExtra("serviceManUid");
 
-        databaseReference = FirebaseDatabase.getInstance().getReference("Users").child("ServiceMan").child(serviceManUid);
+        databaseReference = FirebaseDatabase.getInstance().getReference("Users").child("Mechanic").child(serviceManUid);
 
 
         submit_rating.setOnClickListener(new View.OnClickListener() {
@@ -50,17 +50,17 @@ public class RatingActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                        serviceMan = dataSnapshot.getValue(ServiceMan.class);
-                        float rating = serviceMan.getRating();
-                        float number = serviceMan.getNumberOfRating();
+                        mechanic = dataSnapshot.getValue(Mechanic.class);
+                        float rating = mechanic.getRating();
+                        float number = mechanic.getNumberOfRating();
 
                         float newRating = (rating+ratingBar.getProgress())/(number+1);
                         databaseReference.removeEventListener(this);
 
                         HashMap<String,Object> update = new HashMap<>();
 
-                        update.put("/Users/ServiceMan/"+serviceManUid+"/rating",newRating);
-                        update.put("/Users/ServiceMan/"+serviceManUid+"/numberOfRating",number+1);
+                        update.put("/Users/Mechanic/"+serviceManUid+"/rating",newRating);
+                        update.put("/Users/Mechanic/"+serviceManUid+"/numberOfRating",number+1);
 
                         FirebaseDatabase.getInstance().getReference().updateChildren(update);
                         Intent intent = new Intent(getApplicationContext(), BottomNavigationActivity.class);

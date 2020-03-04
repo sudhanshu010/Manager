@@ -6,6 +6,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -71,27 +72,42 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
 
+        Log.i("generationCode",generationCode);
         firebaseDatabase = FirebaseDatabase.getInstance();
-        machineReference = firebaseDatabase.getReference("machines").child(generationCode);
-        complaintIdReference = firebaseDatabase.getReference("complaintId");
-        serviceManListReference = firebaseDatabase.getReference("Users").child("ServiceMan");
-        responsibleReference = firebaseDatabase.getReference("Users").child("ResponsibleMan").child(user.getUid());
-        complaintReference = firebaseDatabase.getReference("Complaints");
+        machineReference = firebaseDatabase.getReference("Machines").child(generationCode);
+        Log.i("sudhanshu","NULL1");
+//        complaintIdReference = firebaseDatabase.getReference("complaintId");
+//        Log.i("sudhanshu","NULL2");
+//        serviceManListReference = firebaseDatabase.getReference("Users").child("Mechanic");
+//        Log.i("sudhanshu","NULL3");
+//        responsibleReference = firebaseDatabase.getReference("Users").child("Manager").child(user.getUid());
+//        Log.i("sudhanshu","NULL4");
+//        complaintReference = firebaseDatabase.getReference("Complaints");
+//        Log.i("sudhanshu","NULL5");
 
         QRCodeImage = findViewById(R.id.QrCodeImage);
 
-        machineReference.addValueEventListener(new ValueEventListener() {
+        machineReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
+                Log.i("hello","chal ja yrr");
                 machine = dataSnapshot.getValue(Machine.class);
+                if(machine == null)
+                {
+                    Log.i("sudhanshu","NULL");
+                }
+                else
+                {
+                    Log.i("sudhanshu","NOT NULL");
+                }
                 //Toast.makeText(GetMachineDetailsActivity.this, machine.getDepartment(), Toast.LENGTH_SHORT).show();
 
                 serialNo.setText(machine.getSerialNumber());
                 department.setText(machine.getDepartment());
                 serviceTime.setText(machine.getServiceTime()+" months");
-                dateOfInstallation.setText(machine.getDate());
-                generator.setText(machine.getGeneratorName());
+                dateOfInstallation.setText(machine.getDateOfInstallation());
+                //generator.setText(machine.getGeneratorName());
             }
 
             @Override
@@ -111,17 +127,17 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
             }
         });
 
-        complaintIdReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                complaintIdValue = dataSnapshot.getValue().toString();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
+//        complaintIdReference.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                complaintIdValue = dataSnapshot.getValue().toString();
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
 
 
         generateComplaint.setOnClickListener(new View.OnClickListener() {

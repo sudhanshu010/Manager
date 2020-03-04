@@ -62,7 +62,7 @@ public class PendingComplaintFragment extends Fragment {
 
 
         firebaseDatabase =  FirebaseDatabase.getInstance();
-        responsibleManReference = firebaseDatabase.getReference("Users").child("ResponsibleMan").child(user.getUid());
+        responsibleManReference = firebaseDatabase.getReference("Users").child("Manager").child(user.getUid());
         pendingComplaintListReference = responsibleManReference.child("pendingComplaintList");
         complaintReference = firebaseDatabase.getReference("Complaints");
 

@@ -3,17 +3,18 @@ package com.example.manager.models;
 import java.util.Date;
 
 public class Complaint {
-        String complaintGenerator;
-        String complaintAllocatedTo;
-        String complaintMachineId;
-        String complaintId;
-        String complaintGeneratedDate;
-        String complaintCompletedDate;
 
-        String generatorName;
-        String servicemanName;
+    String complaintGenerator;
+    String complaintAllocatedTo;
+    String complaintMachineId;
+    String complaintId;
+    String complaintGeneratedDate;
+    String complaintCompletedDate;
 
-        boolean expanded;
+    String generatorName;
+    String servicemanName;
+
+    boolean expanded;
 
     public Chat getChat() {
         return chat;
@@ -105,7 +106,7 @@ public class Complaint {
     }
 
 
-        String complaintDescription;
+    String complaintDescription;
 
 
 

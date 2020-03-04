@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.manager.adapters.ChatAdapter;
 import com.example.manager.models.Chat;
-import com.example.manager.models.ServiceMan;
+import com.example.manager.models.Mechanic;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -105,12 +105,12 @@ public class ChatActivity extends AppCompatActivity {
         });
 
 
-        reference = FirebaseDatabase.getInstance().getReference("Users").child("ServiceMan").child(userid);
+        reference = FirebaseDatabase.getInstance().getReference("Users").child("Mechanic").child(userid);
 
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                ServiceMan user = dataSnapshot.getValue(ServiceMan.class);
+                Mechanic user = dataSnapshot.getValue(Mechanic.class);
                 username.setText(user.getUserName());
                 if (user.getImageURL().equals("default")){
                     profile_image.setImageResource(R.mipmap.ic_launcher);

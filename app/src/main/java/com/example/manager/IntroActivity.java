@@ -125,6 +125,10 @@ public class IntroActivity extends AppCompatActivity {
                     loaddLastScreen();
 
                 }
+                else
+                {
+                    btnGetStarted.setVisibility(View.INVISIBLE);
+                }
 
 
             }

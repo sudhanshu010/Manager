@@ -64,7 +64,7 @@ public class CompletedComplaintFragment extends Fragment {
 
 
         firebaseDatabase =  FirebaseDatabase.getInstance();
-        responsibleManReference = firebaseDatabase.getReference("Users").child("ResponsibleMan").child(user.getUid());
+        responsibleManReference = firebaseDatabase.getReference("Users").child("Manager").child(user.getUid());
         pendingComplaintListReference = responsibleManReference.child("completedComplaintList");
         complaintReference = firebaseDatabase.getReference("Complaints");
 

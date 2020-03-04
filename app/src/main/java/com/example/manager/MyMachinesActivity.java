@@ -23,7 +23,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MyMachine extends AppCompatActivity {
+public class MyMachinesActivity extends AppCompatActivity {
 
     RecyclerView recyclerView_machine;
     MachineAdapter machineAdapter;
@@ -54,7 +54,7 @@ public class MyMachine extends AppCompatActivity {
         recyclerView_machine .setAdapter(machineAdapter);
 
         firebaseDatabase = FirebaseDatabase.getInstance();
-        rmMachineReference = firebaseDatabase.getReference("Users").child("ResponsibleMan").child(user.getUid()).child("myMachines");
+        rmMachineReference = firebaseDatabase.getReference("Users").child("Manager").child(user.getUid()).child("myMachines");
         machineReference = firebaseDatabase.getReference("machines");
 
 

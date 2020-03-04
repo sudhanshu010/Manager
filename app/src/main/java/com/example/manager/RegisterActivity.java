@@ -13,7 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.manager.models.ResponsibleMan;
+import com.example.manager.models.Manager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -38,54 +38,54 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-    registerButton  = findViewById(R.id.registerButton);
-    registerName = findViewById(R.id.editTextName);
-    registerEmail = findViewById(R.id.editTextEmail);
-    registerPassword = findViewById(R.id.editTextPassword);
+        registerButton  = findViewById(R.id.registerButton);
+        registerName = findViewById(R.id.editTextName);
+        registerEmail = findViewById(R.id.editTextEmail);
+        registerPassword = findViewById(R.id.editTextPassword);
 
-    auth = FirebaseAuth.getInstance();
-    firebaseDatabase = FirebaseDatabase.getInstance();
+        auth = FirebaseAuth.getInstance();
+        firebaseDatabase = FirebaseDatabase.getInstance();
 
         registerButton.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
+            @Override
+            public void onClick(View v) {
 
-            final String userName = registerName.getText().toString();
-            final String email = registerEmail.getText().toString();
-            String password = registerPassword.getText().toString();
+                final String userName = registerName.getText().toString();
+                final String email = registerEmail.getText().toString();
+                String password = registerPassword.getText().toString();
 
-            auth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
+                auth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
 
-                    if(task.isSuccessful())
-                    {
-                        user = auth.getCurrentUser();
-                        userReference = firebaseDatabase.getReference("Users");
+                        if(task.isSuccessful())
+                        {
+                            user = auth.getCurrentUser();
+                            userReference = firebaseDatabase.getReference("Users");
 
-                        ResponsibleMan responsibleMan = new ResponsibleMan();
-                        responsibleMan.setEmail(email);
-                        responsibleMan.setUserName(userName);
+                            Manager manager = new Manager();
+                            manager.setEmail(email);
+                            manager.setUserName(userName);
 
-                        userReference.child("ServiceMan").child(user.getUid()).setValue(responsibleMan);
-                        startActivity(new Intent(getApplicationContext(), BottomNavigationActivity.class));
-                        finish();
+                            userReference.child("Manager").child(user.getUid()).setValue(manager);
+                            startActivity(new Intent(getApplicationContext(), BottomNavigationActivity.class));
+                            finish();
+                        }
+                        else
+                        {
+                            Toast.makeText(RegisterActivity.this, "Some Error Occured", Toast.LENGTH_SHORT).show();
+                        }
+
                     }
-                    else
-                    {
-                        Toast.makeText(RegisterActivity.this, "Some Error Occured", Toast.LENGTH_SHORT).show();
-                    }
-
-                }
-            });
+                });
 
 
 
 
 
-        }
-    });
-}
+            }
+        });
+    }
     public void onLoginClick(View view){
         startActivity(new Intent(this,LoginActivity.class));
         overridePendingTransition(R.anim.slide_in_left,android.R.anim.slide_out_right);

@@ -11,6 +11,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -21,7 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.manager.models.Machine;
-import com.example.manager.models.PastRecord;
+import com.example.manager.models.Manager;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -49,11 +50,17 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+
+import javax.crypto.Mac;
 
 public class GenerateQRActivity extends AppCompatActivity {
 
-    EditText department,serviceTime,serialNumber;// Serial Number mentioned on Machine
-    TextView installationDate,installationdate123;
+    EditText department, serviceTime, serialNumber, typeOfMachine, machineCompany, modelNumber, machinePrice;// Serial Number mentioned on Machine
+    TextView installationDate;
     ImageView qrcode;
     ImageView qrtext;
     Button GenerateQR;
@@ -62,11 +69,10 @@ public class GenerateQRActivity extends AppCompatActivity {
     OutputStream outputStream;
     int generationCodeValue;
 
-    private TextView mDisplayDate;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
 
     FirebaseDatabase firebaseDatabase;
-    DatabaseReference generationCodeReference, machineReference, generatorReference;
+    DatabaseReference generationCodeReference, machineReference, managerReference;
     FirebaseUser user;
 
     String generatorName;
@@ -74,8 +80,12 @@ public class GenerateQRActivity extends AppCompatActivity {
     FirebaseStorage firebaseStorage;
     StorageReference storageReference;
     StorageReference machineQRCodeRefernce;
+
     LinearLayout linearLayoutimage,aqwesd,linearLayout;
     TextView enter_details;
+
+    Manager manager;
+    HashMap<String, Machine> myMachines;
 
 
     @Override
@@ -83,31 +93,35 @@ public class GenerateQRActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_generate_qr);
 
-        serialNumber = (EditText)findViewById(R.id.serialNumber);
+        serialNumber = findViewById(R.id.serialNumber);
         department = findViewById(R.id.department);
         serviceTime = findViewById(R.id.serviceTime);
         installationDate = findViewById(R.id.installationdate123);
-        qrcode = (ImageView)findViewById(R.id.qrcode);
-        installationdate123 = findViewById(R.id.installationdate123);
-        save = (Button)findViewById(R.id.save);
-        GenerateQR = (Button)findViewById(R.id.generateQRButton);
+        typeOfMachine = findViewById(R.id.type_of_machine);
+        machineCompany = findViewById(R.id.company);
+        modelNumber = findViewById(R.id.model_number);
+        machinePrice = findViewById(R.id.price);
+
+        qrcode = findViewById(R.id.qrcode);
+        save = findViewById(R.id.save);
+        GenerateQR = findViewById(R.id.generateQRButton);
         linearLayout = findViewById(R.id.linearlayout);
-        linearLayoutimage = (LinearLayout)findViewById(R.id.linearlayoutimage);
-        aqwesd = (LinearLayout)findViewById(R.id.aqwesd);
-        enter_details = (TextView)findViewById(R.id.enter_details_text);
-
-
+        linearLayoutimage = findViewById(R.id.linearlayoutimage);
+        aqwesd = findViewById(R.id.aqwesd);
+        enter_details = findViewById(R.id.enter_details_text);
 
         firebaseDatabase  = FirebaseDatabase.getInstance();
-        generationCodeReference = firebaseDatabase.getReference("generationCode");
-        machineReference = firebaseDatabase.getReference("machines");
+        generationCodeReference = firebaseDatabase.getReference("GenerationCode");
+        machineReference = firebaseDatabase.getReference("Machines");
         user = FirebaseAuth.getInstance().getCurrentUser();
-        generatorReference = firebaseDatabase.getReference("Users").child("ResponsibleMan").child(user.getUid());
+        managerReference = firebaseDatabase.getReference("Users").child("Manager").child(user.getUid());
 
-        generatorReference.addValueEventListener(new ValueEventListener() {
+        managerReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                generatorName = dataSnapshot.child("userName").getValue().toString();
+                manager = dataSnapshot.getValue(Manager.class);
+                myMachines = manager != null ? manager.getMyMachines() : null;
+
             }
 
             @Override
@@ -116,8 +130,7 @@ public class GenerateQRActivity extends AppCompatActivity {
             }
         });
 
-
-        qrtext=(ImageView) findViewById(R.id.imageviewqr);
+        qrtext= findViewById(R.id.imageviewqr);
 
 
         firebaseStorage = FirebaseStorage.getInstance();
@@ -126,13 +139,13 @@ public class GenerateQRActivity extends AppCompatActivity {
         save.setVisibility(View.INVISIBLE);
         linearLayoutimage.setVisibility(View.INVISIBLE);
 
-        // Get initial value of Code Generator on app startup
+        //Get initial value of Code Generator on app startup
         generationCodeReference.addValueEventListener(new ValueEventListener() {
             @Override
 
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                generationCode = dataSnapshot.getValue().toString();
+                generationCode = Objects.requireNonNull(dataSnapshot.getValue()).toString();
                 generationCodeValue = Integer.parseInt(generationCode);
             }
 
@@ -141,8 +154,6 @@ public class GenerateQRActivity extends AppCompatActivity {
 
             }
         });
-
-        mDisplayDate = (TextView) findViewById(R.id.installationdate123);
 
         //Permission
         if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
@@ -188,7 +199,7 @@ public class GenerateQRActivity extends AppCompatActivity {
             }
         });
 
-        mDisplayDate.setOnClickListener(new View.OnClickListener() {
+        installationDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Calendar cal = Calendar.getInstance();
@@ -211,7 +222,7 @@ public class GenerateQRActivity extends AppCompatActivity {
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
                 month = month + 1;
                 String date = day + "/" + month + "/" + year;
-                mDisplayDate.setText(date);
+                installationDate.setText(date);
             }
         };
 
@@ -242,25 +253,30 @@ public class GenerateQRActivity extends AppCompatActivity {
 
     public void addMachineToDatabase(UploadTask uploadTask)
     {
-        final Machine machine = new Machine();
-        final String serialNo,dept;
+
+        final String serialNo, dept, type, model, company;
+        final float price;
         final int servicetime;
         final String installationdate;
+
 
 
         // Retrieve Data of Machine to be saved.
         serialNo = serialNumber.getText().toString();
         dept = department.getText().toString();
         servicetime = Integer.parseInt(serviceTime.getText().toString());
-        String[] date = installationDate.getText().toString().split("/");
         installationdate = installationDate.getText().toString();
+        type = typeOfMachine.getText().toString();
+        model = modelNumber.getText().toString();
+        company = machineCompany.getText().toString();
+        price = Float.parseFloat(machinePrice.getText().toString());
 
         // QRCode image url is fetched and on Completion Machine Data is uploaded to database.
-        Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+        uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
             @Override
             public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
                 if (!task.isSuccessful()) {
-                    throw task.getException();
+                    throw Objects.requireNonNull(task.getException());
                 }
 
                 // Continue with the task to get the download URL
@@ -271,44 +287,44 @@ public class GenerateQRActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<Uri> task) {
                 if (task.isSuccessful()) {
 
-                    machine.setLink(task.getResult().toString());
-                    machine.setDepartment(dept);
-                    machine.setSerialNumber(serialNo);
-                    machine.setServiceTime(servicetime);
-                    machine.setDate(installationdate);
-                    machine.setGenerator(user.getUid());
-                    machine.setGeneratorName(generatorName);
-                    machine.setMachineId(String.valueOf(generationCodeValue));
 
-                    HashMap<String, Object> updateDatabaseValue = new HashMap<>();
+                    String machineId = String.valueOf(generationCodeValue);
+                    Manager tempManager = null;
+                    try {
+                        tempManager = (Manager) manager.clone();
+                    } catch (Exception ignored) {
 
-                    updateDatabaseValue.put("Users/ResponsibleMan/"+user.getUid()+"/myMachines/"+generationCodeValue,true);
+                    }
+                    if (tempManager != null) {
+                        tempManager.setMyMachines(null);
+                    }
+                    Machine machine = new Machine(serialNo, installationdate, dept, machineId, type, company, model,
+                            Objects.requireNonNull(task.getResult()).toString(), servicetime, null, price, true, tempManager, null);
 
-                    FirebaseDatabase.getInstance().getReference().updateChildren(updateDatabaseValue);
+                    HashMap<String, Object> hashMap = new HashMap<>();
+                    hashMap.put("/Machines/" + machineId, machine);
 
+                    Machine tempMachine=null;
+                    try {
+                        tempMachine = (Machine) machine.clone();
+                    } catch (Exception ignored) {
 
-                    final PastRecord pastRecord = new PastRecord();
-                    pastRecord.setDescription("Installation Of Machines");
-                    pastRecord.setServiceDate(installationdate);
-                    pastRecord.setDone(true);
-                    pastRecord.setServiceMan("sudhanshu");
+                    }
+                    if (tempMachine != null) {
+                        tempMachine.setManager(null);
+                    }
+                    hashMap.put("/Users/Manager/"+user.getUid()+"/myMachines/"+machineId,tempMachine);
 
-                    machineReference.child(generationCode).setValue(machine).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    firebaseDatabase.getReference().updateChildren(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if(task.isSuccessful())
                             {
-                                generationCode = String.valueOf(generationCodeValue+1); // increase Value of generationCode Everytime a new machine is entered.
+                                generationCode = String.valueOf(generationCodeValue + 1); // increase Value of generationCode Everytime a new machine is entered.
                                 generationCodeReference.setValue(generationCode);
-
-
                             }
                         }
                     });
-
-                    // data uploaded to database.
-
-                } else {
 
                 }
             }
@@ -317,7 +333,7 @@ public class GenerateQRActivity extends AppCompatActivity {
     }
     private void saveImage() {
 
-        ImageView img = (ImageView) findViewById(R.id.qrcode);
+        ImageView img = findViewById(R.id.qrcode);
         BitmapDrawable draw = (BitmapDrawable) img.getDrawable();
         Bitmap bitmap = draw.getBitmap();
         FileOutputStream outStream = null;
@@ -333,6 +349,7 @@ public class GenerateQRActivity extends AppCompatActivity {
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
         Toast.makeText(this, "Image Saved Successfully", Toast.LENGTH_SHORT).show();
         try {
+            assert outStream != null;
             outStream.flush();
         } catch (IOException e) {
             e.printStackTrace();
@@ -344,6 +361,38 @@ public class GenerateQRActivity extends AppCompatActivity {
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
