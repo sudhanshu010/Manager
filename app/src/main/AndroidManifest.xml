@@ -27,7 +27,7 @@
         <activity android:name=".RatingActivity" />
         <activity android:name=".RequestStepIndicator" />
         <activity android:name=".ShowDetailsActivity" />
-        <activity android:name=".MyMachine" />
+        <activity android:name=".MyMachinesActivity" />
         <activity android:name=".ScanQRActivity" />
         <activity android:name=".PendingRequestActivity" />
         <activity android:name=".ComplaintsTabActivity" />
