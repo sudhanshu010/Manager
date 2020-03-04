@@ -1,24 +1,28 @@
 package com.example.manager;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.paging.PagedList;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.example.manager.adapters.MachineAdapter;
+import com.example.manager.holders.MyMachinesHolder;
 import com.example.manager.models.Machine;
+import com.firebase.ui.database.paging.DatabasePagingOptions;
+import com.firebase.ui.database.paging.FirebaseRecyclerPagingAdapter;
+import com.firebase.ui.database.paging.LoadingState;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.database.Query;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,8 +44,6 @@ public class MyMachinesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_machine);
 
-        Log.i("vikas", "goyal");
-
         recyclerView_machine=findViewById(R.id.recyclerView_machine);
         recyclerView_machine.setLayoutManager(new LinearLayoutManager(this));
 
@@ -50,59 +52,52 @@ public class MyMachinesActivity extends AppCompatActivity {
 
         machineList = new ArrayList<>();
 
-        machineAdapter = new MachineAdapter(getApplicationContext(), machineList);
-        recyclerView_machine .setAdapter(machineAdapter);
-
         firebaseDatabase = FirebaseDatabase.getInstance();
         rmMachineReference = firebaseDatabase.getReference("Users").child("Manager").child(user.getUid()).child("myMachines");
-        machineReference = firebaseDatabase.getReference("machines");
+        machineReference = firebaseDatabase.getReference("Machines");
 
+        Query baseQuery = firebaseDatabase.getReference("Users").child("Manager").child(user.getUid()).child("myMachines");
 
-        rmMachineReference.addChildEventListener(new ChildEventListener() {
+        PagedList.Config config = new PagedList.Config.Builder()
+                .setEnablePlaceholders(false)
+                .setPrefetchDistance(10)
+                .setPageSize(20)
+                .build();
+
+        DatabasePagingOptions<Machine> options = new DatabasePagingOptions.Builder<Machine>()
+                .setLifecycleOwner(this)
+                .setQuery(baseQuery,config,Machine.class)
+                .build();
+
+        FirebaseRecyclerPagingAdapter<Machine, MyMachinesHolder> adapter = new FirebaseRecyclerPagingAdapter<Machine, MyMachinesHolder>(options) {
             @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+            protected void onBindViewHolder(@NonNull MyMachinesHolder viewHolder, int position, @NonNull Machine model) {
 
-                String key = dataSnapshot.getKey();
-                Log.i("machine key", key);
-
-                machineReference.child(key).addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                        Machine machine = new Machine();
-                        machine = dataSnapshot.getValue(Machine.class);
-                        Log.i("department", "vikas");
-                        machineList.add(0, machine);
-                        machineAdapter.notifyDataSetChanged();
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                    }
-                });
+                viewHolder.bind(model);
             }
 
             @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+            protected void onLoadingStateChanged(@NonNull LoadingState state) {
 
             }
 
+            @NonNull
             @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+            public MyMachinesHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.my_machine_item,null);
+                return new MyMachinesHolder(view);
             }
+        };
 
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+        recyclerView_machine.setAdapter(adapter);
+        adapter.startListening();
 
-            }
+//
+    }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
+    @Override
+    protected void onStart() {
+        super.onStart();
     }
 }

@@ -31,13 +31,17 @@ import com.example.manager.DialogBox.CustomDialogBox;
 import com.example.manager.MyMachinesActivity;
 import com.example.manager.R;
 import com.example.manager.SettingActivity;
+import com.example.manager.models.Manager;
 import com.example.manager.utilityclass.CircleTransform;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -119,24 +123,24 @@ public class ProfileFragment extends Fragment {
                 .child("Manager")
                 .child(user.getUid());
 
-//        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//
-//                Manager responsibleMan = dataSnapshot.getValue(Manager.class);
-//                Picasso.get().load(responsibleMan.getImageURL()).into(profilePic);
-//                name.setText(responsibleMan.getUserName());
-//                email.setText(responsibleMan.getEmail());
-//
-//                dialogBox.dismiss();
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        });
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                Manager manager = dataSnapshot.getValue(Manager.class);
+                Picasso.get().load(manager.getProfilePicLink()).into(profilePic);
+                name.setText(manager.getUserName());
+                email.setText(manager.getEmail());
+
+                dialogBox.dismiss();
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
 
         storageReference = FirebaseStorage.getInstance().getReference().child(user.getUid()+".jpg");
@@ -230,7 +234,7 @@ public class ProfileFragment extends Fragment {
 
                                         HashMap<String, Object> updateProfilePic = new HashMap<>();
 
-                                        updateProfilePic.put("/Users/Manager/" + user.getUid() + "/imageURL", imageLink);
+                                        updateProfilePic.put("/Users/Manager/" + user.getUid() + "/profilePicLink", imageLink);
 
                                         FirebaseDatabase.getInstance().getReference().updateChildren(updateProfilePic).addOnSuccessListener(new OnSuccessListener<Void>() {
                                             @Override
