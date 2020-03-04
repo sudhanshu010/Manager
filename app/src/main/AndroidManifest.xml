@@ -18,7 +18,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".GetMachineDetailsActivity"></activity>
+        <activity android:name=".GetMachineDetailsActivity"/>
         <activity android:name=".SettingActivity" />
         <activity android:name=".BottomNavigationActivity" />
         <activity android:name=".ChatActivity" />
@@ -27,7 +27,7 @@
         <activity android:name=".RatingActivity" />
         <activity android:name=".RequestStepIndicator" />
         <activity android:name=".ShowDetailsActivity" />
-        <activity android:name=".MyMachine" />
+        <activity android:name=".MyMachinesActivity" />
         <activity android:name=".ScanQRActivity" />
         <activity android:name=".PendingRequestActivity" />
         <activity android:name=".ComplaintsTabActivity" />
@@ -42,6 +42,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity" />
+        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat"/>
     </application>
 
 </manifest>

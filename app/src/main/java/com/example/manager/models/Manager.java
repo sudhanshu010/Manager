@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 public class Manager implements Cloneable{
 
-    private String email, userName, proilePicLink, phoneNumber,savedAddress;
+    private String email, userName, profilePicLink, phoneNumber,savedAddress;
     private HashMap<String, Request> pendingApprovalRequest;
     private HashMap<String,Complaint> pendingComplaints;
     private HashMap<String,Complaint> completedComplaints;
@@ -20,10 +20,10 @@ public class Manager implements Cloneable{
     {
     }
 
-    public Manager(String email, String userName, String proilePicLink, String phoneNumber, String savedAddress, HashMap<String, Request> pendingApprovalRequest, HashMap<String, Complaint> pendingComplaints, HashMap<String, Complaint> completedComplaints, HashMap<String, Machine> myMachines) {
+    public Manager(String email, String userName, String profilePicLink, String phoneNumber, String savedAddress, HashMap<String, Request> pendingApprovalRequest, HashMap<String, Complaint> pendingComplaints, HashMap<String, Complaint> completedComplaints, HashMap<String, Machine> myMachines) {
         this.email = email;
         this.userName = userName;
-        this.proilePicLink = proilePicLink;
+        this.profilePicLink = profilePicLink;
         this.phoneNumber = phoneNumber;
         this.savedAddress = savedAddress;
         this.pendingApprovalRequest = pendingApprovalRequest;
@@ -48,12 +48,12 @@ public class Manager implements Cloneable{
         this.userName = userName;
     }
 
-    public String getProilePicLink() {
-        return proilePicLink;
+    public String getProfilePicLink() {
+        return profilePicLink;
     }
 
-    public void setProilePicLink(String proilePicLink) {
-        this.proilePicLink = proilePicLink;
+    public void setProfilePicLink(String profilePicLink) {
+        this.profilePicLink = profilePicLink;
     }
 
     public String getPhoneNumber() {
