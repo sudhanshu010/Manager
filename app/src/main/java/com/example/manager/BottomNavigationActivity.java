@@ -20,40 +20,32 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class BottomNavigationActivity extends AppCompatActivity {
 
     private BottomNavigationView bottomNavigationView;
-    private HomeFragment homeFragment;
-    private HistoryFragment historyFragment;
-    private NotificationFragment notificationFragment;
-    private ProfileFragment profileFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setOurFragment(new HomeFragment());
         setContentView(R.layout.activity_bottom_navigation);
         bottomNavigationView = findViewById(R.id.bottom_bar);
-        homeFragment = new HomeFragment();
-        historyFragment = new HistoryFragment();
-        notificationFragment = new NotificationFragment();
-        profileFragment= new ProfileFragment();
         bottomNavigationView.setItemIconTintList(null);
-        setOurFragment(homeFragment);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId())
                 {
                     case R.id.home:
-                        setOurFragment(homeFragment);
+                        setOurFragment(new HomeFragment());
                         return true;
 
                     case R.id.history:
-                        setOurFragment(historyFragment);
+                        setOurFragment(new HistoryFragment());
                         return true;
 
                     case R.id.notification:
-                        setOurFragment(notificationFragment);
+                        setOurFragment(new NotificationFragment());
                         return true;
 
                     case R.id.profile:
-                        setOurFragment(profileFragment);
+                        setOurFragment(new ProfileFragment());
                         return true;
 
                     default:
@@ -72,10 +64,10 @@ public class BottomNavigationActivity extends AppCompatActivity {
 
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Fragment uploadType = getSupportFragmentManager().findFragmentById(R.id.mainframe);
-        if (uploadType != null) {
-            uploadType.onActivityResult(12, resultCode, data);
-        }
+//        Fragment uploadType = getSupportFragmentManager().findFragmentById(R.id.mainframe);
+//        if (uploadType != null) {
+//            uploadType.onActivityResult(requestCode, resultCode, data);
+//        }
     }
 }
 

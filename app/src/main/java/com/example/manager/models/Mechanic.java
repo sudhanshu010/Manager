@@ -2,7 +2,7 @@ package com.example.manager.models;
 
 import java.util.List;
 
-public class ServiceMan {
+public class Mechanic {
 
     String userName, Email;
     int load = 0;
@@ -22,9 +22,9 @@ public class ServiceMan {
 
     List<String> pendingRequest, completedRequest, pendingComplaint, completedComplaint;
 
-    public ServiceMan(){}
+    public Mechanic(){}
 
-    public ServiceMan(String userName, String email, List<String> pendingRequest, List<String> completedRequest, List<String> pendingComplaint, List<String> completedComplaint) {
+    public Mechanic(String userName, String email, List<String> pendingRequest, List<String> completedRequest, List<String> pendingComplaint, List<String> completedComplaint) {
         this.userName = userName;
         Email = email;
         this.pendingRequest = pendingRequest;

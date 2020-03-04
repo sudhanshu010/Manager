@@ -9,7 +9,6 @@ public class PastRecord {
     boolean expanded;
     String complaintId;
 
-
     public boolean isExpanded() {
         return expanded;
     }

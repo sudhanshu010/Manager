@@ -57,8 +57,8 @@ public class ShowDetailsActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.RecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-       // shimmerFrameLayout = findViewById(R.id.shimmerFrameLayout);
-       // shimmerFrameLayout.startShimmerAnimation();
+        // shimmerFrameLayout = findViewById(R.id.shimmerFrameLayout);
+        // shimmerFrameLayout.startShimmerAnimation();
 
         pastRecords = new ArrayList<>();
         showDetailsAdapter = new ShowDetailsAdapter(getApplicationContext(),pastRecords);
@@ -134,8 +134,8 @@ public class ShowDetailsActivity extends AppCompatActivity {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // Intent i = new Intent(ShowDetailsActivity.this, UpdateActivity.class);
-               // startActivity(i);
+                // Intent i = new Intent(ShowDetailsActivity.this, UpdateActivity.class);
+                // startActivity(i);
                 finish();
 
             }

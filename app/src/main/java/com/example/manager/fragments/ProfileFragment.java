@@ -9,7 +9,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -29,26 +28,24 @@ import androidx.fragment.app.Fragment;
 
 
 import com.example.manager.DialogBox.CustomDialogBox;
-import com.example.manager.MyMachine;
+import com.example.manager.MyMachinesActivity;
 import com.example.manager.R;
 import com.example.manager.SettingActivity;
-import com.example.manager.models.ResponsibleMan;
 import com.example.manager.utilityclass.CircleTransform;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
@@ -101,7 +98,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                Intent intent = new Intent(getActivity().getApplicationContext(), MyMachine.class);
+                Intent intent = new Intent(getActivity().getApplicationContext(), MyMachinesActivity.class);
                 startActivity(intent);
                 getActivity().finish();
             }
@@ -119,14 +116,14 @@ public class ProfileFragment extends Fragment {
 
         databaseReference = FirebaseDatabase.getInstance()
                 .getReference("Users")
-                .child("ResponsibleMan")
+                .child("Manager")
                 .child(user.getUid());
 
 //        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
 //            @Override
 //            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 //
-//                ResponsibleMan responsibleMan = dataSnapshot.getValue(ResponsibleMan.class);
+//                Manager responsibleMan = dataSnapshot.getValue(Manager.class);
 //                Picasso.get().load(responsibleMan.getImageURL()).into(profilePic);
 //                name.setText(responsibleMan.getUserName());
 //                email.setText(responsibleMan.getEmail());
@@ -147,10 +144,13 @@ public class ProfileFragment extends Fragment {
         profilePicChange.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-//                Activity activity = getActivity();
-//                if (activity != null)
-                startActivityForResult(i, 12);
+//                Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+////                Activity activity = getActivity();
+////                if (activity != null)
+//                getActivity().startActivityForResult(i, 12);
+
+                CropImage.activity().setGuidelines(CropImageView.Guidelines.ON).
+                        setAspectRatio(1, 1).start(getContext(),ProfileFragment.this);
             }
         });
 
@@ -179,70 +179,79 @@ public class ProfileFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
 
         Log.i("PRofile", "helo");
-        if (requestCode == 12 && resultCode == Activity.RESULT_OK && data != null) {
-            Log.i("PRofile", "helo1");
+//        if (requestCode == 12 && resultCode == Activity.RESULT_OK && data != null) {
+//            Log.i("PRofile", "helo1");
+//
+//            //dialogBox.show();
+//
+//            Uri imageUri = data.getData();
+//            CropImage.activity().setGuidelines(CropImageView.Guidelines.ON).
+//                    setAspectRatio(1, 1).start(getActivity().getApplicationContext(), this);
+//        }
 
-            dialogBox.show();
+        if(requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (resultCode == Activity.RESULT_OK) {
+                Uri resultUri = result.getUri();
+                final ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
-            Uri imageUri = data.getData();
-            final ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                profilePic.setDrawingCacheEnabled(true);
+                profilePic.buildDrawingCache();
 
-            profilePic.setDrawingCacheEnabled(true);
-            profilePic.buildDrawingCache();
+                Picasso.get().load(resultUri).transform(new CircleTransform()).into(profilePic, new Callback() {
+                    @Override
+                    public void onSuccess() {
 
-            Picasso.get().load(imageUri).transform(new CircleTransform()).into(profilePic, new Callback() {
-                @Override
-                public void onSuccess() {
+                        ((BitmapDrawable) profilePic.getDrawable()).getBitmap().compress(Bitmap.CompressFormat.JPEG, 50, baos);
 
-                    ((BitmapDrawable) profilePic.getDrawable()).getBitmap().compress(Bitmap.CompressFormat.JPEG, 50, baos);
+                        Log.i("hello ankit", "ankit");
+                        final byte[] image_data = baos.toByteArray();
+                        uploadTask = storageReference.putBytes(image_data);
 
-                    Log.i("hello ankit", "ankit");
-                    final byte[] image_data = baos.toByteArray();
-                    uploadTask = storageReference.putBytes(image_data);
+                        uploadTask.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onProgress(@NonNull UploadTask.TaskSnapshot taskSnapshot) {
 
-                    uploadTask.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onProgress(@NonNull UploadTask.TaskSnapshot taskSnapshot) {
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                dialogBox.dismiss();
+                                uploadTask.cancel();
+                            }
+                        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            dialogBox.dismiss();
-                            uploadTask.cancel();
-                        }
-                    }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                    @Override
+                                    public void onSuccess(Uri uri) {
+                                        String imageLink = uri.toString();
 
-                            storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                @Override
-                                public void onSuccess(Uri uri) {
-                                    String imageLink = uri.toString();
+                                        HashMap<String, Object> updateProfilePic = new HashMap<>();
 
-                                    HashMap<String, Object> updateProfilePic = new HashMap<>();
+                                        updateProfilePic.put("/Users/Manager/" + user.getUid() + "/imageURL", imageLink);
 
-                                    updateProfilePic.put("/Users/ResponsibleMan/" + user.getUid() + "/imageURL", imageLink);
-
-                                    FirebaseDatabase.getInstance().getReference().updateChildren(updateProfilePic).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                        @Override
-                                        public void onSuccess(Void aVoid) {
-                                            dialogBox.dismiss();
-                                        }
-                                    });
+                                        FirebaseDatabase.getInstance().getReference().updateChildren(updateProfilePic).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                dialogBox.dismiss();
+                                            }
+                                        });
 
 
-                                }
-                            });
-                        }
-                    });
-                }
+                                    }
+                                });
+                            }
+                        });
+                    }
 
-                @Override
-                public void onError(Exception e) {
+                    @Override
+                    public void onError(Exception e) {
 
-                }
-            });
+                    }
+                });
+            }
         }
 
     }

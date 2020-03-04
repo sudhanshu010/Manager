@@ -16,7 +16,7 @@ import com.airbnb.lottie.LottieAnimationView;
 
 import com.example.manager.R;
 import com.example.manager.models.Complaint;
-import com.example.manager.models.ServiceMan;
+import com.example.manager.models.Mechanic;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -56,7 +56,7 @@ public class ComplaintDescriptionDialog extends Dialog implements
 
     Complaint complaint;
 
-    List<ServiceMan> serviceManListObjects;
+    List<Mechanic> serviceManListObjects;
 
     HashMap<String,Integer> serviceManList;
 
@@ -132,7 +132,7 @@ public class ComplaintDescriptionDialog extends Dialog implements
 
                             Log.i("serviceMan key",key);
 
-                            ServiceMan serviceMan = new ServiceMan();
+                            Mechanic serviceMan = new Mechanic();
                             String email = serviceManReference.child("email").getValue().toString();
                             String userName = serviceManReference.child("userName").getValue().toString();
                             String load = serviceManReference.child("load").getValue().toString();
