@@ -69,32 +69,13 @@ public class MyMachinesActivity extends AppCompatActivity {
                 .setQuery(baseQuery,config,Machine.class)
                 .build();
 
-        FirebaseRecyclerPagingAdapter<Machine, MyMachinesHolder> adapter = new FirebaseRecyclerPagingAdapter<Machine, MyMachinesHolder>(options) {
-            @Override
-            protected void onBindViewHolder(@NonNull MyMachinesHolder viewHolder, int position, @NonNull Machine model) {
-
-                viewHolder.bind(model);
-            }
-
-            @Override
-            protected void onLoadingStateChanged(@NonNull LoadingState state) {
-
-            }
-
-            @NonNull
-            @Override
-            public MyMachinesHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.my_machine_item,null);
-                return new MyMachinesHolder(view);
-            }
-        };
-
-        recyclerView_machine.setAdapter(adapter);
-        adapter.startListening();
+        machineAdapter = new MachineAdapter(options);
+        recyclerView_machine.setAdapter(machineAdapter);
+        machineAdapter.startListening();
 
 //
     }
+
 
     @Override
     protected void onStart() {
