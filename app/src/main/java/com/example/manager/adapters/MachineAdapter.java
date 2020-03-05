@@ -21,7 +21,7 @@ public class MachineAdapter extends RecyclerView.Adapter<MachineAdapter.MyHolder
     Context c;
     List<Machine> x ;
 
-    public MachineAdapter(Context c, List<Machine> x)                                               //Enter the type of data in the space for model
+    public MachineAdapter(Context c, List<Machine> x)  //Enter the type of data in the space for model
     {
         this.c = c;
         this.x = x;
