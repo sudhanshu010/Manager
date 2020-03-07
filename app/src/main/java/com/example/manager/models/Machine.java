@@ -1,7 +1,10 @@
 package com.example.manager.models;
 
+import org.parceler.Parcel;
+
 import java.util.HashMap;
 
+@Parcel
 public class Machine implements Cloneable{
 
     private String serialNumber, dateOfInstallation, department, machineId, type, company, modelNumber, qrImageLink;

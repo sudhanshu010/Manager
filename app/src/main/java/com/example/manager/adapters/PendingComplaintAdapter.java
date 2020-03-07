@@ -19,6 +19,9 @@ import com.example.manager.models.Complaint;
 import com.firebase.ui.database.paging.DatabasePagingOptions;
 import com.firebase.ui.database.paging.FirebaseRecyclerPagingAdapter;
 import com.firebase.ui.database.paging.LoadingState;
+import com.google.firebase.database.DataSnapshot;
+
+import org.parceler.Parcels;
 
 import java.util.List;
 
@@ -72,8 +75,8 @@ public class PendingComplaintAdapter extends FirebaseRecyclerPagingAdapter<Compl
             pendingComplaintDescription = itemView.findViewById(R.id.rm_pending_complaint_desc);
             pendingComplaintServicemanName = itemView.findViewById(R.id.rm_pending_complaint_serviceman);
             pendingComplaintMachineId = itemView.findViewById(R.id.rm_pending_complaint_machine_id);
-//            chatButton = itemView.findViewById(R.id.rm_chat_button);
-//            statusButton = itemView.findViewById(R.id.show_status);
+            chatButton = itemView.findViewById(R.id.rm_chat_button);
+            statusButton = itemView.findViewById(R.id.show_status);
 
 //            chatButton.setOnClickListener(new View.OnClickListener() {
 //                @Override
@@ -87,18 +90,21 @@ public class PendingComplaintAdapter extends FirebaseRecyclerPagingAdapter<Compl
 //                }
 //            });
 //
-//            statusButton.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    Complaint complaint = x.get(getAdapterPosition());
-//                    Intent intent = new Intent(c, RequestStepIndicator.class);
-//                    intent.putExtra("status", complaint.getStatus());
-//                    intent.putExtra("generated date", complaint.getGeneratedDate());
-//                    intent.putExtra("serviceman", complaint.getMechanic().getUserName());
-//                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                    c.getApplicationContext().startActivity(intent);
-//                }
-//            });
+            statusButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    DataSnapshot dataSnapshot = getItem(getAdapterPosition());
+                    Complaint complaint = null;
+                    if (dataSnapshot != null) {
+                        complaint = dataSnapshot.getValue(Complaint.class);
+                    }
+
+                    Intent intent = new Intent(c, RequestStepIndicator.class);
+                    intent.putExtra("complaint", Parcels.wrap(complaint));
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    c.getApplicationContext().startActivity(intent);
+                }
+            });
 
         }
         public void bind (Complaint model) {

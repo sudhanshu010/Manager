@@ -1,5 +1,8 @@
 package com.example.manager.models;
 
+import org.parceler.Parcel;
+
+@Parcel
 public class Chat implements Cloneable{
 
     public String sender;

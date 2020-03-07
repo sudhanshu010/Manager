@@ -1,7 +1,10 @@
 package com.example.manager.models;
 
+import org.parceler.Parcel;
+
 import java.util.HashMap;
 
+@Parcel
 public class Complaint implements Cloneable{
 
     public static int generatedOnly = 1;
