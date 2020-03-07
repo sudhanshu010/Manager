@@ -35,9 +35,7 @@ public class MyMachinesActivity extends AppCompatActivity {
     FirebaseUser user;
 
     FirebaseDatabase firebaseDatabase;
-    DatabaseReference rmMachineReference, machineReference;
 
-    List<Machine> machineList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,11 +47,7 @@ public class MyMachinesActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
 
-        machineList = new ArrayList<>();
-
         firebaseDatabase = FirebaseDatabase.getInstance();
-        rmMachineReference = firebaseDatabase.getReference("Users").child("Manager").child(user.getUid()).child("myMachines");
-        machineReference = firebaseDatabase.getReference("Machines");
 
         Query baseQuery = firebaseDatabase.getReference("Users").child("Manager").child(user.getUid()).child("myMachines");
 

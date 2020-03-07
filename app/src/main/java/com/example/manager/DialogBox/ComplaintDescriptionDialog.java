@@ -133,7 +133,7 @@ public class ComplaintDescriptionDialog extends Dialog implements
                 animationView.setVisibility(View.VISIBLE);
                 animationView.playAnimation();
 
-                mechanicList = new HashMap<>();
+                mechanicList = new HashMap<>();     // list of mechanic
                 mechanicListReference.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -145,7 +145,7 @@ public class ComplaintDescriptionDialog extends Dialog implements
                             mechanicList.put(key,mechanic);
                         }
 
-                        mechanicList = sortByValue(mechanicList);
+                        mechanicList = sortByValue(mechanicList);   // sort mechanic list by load
 
                         final Map.Entry<String,Mechanic> entry = mechanicList.entrySet().iterator().next();
                         Mechanic mechanic = entry.getValue();
@@ -156,6 +156,7 @@ public class ComplaintDescriptionDialog extends Dialog implements
 
                         complaint.setComplaintId(complaintId);
                         complaint.setDescription(complaintDescription.getText().toString());
+
                         Mechanic tempMechanic = null;
                         try {
                             tempMechanic = (Mechanic) mechanic.clone();
