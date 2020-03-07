@@ -103,7 +103,7 @@ public class PendingComplaintAdapter extends FirebaseRecyclerPagingAdapter<Compl
         }
         public void bind (Complaint model) {
             pendingComplaintDate.setText(model.getGeneratedDate());
-            pendingComplaintId.setText("11111");
+            pendingComplaintId.setText(String.valueOf(model.getComplaintId()));
             pendingComplaintDescription.setText(model.getDescription());
             pendingComplaintServicemanName.setText(model.getMechanic().getUserName());
             pendingComplaintMachineId.setText(model.getMachine().getMachineId());

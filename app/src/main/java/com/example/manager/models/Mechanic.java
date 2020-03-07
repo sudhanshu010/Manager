@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Mechanic implements Cloneable{
 
-    private String userName, email, profilePicLink;
+    private String userName, email, profilePicLink, uid;
     private int load = 0,numberOfRating;
     private float overallRating=0;
     private HashMap<String,Float> rating;
@@ -21,7 +21,7 @@ public class Mechanic implements Cloneable{
     public Mechanic() {
     }
 
-    public Mechanic(String userName, String email, String profilePicLink, int load, int numberOfRating, float overallRating, HashMap<String, Float> rating, HashMap<String, Complaint> pendingComplaints, HashMap<String, Complaint> completedComplaints, HashMap<String, Request> pendingRequest, HashMap<String, Request> completedRequest) {
+    public Mechanic(String userName, String email, String profilePicLink, int load, int numberOfRating, float overallRating, HashMap<String, Float> rating, HashMap<String, Complaint> pendingComplaints, HashMap<String, Complaint> completedComplaints, HashMap<String, Request> pendingRequest, HashMap<String, Request> completedRequest, String uid) {
         this.userName = userName;
         this.email = email;
         this.profilePicLink = profilePicLink;
@@ -33,6 +33,7 @@ public class Mechanic implements Cloneable{
         this.completedComplaints = completedComplaints;
         this.pendingRequest = pendingRequest;
         this.completedRequest = completedRequest;
+        this.uid = uid;
     }
 
     public String getUserName() {
@@ -121,5 +122,13 @@ public class Mechanic implements Cloneable{
 
     public void setCompletedRequest(HashMap<String, Request> completedRequest) {
         this.completedRequest = completedRequest;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 }

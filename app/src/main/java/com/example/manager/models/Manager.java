@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 public class Manager implements Cloneable{
 
-    private String email, userName, profilePicLink, phoneNumber,savedAddress;
+    private String email, userName, profilePicLink, phoneNumber,savedAddress,uid;
     private HashMap<String, Request> pendingApprovalRequest;
     private HashMap<String,Complaint> pendingComplaints;
     private HashMap<String,Complaint> completedComplaints;
@@ -20,7 +20,7 @@ public class Manager implements Cloneable{
     {
     }
 
-    public Manager(String email, String userName, String profilePicLink, String phoneNumber, String savedAddress, HashMap<String, Request> pendingApprovalRequest, HashMap<String, Complaint> pendingComplaints, HashMap<String, Complaint> completedComplaints, HashMap<String, Machine> myMachines) {
+    public Manager(String email, String userName, String profilePicLink, String phoneNumber, String savedAddress, HashMap<String, Request> pendingApprovalRequest, HashMap<String, Complaint> pendingComplaints, HashMap<String, Complaint> completedComplaints, HashMap<String, Machine> myMachines, String uid) {
         this.email = email;
         this.userName = userName;
         this.profilePicLink = profilePicLink;
@@ -30,6 +30,7 @@ public class Manager implements Cloneable{
         this.pendingComplaints = pendingComplaints;
         this.completedComplaints = completedComplaints;
         this.myMachines = myMachines;
+        this.uid = uid;
     }
 
     public String getEmail() {
@@ -102,5 +103,13 @@ public class Manager implements Cloneable{
 
     public void setMyMachines(HashMap<String, Machine> myMachines) {
         this.myMachines = myMachines;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 }

@@ -66,6 +66,7 @@ public class RegisterActivity extends AppCompatActivity {
                             Manager manager = new Manager();
                             manager.setEmail(email);
                             manager.setUserName(userName);
+                            manager.setUid(user.getUid());
 
                             userReference.child("Manager").child(user.getUid()).setValue(manager);
                             startActivity(new Intent(getApplicationContext(), BottomNavigationActivity.class));
