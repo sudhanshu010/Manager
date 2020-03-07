@@ -117,17 +117,26 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 complaint = new Complaint();
-                Manager temp = null;
+                Manager tempManager = null;
                 try {
-                    temp = (Manager) machine.getManager().clone();
+                    tempManager = (Manager) machine.getManager().clone();
                 } catch (CloneNotSupportedException e) {
                     e.printStackTrace();
                 }
-                if (temp != null) {
-                    temp.setPendingComplaints(null);
+                if (tempManager != null) {
+                    tempManager.setPendingComplaints(null);
                 }
-                complaint.setManager(temp);
-                complaint.setMachine(machine);
+                complaint.setManager(tempManager);
+
+                Machine tempMachine = null;
+                try {
+                    tempMachine = (Machine) machine.clone();
+                    tempMachine.setManager(null);
+                } catch (CloneNotSupportedException e) {
+                    e.printStackTrace();
+                }
+
+                complaint.setMachine(tempMachine);
                 Calendar cal = Calendar.getInstance();
                 int year = cal.get(Calendar.YEAR);
                 int month = cal.get(Calendar.MONTH);

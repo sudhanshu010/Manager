@@ -151,6 +151,9 @@ public class ComplaintDescriptionDialog extends Dialog implements
                         Mechanic mechanic = entry.getValue();
                         String uid = entry.getKey();
 
+
+                        HashMap<String,Object> updateDatabaseValue = new HashMap<>();
+
                         complaint.setComplaintId(complaintId);
                         complaint.setDescription(complaintDescription.getText().toString());
                         Mechanic tempMechanic = null;
@@ -171,9 +174,9 @@ public class ComplaintDescriptionDialog extends Dialog implements
                             e.printStackTrace();
                         }
                         if (tempComplaint != null) {
-                            tempComplaint.setMechanic(tempMechanic);
+                            tempComplaint.setMechanic(null);
                         }
-
+                        updateDatabaseValue.put("/Users/Mechanic/"+uid+"/pendingComplaints/"+complaintId,tempComplaint);
                         mechanicListReference.removeEventListener(this);
 
                         try {
@@ -181,19 +184,17 @@ public class ComplaintDescriptionDialog extends Dialog implements
                         } catch (CloneNotSupportedException e) {
                             e.printStackTrace();
                         }
-                        if (tempComplaint != null) {
-                            tempComplaint.setMechanic(tempMechanic);
-                        }
 
                         if (tempComplaint != null) {
                             tempComplaint.setManager(null);
                         }
-                        HashMap<String,Object> updateDatabaseValue = new HashMap<>();
+
 
                         updateDatabaseValue.put("/Users/Mechanic/"+uid+"/load",mechanic.getLoad()+1);
-                        updateDatabaseValue.put("/Users/Mechanic/"+uid+"/pendingComplaints/"+complaintId,tempComplaint);
-                        updateDatabaseValue.put("/complaintId",complaintId+1);
-                        updateDatabaseValue.put("/Users/Manager/"+user.getUid()+ "/pendingComplaintList/"+complaintId,tempComplaint);
+
+                        updateDatabaseValue.put("/ComplaintId",complaintId+1);
+                        updateDatabaseValue.put("/Complaints/"+complaintId,complaint);
+                        updateDatabaseValue.put("/Users/Manager/"+user.getUid()+ "/pendingComplaints/"+complaintId,tempComplaint);
 
                         FirebaseDatabase.getInstance().getReference().updateChildren(updateDatabaseValue);
 
