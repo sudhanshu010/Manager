@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.example.manager.DialogBox.ComplaintDescriptionDialog;
 import com.example.manager.models.Complaint;
 import com.example.manager.models.Machine;
+import com.example.manager.models.Manager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -44,7 +45,7 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
 
     Complaint complaint;
 
-    String complaintIdValue;
+    int complaintId;
     String description;
 
 
@@ -72,35 +73,16 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
 
-        Log.i("generationCode",generationCode);
         firebaseDatabase = FirebaseDatabase.getInstance();
         machineReference = firebaseDatabase.getReference("Machines").child(generationCode);
-        Log.i("sudhanshu","NULL1");
-//        complaintIdReference = firebaseDatabase.getReference("complaintId");
-//        Log.i("sudhanshu","NULL2");
-//        serviceManListReference = firebaseDatabase.getReference("Users").child("Mechanic");
-//        Log.i("sudhanshu","NULL3");
-//        responsibleReference = firebaseDatabase.getReference("Users").child("Manager").child(user.getUid());
-//        Log.i("sudhanshu","NULL4");
-//        complaintReference = firebaseDatabase.getReference("Complaints");
-//        Log.i("sudhanshu","NULL5");
-
         QRCodeImage = findViewById(R.id.QrCodeImage);
 
         machineReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                Log.i("hello","chal ja yrr");
                 machine = dataSnapshot.getValue(Machine.class);
-                if(machine == null)
-                {
-                    Log.i("sudhanshu","NULL");
-                }
-                else
-                {
-                    Log.i("sudhanshu","NOT NULL");
-                }
+
                 //Toast.makeText(GetMachineDetailsActivity.this, machine.getDepartment(), Toast.LENGTH_SHORT).show();
 
                 serialNo.setText(machine.getSerialNumber());
@@ -127,17 +109,7 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
             }
         });
 
-//        complaintIdReference.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                complaintIdValue = dataSnapshot.getValue().toString();
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        });
+
 
 
         generateComplaint.setOnClickListener(new View.OnClickListener() {
@@ -145,19 +117,27 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 complaint = new Complaint();
-                complaint.setComplaintGenerator(user.getUid());
-                complaint.setComplaintMachineId(generationCode);
+                Manager temp = null;
+                try {
+                    temp = (Manager) machine.getManager().clone();
+                } catch (CloneNotSupportedException e) {
+                    e.printStackTrace();
+                }
+                if (temp != null) {
+                    temp.setPendingComplaints(null);
+                }
+                complaint.setManager(temp);
+                complaint.setMachine(machine);
                 Calendar cal = Calendar.getInstance();
                 int year = cal.get(Calendar.YEAR);
                 int month = cal.get(Calendar.MONTH);
                 month = month+1;
                 int day = cal.get(Calendar.DAY_OF_MONTH);
 
+                complaint.setGeneratedDate(day+"/"+month+"/"+year);
+                complaint.setStatus(Complaint.generatedOnly);
 
-                complaint.setComplaintGeneratedDate(day+"/"+month+"/"+year);
-                complaint.setStatus(complaint.getGeneratedOnly());
-
-                ComplaintDescriptionDialog complaintDescriptionDialog = new ComplaintDescriptionDialog(GetMachineDetailsActivity.this,complaint,complaintIdValue);
+                ComplaintDescriptionDialog complaintDescriptionDialog = new ComplaintDescriptionDialog(GetMachineDetailsActivity.this,complaint);
                 complaintDescriptionDialog.show();
 
             }

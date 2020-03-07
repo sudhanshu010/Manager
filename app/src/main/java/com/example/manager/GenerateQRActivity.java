@@ -67,7 +67,7 @@ public class GenerateQRActivity extends AppCompatActivity {
     String generationCode; // Our code which is used for generating qrCode.
     Button save;
     OutputStream outputStream;
-    int generationCodeValue;
+    long generationCodeValue = 0;
 
     private DatePickerDialog.OnDateSetListener mDateSetListener;
 
@@ -145,8 +145,8 @@ public class GenerateQRActivity extends AppCompatActivity {
 
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                generationCode = Objects.requireNonNull(dataSnapshot.getValue()).toString();
-                generationCodeValue = Integer.parseInt(generationCode);
+                generationCodeValue = (long) Objects.requireNonNull(dataSnapshot.getValue());
+
             }
 
             @Override
@@ -169,12 +169,12 @@ public class GenerateQRActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if(generationCode!=null) {
+                if(generationCodeValue!=0) {
 
                     // update value to database.
                     MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
                     try {
-                        BitMatrix bitMatrix = multiFormatWriter.encode(generationCode, BarcodeFormat.QR_CODE, 200, 200);
+                        BitMatrix bitMatrix = multiFormatWriter.encode(String.valueOf(generationCodeValue), BarcodeFormat.QR_CODE, 200, 200);
                         BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
                         Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix); // bitmap contains QRCode image.
                         qrcode.setImageBitmap(bitmap);
@@ -242,7 +242,7 @@ public class GenerateQRActivity extends AppCompatActivity {
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] data = baos.toByteArray();
 
-        machineQRCodeRefernce = storageReference.child(generationCode+".jpg");
+        machineQRCodeRefernce = storageReference.child(generationCodeValue+".jpg");
 
         UploadTask uploadTask = machineQRCodeRefernce.putBytes(data); // QRCode image has been uploaded to Storage at this line.
 
@@ -320,8 +320,8 @@ public class GenerateQRActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<Void> task) {
                             if(task.isSuccessful())
                             {
-                                generationCode = String.valueOf(generationCodeValue + 1); // increase Value of generationCode Everytime a new machine is entered.
-                                generationCodeReference.setValue(generationCode);
+                                generationCodeValue = generationCodeValue+1; // increase Value of generationCode Everytime a new machine is entered.
+                                generationCodeReference.setValue(generationCodeValue);
                             }
                         }
                     });

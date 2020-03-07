@@ -12,27 +12,41 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.manager.R;
 import com.example.manager.models.Chat;
+import com.firebase.ui.database.paging.DatabasePagingOptions;
+import com.firebase.ui.database.paging.FirebaseRecyclerPagingAdapter;
+import com.firebase.ui.database.paging.LoadingState;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.HashMap;
 import java.util.List;
 
-public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
+public class ChatAdapter extends FirebaseRecyclerPagingAdapter<Chat,ChatAdapter.ViewHolder> {
 
     public static  final int MSG_TYPE_LEFT = 0;
     public static  final int MSG_TYPE_RIGHT = 1;
 
     private Context mContext;
-    private List<Chat> mChat;
+    private HashMap<String,Chat> mChat;
     private String imageurl;
 
     FirebaseUser fuser;
 
-    public ChatAdapter(Context mContext, List<Chat> mChat, String imageurl){
-        this.mChat = mChat;
-        this.mContext = mContext;
+    /**
+     * Construct a new FirestorePagingAdapter from the given {@link DatabasePagingOptions}.
+     *
+     * @param options
+     */
+    public ChatAdapter(@NonNull DatabasePagingOptions<Chat> options,Context c,HashMap<String,Chat> chat,String imageurl) {
+        super(options);
+
+        this.mChat = chat;
+        this.mContext = c;
         this.imageurl = imageurl;
+
     }
+
+
 
     @NonNull
     @Override
@@ -68,6 +82,16 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
         } else {
             holder.txt_seen.setVisibility(View.GONE);
         }
+
+    }
+
+    @Override
+    protected void onBindViewHolder(@NonNull ViewHolder viewHolder, int position, @NonNull Chat model) {
+
+    }
+
+    @Override
+    protected void onLoadingStateChanged(@NonNull LoadingState state) {
 
     }
 

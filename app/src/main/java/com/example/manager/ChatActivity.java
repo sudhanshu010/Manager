@@ -11,18 +11,22 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.paging.PagedList;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.manager.adapters.ChatAdapter;
 import com.example.manager.models.Chat;
+import com.example.manager.models.Machine;
 import com.example.manager.models.Mechanic;
+import com.firebase.ui.database.paging.DatabasePagingOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -38,6 +42,7 @@ public class ChatActivity extends AppCompatActivity {
 
     FirebaseUser fuser;
     DatabaseReference reference;
+    FirebaseDatabase firebaseDatabase;
 
     ImageButton btn_send;
     EditText text_send;
@@ -87,6 +92,7 @@ public class ChatActivity extends AppCompatActivity {
 
         intent = getIntent();
         complaintId = intent.getStringExtra("complaintId");
+        firebaseDatabase = FirebaseDatabase.getInstance();
         userid = intent.getStringExtra("userid");//serviceman
         fuser = FirebaseAuth.getInstance().getCurrentUser();//responsible
 
@@ -107,28 +113,28 @@ public class ChatActivity extends AppCompatActivity {
 
         reference = FirebaseDatabase.getInstance().getReference("Users").child("Mechanic").child(userid);
 
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Mechanic user = dataSnapshot.getValue(Mechanic.class);
-                username.setText(user.getUserName());
-                if (user.getImageURL().equals("default")){
-                    profile_image.setImageResource(R.mipmap.ic_launcher);
-                } else {
-                    //and this
-//                    Glide.with(getApplicationContext()).load(user.getImageURL()).into(profile_image);
-                }
-
-                readMesagges(fuser.getUid(), userid, user.getImageURL());
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-        seenMessage(userid);
+//        reference.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                Mechanic user = dataSnapshot.getValue(Mechanic.class);
+//                username.setText(user.getUserName());
+//                if (user.getImageURL().equals("default")){
+//                    profile_image.setImageResource(R.mipmap.ic_launcher);
+//                } else {
+//                    //and this
+////                    Glide.with(getApplicationContext()).load(user.getImageURL()).into(profile_image);
+//                }
+//
+//                readMesagges(fuser.getUid(), userid, user.getImageURL());
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
+//
+//        seenMessage(userid);
     }
 
     private void seenMessage(final String userid){
@@ -172,6 +178,20 @@ public class ChatActivity extends AppCompatActivity {
     private void readMesagges(final String myid, final String userid, final String imageurl){
         mchat = new ArrayList<>();
 
+        Query baseQuery = firebaseDatabase.getReference("Complaints").child(complaintId).child("Chats");
+
+        PagedList.Config config = new PagedList.Config.Builder()
+                .setEnablePlaceholders(false)
+                .setPrefetchDistance(10)
+                .setPageSize(20)
+                .build();
+
+        DatabasePagingOptions<Machine> options = new DatabasePagingOptions.Builder<Machine>()
+                .setLifecycleOwner(this)
+                .setQuery(baseQuery,config,Machine.class)
+                .build();
+
+
         reference = FirebaseDatabase.getInstance().getReference("Complaints").child(complaintId).child("Chats");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -184,7 +204,7 @@ public class ChatActivity extends AppCompatActivity {
                         mchat.add(chat);
                     }
 
-                    chatAdapter = new ChatAdapter(ChatActivity.this, mchat, imageurl);
+                    //chatAdapter = new ChatAdapter(ChatActivity.this, mchat, imageurl);
                     recyclerView.setAdapter(chatAdapter);
                 }
             }

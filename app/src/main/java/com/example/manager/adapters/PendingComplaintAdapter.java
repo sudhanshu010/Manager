@@ -42,11 +42,11 @@ public class PendingComplaintAdapter extends  RecyclerView.Adapter<PendingCompla
     public void onBindViewHolder(@NonNull PendingComplaintAdapter.MyHolder1 myholder1, int position) {
 
 
-        myholder1.pendingComplaintDate.setText(x.get(position).getComplaintGeneratedDate());
-        myholder1.pendingComplaintDescription.setText(x.get(position).getComplaintDescription());
-        myholder1.pendingComplaintServicemanName.setText(x.get(position).getServicemanName());
-        myholder1.pendingComplaintId.setText(x.get(position).getComplaintId());
-        myholder1.pendingComplaintMachineId.setText(x.get(position).getComplaintMachineId());
+        myholder1.pendingComplaintDate.setText(x.get(position).getCompletedDate());
+        myholder1.pendingComplaintDescription.setText(x.get(position).getDescription());
+        myholder1.pendingComplaintServicemanName.setText(x.get(position).getMechanic().getUserName());
+        myholder1.pendingComplaintId.setText((int) x.get(position).getComplaintId());
+        myholder1.pendingComplaintMachineId.setText(x.get(position).getMachine().getMachineId());
 
 
         Log.i("asdf","fgh");
@@ -81,7 +81,7 @@ public class PendingComplaintAdapter extends  RecyclerView.Adapter<PendingCompla
                 public void onClick(View view) {
                     Complaint complaint = x.get(getAdapterPosition());
                     Intent intent = new Intent(c, ChatActivity.class);
-                    intent.putExtra("userid", complaint.getComplaintAllocatedTo());
+                    intent.putExtra("userid", complaint.getMechanic().getUserName());
                     intent.putExtra("complaintId", complaint.getComplaintId());
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     c.getApplicationContext().startActivity(intent);
@@ -94,8 +94,8 @@ public class PendingComplaintAdapter extends  RecyclerView.Adapter<PendingCompla
                     Complaint complaint = x.get(getAdapterPosition());
                     Intent intent = new Intent(c, RequestStepIndicator.class);
                     intent.putExtra("status", complaint.getStatus());
-                    intent.putExtra("generated date", complaint.getComplaintGeneratedDate());
-                    intent.putExtra("serviceman", complaint.getServicemanName());
+                    intent.putExtra("generated date", complaint.getGeneratedDate());
+                    intent.putExtra("serviceman", complaint.getMechanic().getUserName());
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     c.getApplicationContext().startActivity(intent);
                 }

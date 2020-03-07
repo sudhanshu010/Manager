@@ -42,11 +42,11 @@ public CompletedComplaintAdapter.MyHolder1 onCreateViewHolder(@NonNull ViewGroup
 public void onBindViewHolder(@NonNull CompletedComplaintAdapter.MyHolder1 myholder1, int position) {
 
 
-        myholder1.pendingComplaintDate.setText(x.get(position).getComplaintCompletedDate());
-        myholder1.pendingComplaintDescription.setText(x.get(position).getComplaintDescription());
-        myholder1.pendingComplaintServicemanName.setText(x.get(position).getServicemanName());
-        myholder1.pendingComplaintId.setText(x.get(position).getComplaintId());
-        myholder1.pendingComplaintMachineId.setText(x.get(position).getComplaintMachineId());
+        myholder1.pendingComplaintDate.setText(x.get(position).getCompletedDate());
+        myholder1.pendingComplaintDescription.setText(x.get(position).getDescription());
+        myholder1.pendingComplaintServicemanName.setText(x.get(position).getMechanic().getUserName());
+        myholder1.pendingComplaintId.setText((int) x.get(position).getComplaintId());
+        myholder1.pendingComplaintMachineId.setText(x.get(position).getMachine().getMachineId());
 
 
         Log.i("asdf","fgh");
@@ -81,9 +81,9 @@ class MyHolder1 extends RecyclerView.ViewHolder{
                 Complaint complaint = x.get(getAdapterPosition());
                 Intent intent = new Intent(c, RequestStepIndicator.class);
                 intent.putExtra("status", complaint.getStatus());
-                intent.putExtra("generated date", complaint.getComplaintGeneratedDate());
-                intent.putExtra("serviceman", complaint.getServicemanName());
-                intent.putExtra("completed date", complaint.getComplaintCompletedDate());
+                intent.putExtra("generated date", complaint.getGeneratedDate());
+                intent.putExtra("serviceman", complaint.getMechanic().getUserName());
+                intent.putExtra("completed date", complaint.getCompletedDate());
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 c.getApplicationContext().startActivity(intent);
             }

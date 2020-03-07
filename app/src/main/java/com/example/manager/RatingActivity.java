@@ -51,7 +51,7 @@ public class RatingActivity extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                         mechanic = dataSnapshot.getValue(Mechanic.class);
-                        float rating = mechanic.getRating();
+                       // float rating = mechanic.getRating();
                         float number = mechanic.getNumberOfRating();
 
                         float newRating = (rating+ratingBar.getProgress())/(number+1);

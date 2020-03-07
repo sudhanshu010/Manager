@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.manager.adapters.MachineAdapter;
-import com.example.manager.holders.MyMachinesHolder;
 import com.example.manager.models.Machine;
 import com.firebase.ui.database.paging.DatabasePagingOptions;
 import com.firebase.ui.database.paging.FirebaseRecyclerPagingAdapter;
@@ -69,7 +68,7 @@ public class MyMachinesActivity extends AppCompatActivity {
                 .setQuery(baseQuery,config,Machine.class)
                 .build();
 
-        machineAdapter = new MachineAdapter(options);
+        machineAdapter = new MachineAdapter(options,MyMachinesActivity.this);
         recyclerView_machine.setAdapter(machineAdapter);
         machineAdapter.startListening();
 

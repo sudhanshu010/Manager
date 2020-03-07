@@ -1,14 +1,63 @@
 package com.example.manager.models;
 
+import java.util.HashMap;
 import java.util.List;
 
-public class Mechanic {
+public class Mechanic implements Cloneable{
 
-    String userName, Email;
-    int load = 0;
+    private String userName, email, profilePicLink;
+    private int load = 0,numberOfRating;
+    private float overallRating=0;
+    private HashMap<String,Float> rating;
+    private HashMap<String,Complaint> pendingComplaints, completedComplaints;
+    private HashMap<String,Request> pendingRequest, completedRequest;
 
-    float rating=0;
-    int numberOfRating = 0;
+    public Object clone() throws
+            CloneNotSupportedException
+    {
+        return super.clone();
+    }
+
+    public Mechanic() {
+    }
+
+    public Mechanic(String userName, String email, String profilePicLink, int load, int numberOfRating, float overallRating, HashMap<String, Float> rating, HashMap<String, Complaint> pendingComplaints, HashMap<String, Complaint> completedComplaints, HashMap<String, Request> pendingRequest, HashMap<String, Request> completedRequest) {
+        this.userName = userName;
+        this.email = email;
+        this.profilePicLink = profilePicLink;
+        this.load = load;
+        this.numberOfRating = numberOfRating;
+        this.overallRating = overallRating;
+        this.rating = rating;
+        this.pendingComplaints = pendingComplaints;
+        this.completedComplaints = completedComplaints;
+        this.pendingRequest = pendingRequest;
+        this.completedRequest = completedRequest;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getProfilePicLink() {
+        return profilePicLink;
+    }
+
+    public void setProfilePicLink(String profilePicLink) {
+        this.profilePicLink = profilePicLink;
+    }
 
     public int getLoad() {
         return load;
@@ -18,90 +67,59 @@ public class Mechanic {
         this.load = load;
     }
 
-    String imageURL;
-
-    List<String> pendingRequest, completedRequest, pendingComplaint, completedComplaint;
-
-    public Mechanic(){}
-
-    public Mechanic(String userName, String email, List<String> pendingRequest, List<String> completedRequest, List<String> pendingComplaint, List<String> completedComplaint) {
-        this.userName = userName;
-        Email = email;
-        this.pendingRequest = pendingRequest;
-        this.completedRequest = completedRequest;
-        this.pendingComplaint = pendingComplaint;
-        this.completedComplaint = completedComplaint;
-    }
-
-    public List<String> getPendingRequest() {
-        return pendingRequest;
-    }
-
-    public List<String> getCompletedRequest() {
-        return completedRequest;
-    }
-
-    public List<String> getPendingComplaint() {
-        return pendingComplaint;
-    }
-
-    public List<String> getCompletedComplaint() {
-        return completedComplaint;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public String getEmail() {
-        return Email;
-    }
-
-    public void setPendingRequest(List<String> pendingRequest) {
-        this.pendingRequest = pendingRequest;
-    }
-
-    public void setCompletedRequest(List<String> completedRequest) {
-        this.completedRequest = completedRequest;
-    }
-
-    public void setPendingComplaint(List<String> pendingComplaint) {
-        this.pendingComplaint = pendingComplaint;
-    }
-
-    public void setCompletedComplaint(List<String> completedComplaint) {
-        this.completedComplaint = completedComplaint;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public void setEmail(String email) {
-        Email = email;
-    }
-
-    public String getImageURL() {
-        return imageURL;
-    }
-
-    public void setImageURL(String imageURL) {
-        this.imageURL = imageURL;
-    }
-
-    public float getRating() {
-        return rating;
-    }
-
-    public void setRating(float rating) {
-        this.rating = rating;
-    }
-
     public int getNumberOfRating() {
         return numberOfRating;
     }
 
     public void setNumberOfRating(int numberOfRating) {
         this.numberOfRating = numberOfRating;
+    }
+
+    public float getOverallRating() {
+        return overallRating;
+    }
+
+    public void setOverallRating(float overallRating) {
+        this.overallRating = overallRating;
+    }
+
+    public HashMap<String, Float> getRating() {
+        return rating;
+    }
+
+    public void setRating(HashMap<String, Float> rating) {
+        this.rating = rating;
+    }
+
+    public HashMap<String, Complaint> getPendingComplaints() {
+        return pendingComplaints;
+    }
+
+    public void setPendingComplaints(HashMap<String, Complaint> pendingComplaints) {
+        this.pendingComplaints = pendingComplaints;
+    }
+
+    public HashMap<String, Complaint> getCompletedComplaints() {
+        return completedComplaints;
+    }
+
+    public void setCompletedComplaints(HashMap<String, Complaint> completedComplaints) {
+        this.completedComplaints = completedComplaints;
+    }
+
+    public HashMap<String, Request> getPendingRequest() {
+        return pendingRequest;
+    }
+
+    public void setPendingRequest(HashMap<String, Request> pendingRequest) {
+        this.pendingRequest = pendingRequest;
+    }
+
+    public HashMap<String, Request> getCompletedRequest() {
+        return completedRequest;
+    }
+
+    public void setCompletedRequest(HashMap<String, Request> completedRequest) {
+        this.completedRequest = completedRequest;
     }
 }

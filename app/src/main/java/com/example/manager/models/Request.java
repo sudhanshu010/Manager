@@ -1,98 +1,84 @@
 package com.example.manager.models;
 
-public class Request {
-    String serviceMan;
-    String Responsible;
-    String description;
-    boolean status;
-    String complaintId;
-    String requestid;
+public class Request implements Cloneable{
 
-    public String getServicemanName() {
-        return servicemanName;
+    private Complaint complaint;
+    private String description, generatedDate, approvedDate;
+    private int requestId, availabilityOfParts;
+    private float cost;
+
+    public Object clone() throws
+            CloneNotSupportedException
+    {
+        return super.clone();
     }
 
-    public String getResponsiblemanName() {
-        return responsiblemanName;
+    public Request() {
     }
 
-    public void setServicemanName(String servicemanName) {
-        this.servicemanName = servicemanName;
-    }
-
-    public void setResponsiblemanName(String responsiblemanName) {
-        this.responsiblemanName = responsiblemanName;
-    }
-
-    String servicemanName, responsiblemanName;
-
-    public boolean isExpanded() {
-        return expanded;
-    }
-
-    public void setExpanded(boolean expanded) {
-        this.expanded = expanded;
-    }
-
-    boolean expanded;
-
-
-    public Request(){
-    }
-
-    public Request(String serviceMan, String responsible, String description, boolean status, String complaintId) {
-        this.serviceMan = serviceMan;
-        Responsible = responsible;
+    public Request(Complaint complaint, String description, String generatedDate, String approvedDate, int requestId, int availabilityOfParts, float cost) {
+        this.complaint = complaint;
         this.description = description;
-        this.status = status;
-        this.complaintId = complaintId;
+        this.generatedDate = generatedDate;
+        this.approvedDate = approvedDate;
+        this.requestId = requestId;
+        this.availabilityOfParts = availabilityOfParts;
+        this.cost = cost;
     }
 
-    public String getServiceMan() {
-        return serviceMan;
+    public Complaint getComplaint() {
+        return complaint;
     }
 
-    public String getResponsible() {
-        return Responsible;
+    public void setComplaint(Complaint complaint) {
+        this.complaint = complaint;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public boolean isStatus() {
-        return status;
-    }
-
-    public String getComplaintId() {
-        return complaintId;
-    }
-
-    public void setServiceMan(String serviceMan) {
-        this.serviceMan = serviceMan;
-    }
-
-    public void setResponsible(String responsible) {
-        Responsible = responsible;
-    }
-
     public void setDescription(String description) {
         this.description = description;
     }
 
-    public void setStatus(boolean status) {
-        this.status = status;
+    public String getGeneratedDate() {
+        return generatedDate;
     }
 
-    public void setComplaintId(String complaintId) {
-        this.complaintId = complaintId;
+    public void setGeneratedDate(String generatedDate) {
+        this.generatedDate = generatedDate;
     }
 
-    public String getRequestid() {
-        return requestid;
+    public String getApprovedDate() {
+        return approvedDate;
     }
 
-    public void setRequestid(String requestid) {
-        this.requestid = requestid;
+    public void setApprovedDate(String approvedDate) {
+        this.approvedDate = approvedDate;
+    }
+
+    public int getRequestId() {
+        return requestId;
+    }
+
+    public void setRequestId(int requestId) {
+        this.requestId = requestId;
+    }
+
+    public int getAvailabilityOfParts() {
+        return availabilityOfParts;
+    }
+
+    public void setAvailabilityOfParts(int availabilityOfParts) {
+        this.availabilityOfParts = availabilityOfParts;
+    }
+
+    public float getCost() {
+        return cost;
+    }
+
+    public void setCost(float cost) {
+        this.cost = cost;
     }
 }

@@ -68,7 +68,8 @@
                         app:layout_constraintHorizontal_bias="0.349"
                         app:layout_constraintStart_toStartOf="@+id/profilebkimg"
                         app:layout_constraintTop_toTopOf="@+id/profilebkimg"
-                        app:layout_constraintVertical_bias="0.659"></ImageView>
+                        app:layout_constraintVertical_bias="0.659" />
+
                     <TextView
                         android:id="@+id/rm_designation"
                         android:layout_width="wrap_content"
@@ -81,7 +82,7 @@
                         app:layout_constraintHorizontal_bias="0.175"
                         app:layout_constraintStart_toStartOf="@+id/profilebkimg"
                         app:layout_constraintTop_toTopOf="@+id/profilebkimg"
-                        app:layout_constraintVertical_bias="0.929"></TextView>
+                        app:layout_constraintVertical_bias="0.929" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

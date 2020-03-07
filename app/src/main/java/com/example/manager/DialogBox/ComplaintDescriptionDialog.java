@@ -16,6 +16,7 @@ import com.airbnb.lottie.LottieAnimationView;
 
 import com.example.manager.R;
 import com.example.manager.models.Complaint;
+import com.example.manager.models.Manager;
 import com.example.manager.models.Mechanic;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -47,29 +48,28 @@ public class ComplaintDescriptionDialog extends Dialog implements
     TextView cancelButton, submitButton;
 
     FirebaseDatabase firebaseDatabase;
-    DatabaseReference machineReference, complaintIdReference, serviceManListReference, responsibleReference,complaintReference,serviceManReference;
+    DatabaseReference machineReference, complaintIdReference, mechanicListReference, managerReference,complaintReference,serviceManReference;
 
     FirebaseAuth auth;
     FirebaseUser user;
 
-    String responsibleManUserName, serviceManUserName;
+    Manager manager;
 
     Complaint complaint;
+    long complaintId;
 
     List<Mechanic> serviceManListObjects;
 
-    HashMap<String,Integer> serviceManList;
+    HashMap<String,Mechanic> mechanicList;
 
-    String complaintIdValue;
 
     LottieAnimationView animationView;
 
 
-    public ComplaintDescriptionDialog(Activity a, Complaint complaint, String complaintIdValue) {
+    public ComplaintDescriptionDialog(Activity a, Complaint complaint) {
         super(a);
         this.complaint = complaint;
         this.setCanceledOnTouchOutside(false);
-        this.complaintIdValue = complaintIdValue;
         // TODO Auto-generated constructor stub
 
     }
@@ -90,19 +90,32 @@ public class ComplaintDescriptionDialog extends Dialog implements
         user = auth.getCurrentUser();
 
         firebaseDatabase = FirebaseDatabase.getInstance();
-        complaintIdReference = firebaseDatabase.getReference("complaintId");
-        serviceManListReference = firebaseDatabase.getReference("Users").child("ServiceMan");
-        responsibleReference = firebaseDatabase.getReference("Users").child("ResponsibleMan").child(user.getUid());
+        complaintIdReference = firebaseDatabase.getReference("ComplaintId");
+        mechanicListReference = firebaseDatabase.getReference("Users").child("Mechanic");
+        managerReference = firebaseDatabase.getReference("Users").child("Manager").child(user.getUid());
         serviceManReference = firebaseDatabase.getReference("Users").child("ServiceMan");
 
 //        serviceManUserName = "vikas";
 //
+
         serviceManListObjects = new ArrayList<>();
-        responsibleReference.child("userName").addValueEventListener(new ValueEventListener() {
+
+        complaintIdReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                complaintId = (long) dataSnapshot.getValue();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        managerReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                responsibleManUserName = dataSnapshot.getValue().toString();
+                manager = dataSnapshot.getValue(Manager.class);
             }
 
             @Override
@@ -117,75 +130,72 @@ public class ComplaintDescriptionDialog extends Dialog implements
             @Override
             public void onClick(View v) {
 
-                serviceManList = new HashMap<>();
                 animationView.setVisibility(View.VISIBLE);
                 animationView.playAnimation();
 
-                serviceManListReference.addValueEventListener(new ValueEventListener() {
+                mechanicList = new HashMap<>();
+                mechanicListReference.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                        for(DataSnapshot serviceManReference : dataSnapshot.getChildren())
+                        for(DataSnapshot mechanicReference : dataSnapshot.getChildren())
                         {
-
-                            String key = serviceManReference.getKey();
-
-                            Log.i("serviceMan key",key);
-
-                            Mechanic serviceMan = new Mechanic();
-                            String email = serviceManReference.child("email").getValue().toString();
-                            String userName = serviceManReference.child("userName").getValue().toString();
-                            String load = serviceManReference.child("load").getValue().toString();
-
-                            serviceMan.setEmail(email);
-                            serviceMan.setUserName(userName);
-                            serviceMan.setLoad(Integer.parseInt(load));
-
-                            Log.i("serviceMan username",serviceMan.getUserName());
-                            Log.i("serviceMan load",String.valueOf(serviceMan.getLoad()));
-                            serviceManList.put(key,serviceMan.getLoad());
-
-
+                            String key = mechanicReference.getKey();
+                            Mechanic mechanic = mechanicReference.getValue(Mechanic.class);
+                            mechanicList.put(key,mechanic);
                         }
 
-                        serviceManList = sortByValue(serviceManList);
-                        final Map.Entry<String,Integer> entry = serviceManList.entrySet().iterator().next();
-                        final String uid = entry.getKey();
+                        mechanicList = sortByValue(mechanicList);
 
-                        serviceManReference.child(entry.getKey()).addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        final Map.Entry<String,Mechanic> entry = mechanicList.entrySet().iterator().next();
+                        Mechanic mechanic = entry.getValue();
+                        String uid = entry.getKey();
 
-                                serviceManUserName = dataSnapshot.child("userName").getValue().toString();
-                                complaint.setServicemanName(serviceManUserName);
-                                complaint.setComplaintAllocatedTo(uid);
-                                complaint.setGeneratorName(responsibleManUserName);
-                                complaint.setComplaintId(complaintIdValue);
-                                complaint.setStatus(complaint.getGeneratedAndAccpted());
-                                complaint.setComplaintDescription(complaintDescription.getText().toString());
-                                serviceManReference.removeEventListener(this);
-                                complaintReference.child(complaintIdValue).setValue(complaint);
-                                dismiss();
-                            }
+                        complaint.setComplaintId(complaintId);
+                        complaint.setDescription(complaintDescription.getText().toString());
+                        Mechanic tempMechanic = null;
+                        try {
+                            tempMechanic = (Mechanic) mechanic.clone();
+                        } catch (CloneNotSupportedException e) {
+                            e.printStackTrace();
+                        }
+                        if (tempMechanic != null) {
+                            tempMechanic.setPendingComplaints(null);
+                        }
+                        complaint.setMechanic(tempMechanic);
 
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                        Complaint tempComplaint = null;
+                        try {
+                            tempComplaint = (Complaint) complaint.clone();
+                        } catch (CloneNotSupportedException e) {
+                            e.printStackTrace();
+                        }
+                        if (tempComplaint != null) {
+                            tempComplaint.setMechanic(tempMechanic);
+                        }
 
-                            }
-                        });
+                        mechanicListReference.removeEventListener(this);
 
-                        serviceManListReference.removeEventListener(this);
+                        try {
+                            tempComplaint = (Complaint) complaint.clone();
+                        } catch (CloneNotSupportedException e) {
+                            e.printStackTrace();
+                        }
+                        if (tempComplaint != null) {
+                            tempComplaint.setMechanic(tempMechanic);
+                        }
 
+                        if (tempComplaint != null) {
+                            tempComplaint.setManager(null);
+                        }
                         HashMap<String,Object> updateDatabaseValue = new HashMap<>();
 
-                        updateDatabaseValue.put("/Users/ServiceMan/"+entry.getKey()+"/load",entry.getValue()+1);
-                        updateDatabaseValue.put("/complaintId",String.valueOf(Integer.parseInt(complaintIdValue)+1));
-                        updateDatabaseValue.put("/Users/ServiceMan/"+entry.getKey()+"/pendingComplaintList/"+complaintIdValue,"true");
-                        updateDatabaseValue.put("/Users/ResponsibleMan/"+user.getUid()+ "/pendingComplaintList/"+complaintIdValue,"true");
+                        updateDatabaseValue.put("/Users/Mechanic/"+uid+"/load",mechanic.getLoad()+1);
+                        updateDatabaseValue.put("/Users/Mechanic/"+uid+"/pendingComplaints/"+complaintId,tempComplaint);
+                        updateDatabaseValue.put("/complaintId",complaintId+1);
+                        updateDatabaseValue.put("/Users/Manager/"+user.getUid()+ "/pendingComplaintList/"+complaintId,tempComplaint);
 
                         FirebaseDatabase.getInstance().getReference().updateChildren(updateDatabaseValue);
-
-
 
                     }
                     @Override
@@ -209,24 +219,24 @@ public class ComplaintDescriptionDialog extends Dialog implements
 
     }
 
-    public static HashMap<String, Integer> sortByValue(HashMap<String, Integer> hm)
+    public static HashMap<String, Mechanic> sortByValue(HashMap<String, Mechanic> hm)
     {
         // Create a list from elements of HashMap
-        List<Map.Entry<String, Integer> > list =
-                new LinkedList<Map.Entry<String, Integer> >(hm.entrySet());
+        List<Map.Entry<String, Mechanic> > list =
+                new LinkedList<Map.Entry<String, Mechanic> >(hm.entrySet());
 
         // Sort the list
-        Collections.sort(list, new Comparator<Map.Entry<String, Integer> >() {
-            public int compare(Map.Entry<String, Integer> o1,
-                               Map.Entry<String, Integer> o2)
+        Collections.sort(list, new Comparator<Map.Entry<String, Mechanic> >() {
+            public int compare(Map.Entry<String, Mechanic> o1,
+                               Map.Entry<String, Mechanic> o2)
             {
-                return (o1.getValue()).compareTo(o2.getValue());
+                return Integer.compare(o1.getValue().getLoad(), o2.getValue().getLoad());
             }
         });
 
         // put data from sorted list to hashmap
-        HashMap<String, Integer> temp = new LinkedHashMap<String, Integer>();
-        for (Map.Entry<String, Integer> aa : list) {
+        HashMap<String, Mechanic> temp = new LinkedHashMap<String, Mechanic>();
+        for (Map.Entry<String, Mechanic> aa : list) {
             temp.put(aa.getKey(), aa.getValue());
         }
         return temp;

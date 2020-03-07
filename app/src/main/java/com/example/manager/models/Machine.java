@@ -14,7 +14,7 @@ public class Machine implements Cloneable{
     private boolean status;
 
     private Manager manager;
-    private HashMap<String,PastRecord> pastRecordList;
+    private HashMap<String,Request> pastRecordList;
 
     public Object clone() throws
             CloneNotSupportedException
@@ -27,7 +27,7 @@ public class Machine implements Cloneable{
 
     public Machine(String serialNumber, String dateOfInstallation, String department, String machineId,
                    String type, String company, String modelNumber, String qrImageLink, int serviceTime,
-                   int[] cost, float price, boolean status, Manager manager, HashMap<String, PastRecord> pastRecordList) {
+                   int[] cost, float price, boolean status, Manager manager, HashMap<String, Request> pastRecordList) {
 
         this.serialNumber = serialNumber;
         this.dateOfInstallation = dateOfInstallation;
@@ -149,11 +149,11 @@ public class Machine implements Cloneable{
         this.manager = manager;
     }
 
-    public HashMap<String, PastRecord> getPastRecordList() {
+    public HashMap<String, Request> getPastRecordList() {
         return pastRecordList;
     }
 
-    public void setPastRecordList(HashMap<String, PastRecord> pastRecordList) {
+    public void setPastRecordList(HashMap<String, Request> pastRecordList) {
         this.pastRecordList = pastRecordList;
     }
 }

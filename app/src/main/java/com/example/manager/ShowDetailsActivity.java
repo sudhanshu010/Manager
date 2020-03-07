@@ -85,28 +85,28 @@ public class ShowDetailsActivity extends AppCompatActivity {
 
                 Log.i("History","something");
                 DatabaseReference requestRefernce = FirebaseDatabase.getInstance().getReference("Requests").child(request);
-                requestRefernce.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                        Log.i("History","something1 ");
-
-                        PastRecord pastRecord = new PastRecord();
-                        Request request= dataSnapshot.getValue(Request.class);
-                        pastRecord.setDescription(request.getDescription());
-                        pastRecord.setServiceMan(request.getServicemanName());
-                        pastRecord.setComplaintId(request.getComplaintId());
-                        //shimmerFrameLayout.stopShimmerAnimation();
-                        //shimmerFrameLayout.setVisibility(View.INVISIBLE);
-                        pastRecords.add(pastRecord);
-                        showDetailsAdapter.notifyDataSetChanged();
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                    }
-                });
+//                requestRefernce.addListenerForSingleValueEvent(new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//
+//                        Log.i("History","something1 ");
+//
+//                        PastRecord pastRecord = new PastRecord();
+//                        Request request= dataSnapshot.getValue(Request.class);
+//                        pastRecord.setDescription(request.getDescription());
+//                        pastRecord.setServiceMan(request.getServicemanName());
+//                        pastRecord.setComplaintId(request.getComplaintId());
+//                        //shimmerFrameLayout.stopShimmerAnimation();
+//                        //shimmerFrameLayout.setVisibility(View.INVISIBLE);
+//                        pastRecords.add(pastRecord);
+//                        showDetailsAdapter.notifyDataSetChanged();
+//                    }
+//
+//                    @Override
+//                    public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//                    }
+//                });
             }
 
             @Override

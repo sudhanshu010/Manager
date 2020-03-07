@@ -1,11 +1,17 @@
 package com.example.manager.models;
 
-public class Chat {
+public class Chat implements Cloneable{
 
     public String sender;
     public String receiver;
     public String message;
     public boolean isseen;
+
+    public Object clone() throws
+            CloneNotSupportedException
+    {
+        return super.clone();
+    }
 
     public Chat(String sender, String receiver, String message, boolean isseen) {
         this.sender = sender;
