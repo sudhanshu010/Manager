@@ -16,56 +16,55 @@ import com.example.manager.ChatActivity;
 import com.example.manager.R;
 import com.example.manager.RequestStepIndicator;
 import com.example.manager.models.Complaint;
+import com.firebase.ui.database.paging.DatabasePagingOptions;
+import com.firebase.ui.database.paging.FirebaseRecyclerPagingAdapter;
+import com.firebase.ui.database.paging.LoadingState;
 
 import java.util.List;
 
-public class PendingComplaintAdapter extends  RecyclerView.Adapter<PendingComplaintAdapter.MyHolder1>{
+public class PendingComplaintAdapter extends FirebaseRecyclerPagingAdapter<Complaint, PendingComplaintAdapter.PendingComplaintHolder> {
 
+    /**
+     * Construct a new FirestorePagingAdapter from the given {@link DatabasePagingOptions}.
+     *
+     * @param options
+     */
     Context c;
-    List<Complaint> x ;
 
-    public PendingComplaintAdapter(Context c, List<Complaint> x)                                               //Enter the type of data in the space for model
+    public PendingComplaintAdapter(@NonNull DatabasePagingOptions<Complaint> options, Context c)                                               //Enter the type of data in the space for model
     {
+        super(options);
         this.c = c;
-        this.x = x;
+    }
+
+
+
+    @Override
+    protected void onBindViewHolder(@NonNull PendingComplaintAdapter.PendingComplaintHolder myholder1, int position,@NonNull Complaint model) {
+
+        myholder1.bind(model);
+    }
+
+    protected void onLoadingStateChanged(@NonNull LoadingState state){
+
     }
 
     @NonNull
     @Override
-    public PendingComplaintAdapter.MyHolder1 onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public PendingComplaintAdapter.PendingComplaintHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.pending_complaint_item,null);
-        return new PendingComplaintAdapter.MyHolder1(view);
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull PendingComplaintAdapter.MyHolder1 myholder1, int position) {
-
-
-        myholder1.pendingComplaintDate.setText(x.get(position).getCompletedDate());
-        myholder1.pendingComplaintDescription.setText(x.get(position).getDescription());
-        myholder1.pendingComplaintServicemanName.setText(x.get(position).getMechanic().getUserName());
-        myholder1.pendingComplaintId.setText((int) x.get(position).getComplaintId());
-        myholder1.pendingComplaintMachineId.setText(x.get(position).getMachine().getMachineId());
-
-
-        Log.i("asdf","fgh");
-
-
-    }
-
-    @Override
-    public int getItemCount() {
-        return x.size();                                                                                   // Return item count from firebase
+        return new PendingComplaintAdapter.PendingComplaintHolder(view);
     }
 
 
-    class MyHolder1 extends RecyclerView.ViewHolder{
+
+    class PendingComplaintHolder extends RecyclerView.ViewHolder{
 
         TextView pendingComplaintDate, pendingComplaintId, pendingComplaintServicemanName, pendingComplaintDescription, pendingComplaintMachineId;
         Button chatButton, statusButton;
 
-        public MyHolder1(@NonNull View itemView) {
+        public PendingComplaintHolder(@NonNull View itemView) {
             super(itemView);
 
             pendingComplaintDate = itemView.findViewById(R.id.rm_pending_complaint_date);
@@ -73,33 +72,41 @@ public class PendingComplaintAdapter extends  RecyclerView.Adapter<PendingCompla
             pendingComplaintDescription = itemView.findViewById(R.id.rm_pending_complaint_desc);
             pendingComplaintServicemanName = itemView.findViewById(R.id.rm_pending_complaint_serviceman);
             pendingComplaintMachineId = itemView.findViewById(R.id.rm_pending_complaint_machine_id);
-            chatButton = itemView.findViewById(R.id.rm_chat_button);
-            statusButton = itemView.findViewById(R.id.show_status);
+//            chatButton = itemView.findViewById(R.id.rm_chat_button);
+//            statusButton = itemView.findViewById(R.id.show_status);
 
-            chatButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Complaint complaint = x.get(getAdapterPosition());
-                    Intent intent = new Intent(c, ChatActivity.class);
-                    intent.putExtra("userid", complaint.getMechanic().getUserName());
-                    intent.putExtra("complaintId", complaint.getComplaintId());
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    c.getApplicationContext().startActivity(intent);
-                }
-            });
+//            chatButton.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    Complaint complaint = x.get(getAdapterPosition());
+//                    Intent intent = new Intent(c, ChatActivity.class);
+//                    intent.putExtra("userid", complaint.getMechanic().getUserName());
+//                    intent.putExtra("complaintId", complaint.getComplaintId());
+//                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                    c.getApplicationContext().startActivity(intent);
+//                }
+//            });
+//
+//            statusButton.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    Complaint complaint = x.get(getAdapterPosition());
+//                    Intent intent = new Intent(c, RequestStepIndicator.class);
+//                    intent.putExtra("status", complaint.getStatus());
+//                    intent.putExtra("generated date", complaint.getGeneratedDate());
+//                    intent.putExtra("serviceman", complaint.getMechanic().getUserName());
+//                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                    c.getApplicationContext().startActivity(intent);
+//                }
+//            });
 
-            statusButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Complaint complaint = x.get(getAdapterPosition());
-                    Intent intent = new Intent(c, RequestStepIndicator.class);
-                    intent.putExtra("status", complaint.getStatus());
-                    intent.putExtra("generated date", complaint.getGeneratedDate());
-                    intent.putExtra("serviceman", complaint.getMechanic().getUserName());
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    c.getApplicationContext().startActivity(intent);
-                }
-            });
+        }
+        public void bind (Complaint model) {
+            pendingComplaintDate.setText(model.getGeneratedDate());
+            pendingComplaintId.setText("11111");
+            pendingComplaintDescription.setText(model.getDescription());
+            pendingComplaintServicemanName.setText(model.getMechanic().getUserName());
+            pendingComplaintMachineId.setText(model.getMachine().getMachineId());
 
         }
     }
