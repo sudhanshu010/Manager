@@ -83,13 +83,13 @@ public class PendingComplaintAdapter extends FirebaseRecyclerPagingAdapter<Compl
 //                public void onClick(View view) {
 //                    Complaint complaint = x.get(getAdapterPosition());
 //                    Intent intent = new Intent(c, ChatActivity.class);
-//                    intent.putExtra("userid", complaint.getMechanic().getUserName());
+//                    intent.putExtra("userid", complaint.getServiceManUid());
 //                    intent.putExtra("complaintId", complaint.getComplaintId());
 //                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //                    c.getApplicationContext().startActivity(intent);
 //                }
 //            });
-//
+
             statusButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
