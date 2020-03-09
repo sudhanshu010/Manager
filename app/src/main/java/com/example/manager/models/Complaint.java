@@ -20,7 +20,7 @@ public class Complaint implements Cloneable{
     private Mechanic mechanic;
     private int status;
     private long complaintId;
-    private float cost=0;
+    public float cost=0;
     private HashMap<String,Request> pendingRequest;
     private Chat chat;
 
