@@ -44,11 +44,11 @@ public class ComplaintDescriptionDialog extends Dialog implements
 
     LinearLayout descriptionlayout;
 
-    EditText complaintDescription;
-    TextView cancelButton, submitButton;
+    private EditText complaintDescription;
+    private TextView cancelButton, submitButton;
 
-    FirebaseDatabase firebaseDatabase;
-    DatabaseReference machineReference, complaintIdReference, mechanicListReference, managerReference,complaintReference,serviceManReference;
+    private FirebaseDatabase firebaseDatabase;
+    private DatabaseReference machineReference, complaintIdReference, mechanicListReference, managerReference,complaintReference,serviceManReference;
 
     FirebaseAuth auth;
     FirebaseUser user;
@@ -62,9 +62,7 @@ public class ComplaintDescriptionDialog extends Dialog implements
 
     HashMap<String,Mechanic> mechanicList;
 
-
     LottieAnimationView animationView;
-
 
     public ComplaintDescriptionDialog(Activity a, Complaint complaint) {
         super(a);
@@ -94,9 +92,6 @@ public class ComplaintDescriptionDialog extends Dialog implements
         mechanicListReference = firebaseDatabase.getReference("Users").child("Mechanic");
         managerReference = firebaseDatabase.getReference("Users").child("Manager").child(user.getUid());
         serviceManReference = firebaseDatabase.getReference("Users").child("ServiceMan");
-
-//        serviceManUserName = "vikas";
-//
 
         serviceManListObjects = new ArrayList<>();
 
@@ -215,10 +210,6 @@ public class ComplaintDescriptionDialog extends Dialog implements
                 dismiss();
             }
         });
-
-
-
-
     }
 
     public static HashMap<String, Mechanic> sortByValue(HashMap<String, Mechanic> hm)
