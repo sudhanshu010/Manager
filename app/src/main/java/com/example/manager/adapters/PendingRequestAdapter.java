@@ -15,6 +15,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.manager.R;
 import com.example.manager.RatingActivity;
 import com.example.manager.models.Request;
+import com.firebase.ui.database.paging.DatabasePagingOptions;
+import com.firebase.ui.database.paging.FirebaseRecyclerPagingAdapter;
+import com.firebase.ui.database.paging.LoadingState;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -25,61 +28,83 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
-public class PendingRequestAdapter extends RecyclerView.Adapter<PendingRequestAdapter.MyHolder> {
+public class PendingRequestAdapter extends FirebaseRecyclerPagingAdapter<Request, PendingRequestAdapter.MyHolder> {
 
     Context c;
-    public List<Request> x;
+    /**
+     * Construct a new FirestorePagingAdapter from the given {@link DatabasePagingOptions}.
+     *
+     * @param options
+     */
 
-    DatabaseReference serviceMan, loadValue, complaintReference;
-    String load;
 
-
-    public PendingRequestAdapter(Context c, List<Request> x) {
-        this.c = c;
-        this.x = x;
-    }
-
-    public PendingRequestAdapter(Context c) {
+    public PendingRequestAdapter(DatabasePagingOptions<Request> options, Context c) {
+        super(options);
         this.c = c;
     }
 
-    public void setx(List<Request> x) {
-        this.x = x;
-    }
+
 
     @NonNull
     @Override
-    public MyHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public PendingRequestAdapter.MyHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
 
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.pending_request_item, null);
-        return new MyHolder(view);
+        return new PendingRequestAdapter.MyHolder(view);
     }
 
-    @Override
-    public void onBindViewHolder(@NonNull final MyHolder myholder, final int position) {
+    protected void onBindViewHolder(PendingRequestAdapter.MyHolder viewHolder,int position,  Request model) {
+
+        viewHolder.bind(model);
+
+    }
+
+    protected  void  onLoadingStateChanged(LoadingState state) {
+
+    }
 
 
-        myholder.serviceman1.setText(x.get(position).getComplaint().getMechanic().getUserName());
-        myholder.requestid1.setText(x.get(position).getRequestId());
-        myholder.complain_id.setText((int) x.get(position).getComplaint().getComplaintId());
-        myholder.description.setText(x.get(position).getDescription());
 
-        //complaintReference = FirebaseDatabase.getInstance().getReference("Complaints").child(x.get(position).getComplaintId());
-       // loadValue = FirebaseDatabase.getInstance().getReference("Users").child("ServiceMan").child(x.get(position).getServiceMan()).child("load");
+    class MyHolder extends RecyclerView.ViewHolder {
 
 
-        loadValue.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                load = dataSnapshot.getValue().toString();
-            }
+        TextView serviceman1,requestid1,complain_id,description, accept_button,decline_button;
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+        public MyHolder(@NonNull final View itemView) {
+            super(itemView);
 
-            }
-        });
+            requestid1 = itemView.findViewById(R.id.request_id1);
+            serviceman1 = itemView.findViewById(R.id.serviceman1);
+            complain_id = itemView.findViewById(R.id.complain_id);
+            description = itemView.findViewById(R.id.description);
+            accept_button = itemView.findViewById(R.id.accept_button);
+            decline_button = itemView.findViewById(R.id.decline_button);
+
+        }
+
+        public void  bind(Request model)
+        {
+            serviceman1.setText("vikas");
+            requestid1.setText(String.valueOf(model.getRequestId()));
+            complain_id.setText(String.valueOf(model.getComplaint().getComplaintId()));
+            description.setText(model.getDescription());
+
+            //complaintReference = FirebaseDatabase.getInstance().getReference("Complaints").child(x.get(position).getComplaintId());
+            // loadValue = FirebaseDatabase.getInstance().getReference("Users").child("ServiceMan").child(x.get(position).getServiceMan()).child("load");
+
+
+//            loadValue.addValueEventListener(new ValueEventListener() {
+//                @Override
+//                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                    load = dataSnapshot.getValue().toString();
+//                }
+//
+//                @Override
+//                public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//                }
+//            });
 
 //        myholder.accept_button.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -188,30 +213,6 @@ public class PendingRequestAdapter extends RecyclerView.Adapter<PendingRequestAd
 //                FirebaseDatabase.getInstance().getReference().updateChildren(updateDatabaseValue);
 //            }
 //        });
-
-    }
-
-    @Override
-    public int getItemCount() {
-        Log.i("size",String.valueOf(x.size()));
-        return x.size();
-    }
-
-
-    class MyHolder extends RecyclerView.ViewHolder {
-
-
-        TextView serviceman1,requestid1,complain_id,description, accept_button,decline_button;
-
-        public MyHolder(@NonNull final View itemView) {
-            super(itemView);
-
-            requestid1 = itemView.findViewById(R.id.request_id1);
-            serviceman1 = itemView.findViewById(R.id.serviceman1);
-            complain_id = itemView.findViewById(R.id.complain_id);
-            description = itemView.findViewById(R.id.description);
-            accept_button = itemView.findViewById(R.id.accept_button);
-            decline_button = itemView.findViewById(R.id.decline_button);
 
         }
 
