@@ -103,7 +103,7 @@ public class GenerateQRActivity extends AppCompatActivity {
         setContentView(R.layout.activity_generate_qr);
 
         setOurFragment(new FormFragment1());
-        final StateProgressBar stateProgressBar = (StateProgressBar) findViewById(R.id.your_state_progress_bar_id);
+        final StateProgressBar stateProgressBar = (StateProgressBar) findViewById(R.id.your_stare_progress_id_bar);
         stateProgressBar.setStateDescriptionData(descriptionData);
 
         serialNumber = findViewById(R.id.serialNumber);

@@ -16,7 +16,7 @@
         app:cardElevation="2dp"
         >
         <com.kofigyan.stateprogressbar.StateProgressBar
-            android:id="@+id/your_state_progress_bar_id"
+            android:id="@+id/your_stare_progress_id_bar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
