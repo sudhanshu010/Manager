@@ -14,10 +14,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.manager.R;
 import com.example.manager.RatingActivity;
+import com.example.manager.models.Complaint;
 import com.example.manager.models.Request;
 import com.firebase.ui.database.paging.DatabasePagingOptions;
 import com.firebase.ui.database.paging.FirebaseRecyclerPagingAdapter;
 import com.firebase.ui.database.paging.LoadingState;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -71,6 +74,16 @@ public class PendingRequestAdapter extends FirebaseRecyclerPagingAdapter<Request
 
         TextView serviceman1,requestid1,complain_id,description, accept_button,decline_button;
 
+        String load;
+        FirebaseDatabase firebaseDatabase;
+        DatabaseReference complaintReference,loadValue, mechComplaint, mechRequest;
+
+        FirebaseAuth auth;
+        FirebaseUser user;
+
+        Complaint complaint = null;
+        Request request = null;
+
         public MyHolder(@NonNull final View itemView) {
             super(itemView);
 
@@ -83,60 +96,87 @@ public class PendingRequestAdapter extends FirebaseRecyclerPagingAdapter<Request
 
         }
 
-        public void  bind(Request model)
+        public void  bind(final Request model)
         {
-            serviceman1.setText("vikas");
+            serviceman1.setText(model.getComplaint().getMechanic().getUserName());
             requestid1.setText(String.valueOf(model.getRequestId()));
             complain_id.setText(String.valueOf(model.getComplaint().getComplaintId()));
             description.setText(model.getDescription());
 
-            FirebaseDatabase firebaseDatabase;
-            DatabaseReference complaintReference,loadValue;
+
+
+            auth = FirebaseAuth.getInstance();
+            user = auth.getCurrentUser();
+
 
             complaintReference = FirebaseDatabase.getInstance().getReference("Complaints").child(String.valueOf(model.getComplaint().getComplaintId()));
             loadValue = FirebaseDatabase.getInstance().getReference("Users").child("Mechanic").child(model.getComplaint().getMechanic().getUid()).child("load");
+            mechComplaint = FirebaseDatabase.getInstance().getReference("Users").child("Mechanic").child(model.getComplaint().getMechanic().getUid()).child("pendingComplaints").child(String.valueOf(model.getComplaint().getComplaintId()));
+            mechComplaint = FirebaseDatabase.getInstance().getReference("Users").child("Mechanic").child(model.getComplaint().getMechanic().getUid()).child("pendingRequests").child(String.valueOf(model.getRequestId()));
+            loadValue.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    load = dataSnapshot.getValue().toString();
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
+            mechComplaint.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    complaint = dataSnapshot.getValue(Complaint.class);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
+            mechRequest.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    request = dataSnapshot.getValue(Request.class);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
+            accept_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+            if(model.isStatus())
+            {
+                final HashMap<String,Object> updateDatabaseValue = new HashMap<>();
+
+                //add data
+                Calendar cal = Calendar.getInstance();
+                int year = cal.get(Calendar.YEAR);
+                int month = cal.get(Calendar.MONTH);
+                month = month+1;
+                int day = cal.get(Calendar.DAY_OF_MONTH);
 
 
-//            loadValue.addValueEventListener(new ValueEventListener() {
-//                @Override
-//                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                    load = dataSnapshot.getValue().toString();
-//                }
-//
-//                @Override
-//                public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//                }
-//            });
+                updateDatabaseValue.put("/Complaints/"+model.getComplaint().getComplaintId()+"/completedDate",day+"/"+month+"/"+year);
+                updateDatabaseValue.put("/Users/Manager/"+user.getUid()+"/completedComplaints/"+model.getComplaint().getComplaintId(),model.getComplaint());
+                updateDatabaseValue.put("/Users/Mechanic/"+model.getComplaint().getMechanic().getUid()+"/completedComplaints/"+model.getComplaint().getComplaintId(),complaint);
+                updateDatabaseValue.put("/Users/Mechanic/"+model.getComplaint().getMechanic().getUid()+"/completedRequests/"+model.getRequestId(),request);
+                updateDatabaseValue.put("/Users/Mechanic/"+model.getComplaint().getMechanic().getUid()+"/load",Integer.parseInt(load)-1);
+                updateDatabaseValue.put("/Complaints/"+model.getComplaint().getComplaintId()+"/status",5);
 
-//        myholder.accept_button.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//            if(x.get(position).isStatus())
-//            {
-//                final HashMap<String,Object> updateDatabaseValue = new HashMap<>();
-//
-//                //add data
-//                Calendar cal = Calendar.getInstance();
-//                int year = cal.get(Calendar.YEAR);
-//                int month = cal.get(Calendar.MONTH);
-//                month = month+1;
-//                int day = cal.get(Calendar.DAY_OF_MONTH);
-//
-//
-//                updateDatabaseValue.put("/Complaints/"+x.get(position).getComplaintId()+"/complaintCompletedDate",day+"/"+month+"/"+year);
-//                updateDatabaseValue.put("/Users/ResponsibleMan/"+x.get(position).getResponsible()+"/completedComplaintList/"+x.get(position).getComplaintId(),"true");
-//                updateDatabaseValue.put("/Users/ServiceMan/"+x.get(position).getServiceMan()+"/completedComplaintList/"+x.get(position).getComplaintId(),"true");
-//                updateDatabaseValue.put("/Users/ServiceMan/"+x.get(position).getServiceMan()+"/completedRequestList/"+x.get(position).getRequestid(),"true");
-//                updateDatabaseValue.put("/Users/ServiceMan/"+x.get(position).getServiceMan()+"/load",Integer.parseInt(load)-1);
-//                updateDatabaseValue.put("/Complaints/"+x.get(position).getComplaintId()+"/status",5);
-//
-//                // delete data
-//                updateDatabaseValue.put("/Users/ResponsibleMan/"+x.get(position).getResponsible()+"/pendingComplaintList/"+x.get(position).getComplaintId(),null);
-//                updateDatabaseValue.put("/Users/ResponsibleMan/"+x.get(position).getResponsible()+"/pendingRequestList/"+x.get(position).getRequestid(),null);
-//                updateDatabaseValue.put("/Users/ServiceMan/"+x.get(position).getServiceMan()+"/pendingComplaintList/"+x.get(position).getComplaintId(),null);
-//                updateDatabaseValue.put("/Users/ServiceMan/"+x.get(position).getServiceMan()+"/pendingRequestList/"+x.get(position).getRequestid(),null);
-//
+                // delete data
+                updateDatabaseValue.put("/Users/Manager/"+user.getUid()+"/pendingComplaints/"+model.getComplaint().getComplaintId(),null);
+                updateDatabaseValue.put("/Users/Manager/"+user.getUid()+"/pendingRequests/"+model.getRequestId(),null);
+                updateDatabaseValue.put("/Users/Mechanic/"+model.getComplaint().getMechanic().getUid()+"/pendingComplaints/"+model.getComplaint().getComplaintId(),null);
+                updateDatabaseValue.put("/Users/Mechanic/"+model.getComplaint().getMechanic().getUid()+"/pendingRequests/"+model.getRequestId(),null);
+
 //                FirebaseDatabase.getInstance().getReference("Complaints")
 //                        .child(x.get(position).getComplaintId()).child("complaintMachineId").addListenerForSingleValueEvent(new ValueEventListener() {
 //                    @Override
@@ -154,31 +194,31 @@ public class PendingRequestAdapter extends FirebaseRecyclerPagingAdapter<Request
 //
 //                    }
 //                });
-//
-//
-//
-//
-//                Intent i = new Intent(c, RatingActivity.class);
-//                i.putExtra("serviceManUid",x.get(position).getServiceMan());
-//                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                c.startActivity(i);
-//
-//            }
-//            else
-//            {
-//                final HashMap<String,Object> updateDatabaseValue = new HashMap<>();
-//
-//                //add data
-//
-//                updateDatabaseValue.put("/Users/ServiceMan/"+x.get(position).getServiceMan()+"/completedRequestList/"+x.get(position).getRequestid(),"true");
-//                updateDatabaseValue.put("/Complaints/"+x.get(position).getComplaintId()+"/status",2);
-//
-//
-//                // delete data
-//
-//                updateDatabaseValue.put("/Users/ResponsibleMan/"+x.get(position).getResponsible()+"/pendingRequestList/"+x.get(position).getRequestid(),null);
-//                updateDatabaseValue.put("/Users/ServiceMan/"+x.get(position).getServiceMan()+"/pendingRequestList/"+x.get(position).getRequestid(),null);
-//
+
+
+
+
+                Intent i = new Intent(c, RatingActivity.class);
+                i.putExtra("serviceManUid",model.getComplaint().getMechanic().getUid());
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                c.startActivity(i);
+
+            }
+            else
+            {
+                final HashMap<String,Object> updateDatabaseValue = new HashMap<>();
+
+                //add data
+
+                updateDatabaseValue.put("/Users/Mechanic/"+model.getComplaint().getMechanic().getUid()+"/completedRequests/"+model.getRequestId(),request);
+                updateDatabaseValue.put("/Complaints/"+model.getComplaint().getComplaintId()+"/status",2);
+
+
+                // delete data
+
+                updateDatabaseValue.put("/Users/Manager/"+user.getUid()+"/pendingRequests/"+model.getRequestId(),null);
+                updateDatabaseValue.put("/Users/Mechanic/"+model.getComplaint().getMechanic().getUid()+"/pendingRequests/"+model.getRequestId(),null);
+
 //                FirebaseDatabase.getInstance().getReference("Complaints")
 //                        .child(x.get(position).getComplaintId()).child("complaintMachineId").addListenerForSingleValueEvent(new ValueEventListener() {
 //                    @Override
@@ -197,25 +237,25 @@ public class PendingRequestAdapter extends FirebaseRecyclerPagingAdapter<Request
 //                    }
 //
 //                });
-//            }
-//            }
-//        });
-//
-//        myholder.decline_button.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                HashMap<String,Object> updateDatabaseValue = new HashMap<>();
-//
-//                updateDatabaseValue.put("/Complaints/"+x.get(position).getComplaintId()+"/status",2);
-//
-//                // delete data
-//
-//                updateDatabaseValue.put("/Users/ResponsibleMan/"+x.get(position).getResponsible()+"/pendingRequestList/"+x.get(position).getRequestid(),null);
-//                updateDatabaseValue.put("/Users/ServiceMan/"+x.get(position).getServiceMan()+"/pendingRequestList/"+x.get(position).getRequestid(),null);
-//
-//                FirebaseDatabase.getInstance().getReference().updateChildren(updateDatabaseValue);
-//            }
-//        });
+            }
+            }
+        });
+
+        decline_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                HashMap<String,Object> updateDatabaseValue = new HashMap<>();
+
+                updateDatabaseValue.put("/Complaints/"+model.getComplaint().getComplaintId()+"/status",2);
+
+                // delete data
+
+                updateDatabaseValue.put("/Users/Manager/"+user.getUid()+"/pendingRequests/"+model.getRequestId(),null);
+                updateDatabaseValue.put("/Users/Mechanic/"+model.getComplaint().getMechanic().getUid()+"/pendingRequests/"+model.getRequestId(),null);
+
+                FirebaseDatabase.getInstance().getReference().updateChildren(updateDatabaseValue);
+            }
+        });
 
         }
 

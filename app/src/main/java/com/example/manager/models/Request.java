@@ -10,6 +10,7 @@ public class Request implements Cloneable{
     private int availabilityOfParts;
     private long requestId;
     private float cost;
+    private boolean status;
 
     public Object clone() throws
             CloneNotSupportedException
@@ -84,5 +85,13 @@ public class Request implements Cloneable{
 
     public void setCost(float cost) {
         this.cost = cost;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 }
