@@ -1,7 +1,10 @@
 package com.example.manager.DialogBox;
 
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.ColorFilter;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.LayoutInflater;
@@ -22,6 +25,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Objects;
+
+import static com.example.manager.R.drawable.bottom_sheet_shape;
 
 public class BottomSheetDialog extends BottomSheetDialogFragment {
 
