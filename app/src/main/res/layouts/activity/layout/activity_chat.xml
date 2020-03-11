@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
+    android:background="#0575E6"
     tools:context=".ChatActivity">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -16,7 +16,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#95A8B8"
+            android:background="@drawable/chat_action_bar"
             android:theme="@style/Base.ThemeOverlay.AppCompat.Dark.ActionBar"
             app:popupTheme="@style/MenuStyle">
 
@@ -44,6 +44,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/recycler_view"
+        android:paddingTop="25dp"
+        android:background="@drawable/chat_recycler"
         android:layout_below="@id/bar_layout"
         android:layout_above="@id/bottom"/>
 
@@ -60,16 +62,14 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#C2C5C7"></View>
+            android:background="@android:color/black"/>
         <RelativeLayout
             android:layout_width="match_parent"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:paddingTop="8dp"
             android:paddingBottom="8dp"
-
-            android:background="#fff"
-
+            android:background="@android:color/white"
             android:layout_height="wrap_content">
 
             <EditText
@@ -77,13 +77,14 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/text_send"
                 android:background="@android:color/transparent"
+
                 android:hint="Type a message..."
                 android:layout_toLeftOf="@id/btn_send"
                 android:layout_centerVertical="true"/>
 
             <ImageButton
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:background="@drawable/ic_send"
                 android:id="@+id/btn_send"
                 android:layout_alignParentEnd="true"

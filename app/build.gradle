@@ -132,4 +132,5 @@ dependencies {
 
     //Horizontal stepper
     implementation 'com.kofigyan.stateprogressbar:stateprogressbar:1.0.0'
+
 }
