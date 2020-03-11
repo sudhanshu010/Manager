@@ -90,8 +90,11 @@ public class PendingRequestAdapter extends FirebaseRecyclerPagingAdapter<Request
             complain_id.setText(String.valueOf(model.getComplaint().getComplaintId()));
             description.setText(model.getDescription());
 
-            //complaintReference = FirebaseDatabase.getInstance().getReference("Complaints").child(x.get(position).getComplaintId());
-            // loadValue = FirebaseDatabase.getInstance().getReference("Users").child("ServiceMan").child(x.get(position).getServiceMan()).child("load");
+            FirebaseDatabase firebaseDatabase;
+            DatabaseReference complaintReference,loadValue;
+
+            complaintReference = FirebaseDatabase.getInstance().getReference("Complaints").child(String.valueOf(model.getComplaint().getComplaintId()));
+            loadValue = FirebaseDatabase.getInstance().getReference("Users").child("Mechanic").child(model.getComplaint().getMechanic().getUid()).child("load");
 
 
 //            loadValue.addValueEventListener(new ValueEventListener() {
