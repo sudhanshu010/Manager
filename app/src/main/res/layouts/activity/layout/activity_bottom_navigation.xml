@@ -6,14 +6,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".BottomNavigationActivity">
+    tools:context=".BottomNavigationActivity"
+    >
 
     <com.etebarian.meowbottomnavigation.MeowBottomNavigation
         android:id="@+id/bottom_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
         android:layout_alignParentBottom="true"
+        android:background="@color/bkcolor"
         app:mbn_backgroundBottomColor="#ffffff"
         app:mbn_circleColor="#ffffff"
         app:mbn_countBackgroundColor="#ff6f00"
@@ -25,12 +26,14 @@
         tools:ignore="UnknownId" />
 
 
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="658dp"
-        >
+        android:layout_above="@+id/bottom_bar"
+       >
+
         <FrameLayout
+            android:id="@+id/mainframe"
             android:layout_width="match_parent"
             android:layout_height="658dp"
             android:layout_above="@+id/bottom_bar"
@@ -38,8 +41,7 @@
             android:layout_alignParentTop="true"
             android:layout_marginStart="0dp"
             android:layout_marginTop="0dp"
-            android:layout_marginBottom="3dp"
-            android:id="@+id/mainframe">
+            android:layout_marginBottom="3dp">
 
         </FrameLayout>
     </ScrollView>

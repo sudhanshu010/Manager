@@ -54,6 +54,19 @@ public class BottomNavigationActivity extends AppCompatActivity {
 
             }
         });
+        bottomNavigation.setOnShowListener(new MeowBottomNavigation.ShowListener() {
+            @Override
+            public void onShowItem(MeowBottomNavigation.Model item) {
+                Toast.makeText(BottomNavigationActivity.this, "showing item : " + item.getId(), Toast.LENGTH_SHORT).show();
+
+            }
+        });
+        bottomNavigation.setOnReselectListener(new MeowBottomNavigation.ReselectListener() {
+            @Override
+            public void onReselectItem(MeowBottomNavigation.Model item) {
+                Toast.makeText(BottomNavigationActivity.this, "reselected item : " + item.getId(), Toast.LENGTH_SHORT).show();
+            }
+        });
         bottomNavigation.show(1,true);
 
 
