@@ -6,25 +6,34 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".BottomNavigationActivity">
+    tools:context=".BottomNavigationActivity"
+    >
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
+    <com.etebarian.meowbottomnavigation.MeowBottomNavigation
         android:id="@+id/bottom_bar"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@color/whiteTextColor"
-        app:itemIconSize="25dp"
+        android:background="@color/bkcolor"
+        app:mbn_backgroundBottomColor="#ffffff"
+        app:mbn_circleColor="#ffffff"
+        app:mbn_countBackgroundColor="#ff6f00"
+        app:mbn_countTextColor="#ffffff"
+        app:mbn_defaultIconColor="#90a4ae"
+        app:mbn_rippleColor="#2f424242"
+        app:mbn_selectedIconColor="#3c415e"
+        app:mbn_shadowColor="#1f212121"
+        tools:ignore="UnknownId" />
 
-        app:menu="@menu/menu">
-
-    </com.google.android.material.bottomnavigation.BottomNavigationView>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="658dp"
-        >
+        android:layout_above="@+id/bottom_bar"
+       >
+
         <FrameLayout
+            android:id="@+id/mainframe"
             android:layout_width="match_parent"
             android:layout_height="658dp"
             android:layout_above="@+id/bottom_bar"
@@ -32,8 +41,7 @@
             android:layout_alignParentTop="true"
             android:layout_marginStart="0dp"
             android:layout_marginTop="0dp"
-            android:layout_marginBottom="3dp"
-            android:id="@+id/mainframe">
+            android:layout_marginBottom="3dp">
 
         </FrameLayout>
     </ScrollView>

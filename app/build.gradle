@@ -133,4 +133,6 @@ dependencies {
     //Horizontal stepper
     implementation 'com.kofigyan.stateprogressbar:stateprogressbar:1.0.0'
 
+    //Animated bottom nav
+    implementation 'com.etebarian:meow-bottom-navigation-java:1.2.0'
 }
