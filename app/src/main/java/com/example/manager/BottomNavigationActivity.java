@@ -21,11 +21,12 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class BottomNavigationActivity extends AppCompatActivity {
 
+    int old_id = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setOurFragment(new HomeFragment());
+        setOurFragment(new HomeFragment(),1,1);
         setContentView(R.layout.activity_bottom_navigation);
         MeowBottomNavigation bottomNavigation = findViewById(R.id.bottom_bar);
 
@@ -40,16 +41,20 @@ public class BottomNavigationActivity extends AppCompatActivity {
 
                 switch (item.getId()) {
                     case 1:
-                        setOurFragment(new HomeFragment());
+                        setOurFragment(new HomeFragment(),old_id,1);
+                        old_id = 1;
                         break;
                     case 2:
-                        setOurFragment(new HistoryFragment());
+                        setOurFragment(new HistoryFragment(),old_id,2);
+                        old_id = 2;
                         break;
                     case 3:
-                        setOurFragment(new NotificationFragment());
+                        setOurFragment(new NotificationFragment(),old_id,3);
+                        old_id = 3;
                         break;
                     case 4:
-                        setOurFragment(new ProfileFragment());
+                        setOurFragment(new ProfileFragment(),old_id,4);
+                        old_id = 4;
                 }
 
             }
@@ -99,9 +104,19 @@ public class BottomNavigationActivity extends AppCompatActivity {
 //            }
 //        });
     }
-    private void setOurFragment(Fragment fragment)
+    private void setOurFragment(Fragment fragment,int old_id,int new_id)
     {
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager()
+                .beginTransaction();
+        if(old_id<new_id)
+        {
+            fragmentTransaction.setCustomAnimations(R.anim.slide_in_right,R.anim.slide_out_left);
+        }
+        else if(new_id<old_id)
+        {
+            fragmentTransaction.setCustomAnimations(R.anim.slide_in_left,R.anim.slide_out_right);
+        }
+
         fragmentTransaction.replace(R.id.mainframe,fragment);
         fragmentTransaction.commit();
     }
