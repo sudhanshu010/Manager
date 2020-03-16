@@ -50,6 +50,7 @@ public class PendingComplaintAdapter extends FirebaseRecyclerPagingAdapter<Compl
 
     protected void onLoadingStateChanged(@NonNull LoadingState state){
 
+
     }
 
     @NonNull

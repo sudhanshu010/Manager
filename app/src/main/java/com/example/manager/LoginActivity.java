@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,15 +18,20 @@ import android.widget.Toast;
 
 import com.example.manager.DialogBox.CustomDialogBox;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GetTokenResult;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -49,10 +55,10 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         mAuth = FirebaseAuth.getInstance();
-        if(mAuth.getCurrentUser()!=null)
-        {
-            startActivity(new Intent(LoginActivity.this,BottomNavigationActivity.class));
-        }
+//        if(mAuth.getCurrentUser()!=null)
+//        {
+//            startActivity(new Intent(LoginActivity.this,BottomNavigationActivity.class));
+//        }
         customDialogBox = new CustomDialogBox(LoginActivity.this);
         customDialogBox.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
@@ -94,10 +100,14 @@ public class LoginActivity extends AppCompatActivity {
                             FirebaseDatabase.getInstance().getReference("tokens/" +
                                     mAuth.getCurrentUser().getUid()).setValue(token);
 
-                            serviceManReference.child(mAuth.getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
+                            FirebaseUser user = mAuth.getCurrentUser();
+
+                            user.getIdToken(true).addOnSuccessListener(new OnSuccessListener<GetTokenResult>() {
                                 @Override
-                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                    if(dataSnapshot.exists())
+                                public void onSuccess(GetTokenResult getTokenResult) {
+                                    boolean isManager = (boolean) getTokenResult.getClaims().get("manager");
+
+                                    if(isManager)
                                     {
                                         customDialogBox.dismiss();
                                         Intent i = new Intent(LoginActivity.this,BottomNavigationActivity.class);
@@ -107,14 +117,8 @@ public class LoginActivity extends AppCompatActivity {
                                     else
                                     {
                                         customDialogBox.dismiss();
-                                        startActivity(new Intent(getApplicationContext(), BottomNavigationActivity.class));
-                                        finish();
+                                        Toast.makeText(LoginActivity.this, "error", Toast.LENGTH_SHORT).show();
                                     }
-                                }
-
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError databaseError) {
-
                                 }
                             });
 

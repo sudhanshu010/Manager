@@ -7,6 +7,8 @@
     android:background="#0575E6"
     tools:context=".ChatActivity">
 
+
+
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/bar_layout"
         android:layout_width="match_parent"

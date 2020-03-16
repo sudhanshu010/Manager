@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -15,12 +16,20 @@ import android.widget.Toast;
 
 import com.example.manager.models.Manager;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GetTokenResult;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.functions.FirebaseFunctions;
+import com.google.firebase.functions.HttpsCallableResult;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -32,6 +41,8 @@ public class RegisterActivity extends AppCompatActivity {
 
     FirebaseDatabase firebaseDatabase;
     DatabaseReference userReference;
+
+    FirebaseFunctions firebaseFunctions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +56,8 @@ public class RegisterActivity extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();
+
+        firebaseFunctions = FirebaseFunctions.getInstance();
 
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,14 +76,38 @@ public class RegisterActivity extends AppCompatActivity {
                             user = auth.getCurrentUser();
                             userReference = firebaseDatabase.getReference("Users");
 
-                            Manager manager = new Manager();
-                            manager.setEmail(email);
-                            manager.setUserName(userName);
-                            manager.setUid(user.getUid());
+                            HashMap<String,String> data = new HashMap<>();
 
-                            userReference.child("Manager").child(user.getUid()).setValue(manager);
-                            startActivity(new Intent(getApplicationContext(), BottomNavigationActivity.class));
-                            finish();
+                            data.put("claim","manager");
+                            data.put("email",user.getEmail());
+
+                            firebaseFunctions.getHttpsCallable("setCustomClaim")
+                                    .call(data)
+                                    .addOnSuccessListener(new OnSuccessListener<HttpsCallableResult>() {
+                                        @Override
+                                        public void onSuccess(HttpsCallableResult httpsCallableResult) {
+
+                                            user = auth.getCurrentUser();
+                                            HashMap<String,String> hashMap = (HashMap<String, String>) httpsCallableResult.getData();
+                                            if(hashMap.get("status").equals("Successful"))
+                                            {
+                                                Manager manager = new Manager();
+                                                manager.setEmail(email);
+                                                manager.setUserName(userName);
+                                                manager.setUid(user.getUid());
+
+                                                userReference.child("Manager").child(user.getUid()).setValue(manager);
+                                                startActivity(new Intent(getApplicationContext(), BottomNavigationActivity.class));
+                                                finish();
+                                            }
+                                            else
+                                            {
+                                                user.delete();
+                                                Toast.makeText(RegisterActivity.this, "Some Error Occured \n Please try again", Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+                                    });
+
                         }
                         else
                         {
