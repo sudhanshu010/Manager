@@ -190,9 +190,18 @@ public class ComplaintDescriptionDialog extends Dialog implements
 
                         updateDatabaseValue.put("/ComplaintId",complaintId+1);
                         updateDatabaseValue.put("/Complaints/"+complaintId,complaint);
-                        updateDatabaseValue.put("/Users/Manager/"+user.getUid()+ "/pendingComplaints/"+complaintId,tempComplaint);
+                        //updateDatabaseValue.put("/Complaints/"+complaintId+"/mechanic/load",mechanic.getLoad()+1);
+                        updateDatabaseValue.put("/Users/Manager/"+user.getUid()+"/pendingComplaints/"+complaintId,tempComplaint);
+                        //updateDatabaseValue.put("/Users/Manager/"+user.getUid()+"/pendingComplaints/"+complaintId+"/mechanic/load",mechanic.getLoad()+1);
 
                         FirebaseDatabase.getInstance().getReference().updateChildren(updateDatabaseValue);
+
+                        HashMap<String,Object> updateDatabaseValue1 = new HashMap<>();
+
+                        updateDatabaseValue1.put("/Complaints/"+complaintId+"/mechanic/load",mechanic.getLoad()+1);
+                        updateDatabaseValue1.put("/Users/Manager/"+user.getUid()+"/pendingComplaints/"+complaintId+"/mechanic/load",mechanic.getLoad()+1);
+
+                        FirebaseDatabase.getInstance().getReference().updateChildren(updateDatabaseValue1);
 
                     }
                     @Override
