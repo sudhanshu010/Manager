@@ -105,20 +105,28 @@ public class LoginActivity extends AppCompatActivity {
                             user.getIdToken(true).addOnSuccessListener(new OnSuccessListener<GetTokenResult>() {
                                 @Override
                                 public void onSuccess(GetTokenResult getTokenResult) {
-                                    boolean isManager = (boolean) getTokenResult.getClaims().get("manager");
 
-                                    if(isManager)
-                                    {
-                                        customDialogBox.dismiss();
-                                        Intent i = new Intent(LoginActivity.this,BottomNavigationActivity.class);
-                                        startActivity(i);
-                                        finish();
+                                    try {
+                                        boolean isManager = (boolean) getTokenResult.getClaims().get("manager");
+
+                                        if(isManager)
+                                        {
+                                            customDialogBox.dismiss();
+                                            Intent i = new Intent(LoginActivity.this,BottomNavigationActivity.class);
+                                            startActivity(i);
+                                            finish();
+                                        }
+                                        else
+                                        {
+                                            customDialogBox.dismiss();
+                                            Toast.makeText(LoginActivity.this, "error", Toast.LENGTH_SHORT).show();
+                                        }
                                     }
-                                    else
+                                    catch (Exception e)
                                     {
-                                        customDialogBox.dismiss();
-                                        Toast.makeText(LoginActivity.this, "error", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(LoginActivity.this, "Error Occured", Toast.LENGTH_SHORT).show();
                                     }
+
                                 }
                             });
 
