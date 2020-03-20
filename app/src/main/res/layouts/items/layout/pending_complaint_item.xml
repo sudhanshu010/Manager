@@ -174,26 +174,26 @@
                 />
 
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            >
-            <ImageView
-                android:layout_width="25dp"
-                android:layout_height="match_parent"
-                android:src="@drawable/ic_description"
-                android:layout_marginRight="5dp"/>
-            <TextView
-                android:id="@+id/rm_pending_complaint_desc1"
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:text="Description"
-                android:textStyle="bold"
-                android:textColor="#363333"
-                android:textSize="15sp" />
-        </LinearLayout>
+                android:orientation="horizontal"
+                >
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_description"
+                    android:layout_marginRight="5dp"/>
+                <TextView
+                    android:id="@+id/rm_pending_complaint_desc1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:text="Description"
+                    android:textStyle="bold"
+                    android:textColor="#363333"
+                    android:textSize="15sp" />
+            </LinearLayout>
             <TextView
                 android:id="@+id/rm_pending_complaint_desc"
                 android:layout_width="match_parent"
