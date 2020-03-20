@@ -7,269 +7,242 @@
     android:layout_margin="10dp"
     android:orientation="vertical"
     app:cardCornerRadius="8dp"
-    app:cardElevation="0dp"
-    app:cardBackgroundColor="@android:color/transparent"
+
+    app:cardElevation="4dp"
     app:cardUseCompatPadding="true">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
+    <RelativeLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
-        >
-
+        android:layout_margin="18dp">
 
         <RelativeLayout
-            android:layout_width="340dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="@+id/imageView"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/imageView"
-            app:layout_constraintTop_toTopOf="@+id/imageView">
+            android:id="@+id/rm_ll1">
+            <LinearLayout
 
-            <RelativeLayout
-                android:id="@+id/rm_ll1"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
                 <LinearLayout
-
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="35dp"
-                    android:orientation="vertical">
+                    android:orientation="horizontal"
+                    >
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_agent"
+                        android:layout_marginRight="5dp">
 
-                    <LinearLayout
+                    </ImageView>
+                    <TextView
+                        android:id="@+id/rm_pending_complaint_serviceman1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="15dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginRight="5dp"
-                            android:src="@drawable/ic_agent">
-
-                        </ImageView>
-
-                        <TextView
-                            android:id="@+id/rm_pending_complaint_serviceman1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Serviceman:"
-                            android:textColor="#363333"
-                            android:textSize="15sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/rm_pending_complaint_serviceman"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="20dp"
-                            android:layout_marginRight="70dp"
-                            android:text="Aditya Garg"
-                            android:textColor="#1A1717"
-                            android:textSize="15sp" />
-
-                    </LinearLayout>
-
-
-                    <LinearLayout
+                        android:text="Serviceman:"
+                        android:textStyle="bold"
+                        android:textColor="#363333"
+                        android:textSize="15sp" />
+                    <TextView
+                        android:id="@+id/rm_pending_complaint_serviceman"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="15dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginRight="5dp"
-                            android:src="@drawable/ic_machine" />
-
-                        <TextView
-                            android:id="@+id/rm_pending_complaint_machine_id1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Machine Id:"
-                            android:textColor="#363333"
-                            android:textSize="15sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/rm_pending_complaint_machine_id"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="30dp"
-                            android:text="111111111"
-                            android:textColor="#1A1717"
-                            android:textSize="15sp" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="15dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginRight="5dp"
-                            android:src="@drawable/ic_complain" />
-
-                        <TextView
-                            android:id="@+id/rm_pending_complaint_id1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Complain Id:"
-                            android:textColor="#363333"
-                            android:textSize="15sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/rm_pending_complaint_id"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="20dp"
-                            android:text="111111111"
-                            android:textColor="#1A1717"
-                            android:textSize="15sp" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="15dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginRight="5dp"
-                            android:src="@drawable/ic_date_of_installation" />
-
-                        <TextView
-                            android:id="@+id/rm_pending_complaint_date1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Date(Generated):"
-                            android:textColor="#363333"
-                            android:textSize="15sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/rm_pending_complaint_date"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="17dp"
-                            android:text="21/07/2020"
-                            android:textColor="#1A1717"
-                            android:textSize="15sp" />
-
-                    </LinearLayout>
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="70dp"
+                        android:text="Aditya Garg"
+                        android:textColor="#1A1717"
+                        android:textSize="15sp" />
 
                 </LinearLayout>
 
-            </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_machine"
+                        android:layout_marginRight="5dp"/>
+                    <TextView
+                        android:id="@+id/rm_pending_complaint_machine_id1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Machine Id:"
+                        android:textStyle="bold"
+                        android:textColor="#363333"
+                        android:textSize="15sp" />
+                    <TextView
+                        android:id="@+id/rm_pending_complaint_machine_id"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="30dp"
+                        android:text="111111111"
+                        android:textColor="#1A1717"
+                        android:textSize="15sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_complain"
+                        android:layout_marginRight="5dp"/>
+                    <TextView
+                        android:id="@+id/rm_pending_complaint_id1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Complain Id:"
+                        android:textStyle="bold"
+                        android:textColor="#363333"
+                        android:textSize="15sp" />
+                    <TextView
+                        android:id="@+id/rm_pending_complaint_id"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:text="111111111"
+                        android:textColor="#1A1717"
+                        android:textSize="15sp" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_date_of_installation"
+                        android:layout_marginRight="5dp"/>
+                    <TextView
+                        android:id="@+id/rm_pending_complaint_date1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Date(Generated):"
+                        android:textStyle="bold"
+                        android:textColor="#363333"
+                        android:textSize="15sp" />
+                    <TextView
+                        android:id="@+id/rm_pending_complaint_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="17dp"
+                        android:text="21/07/2020"
+                        android:textColor="#1A1717"
+                        android:textSize="15sp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+            <ImageView
+                android:layout_width="70dp"
+                android:layout_height="60dp"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/ic_profile"
+
+                >
+
+            </ImageView>
+        </RelativeLayout>
+
+
+        <LinearLayout
+            android:id="@+id/rm_ll_hide12"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rm_ll1"
+            android:orientation="vertical"
+            android:layout_marginTop="10dp">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#A29F9F"
+
+                />
 
 
             <LinearLayout
-                android:id="@+id/rm_ll_hide12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_description"
+                    android:layout_marginRight="5dp"/>
+                <TextView
+                    android:id="@+id/rm_pending_complaint_desc1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:text="Description"
+                    android:textStyle="bold"
+                    android:textColor="#363333"
+                    android:textSize="15sp" />
+            </LinearLayout>
+            <TextView
+                android:id="@+id/rm_pending_complaint_desc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/rm_ll1"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="40dp"
-                android:orientation="vertical">
+                android:layout_margin="5dp"
+                android:text="I have completed my work for repairing computer.All thing are now working nice."
+                android:textColor="#4c4c4c"
+                android:textSize="15sp" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#A29F9F"
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#A29F9F"
+                android:layout_margin="5dp"
+                />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="5dp">
+
+                <Button
+                    android:id="@+id/rm_chat_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:text="chat with agent"
+                    style="@style/loginButton"
+                    android:layout_marginRight="10dp"
                     />
 
-
-                <LinearLayout
+                <Button
+                    android:id="@+id/show_status"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginRight="5dp"
-                        android:src="@drawable/ic_description" />
-
-                    <TextView
-                        android:id="@+id/rm_pending_complaint_desc1"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:text="Description"
-                        android:textColor="#363333"
-                        android:textSize="15sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/rm_pending_complaint_desc"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:text="I have completed my work for repairing computer.All thing are now working nice."
-                    android:textColor="#4c4c4c"
-                    android:textSize="15sp" />
-
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_margin="5dp"
-                    android:background="#A29F9F" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:orientation="horizontal">
-
-                    <Button
-                        android:id="@+id/rm_chat_button"
-                        style="@style/loginButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:layout_marginRight="10dp"
-                        android:text="chat with agent" />
-
-                    <Button
-                        android:id="@+id/show_status"
-                        style="@style/loginButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:layout_marginLeft="10dp"
-                        android:text="status" />
-                </LinearLayout>
-
-
+                    android:layout_height="40dp"
+                    android:text="status"
+                    style="@style/loginButton"
+                    android:layout_marginLeft="10dp"/>
             </LinearLayout>
 
 
-        </RelativeLayout>
 
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@drawable/ic_profile"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.046"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.451">
 
-        </ImageView>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
 
 
 
