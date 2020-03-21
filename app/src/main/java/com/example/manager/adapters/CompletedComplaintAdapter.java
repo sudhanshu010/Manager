@@ -16,56 +16,58 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.manager.R;
 import com.example.manager.RequestStepIndicator;
 import com.example.manager.models.Complaint;
+import com.firebase.ui.database.paging.DatabasePagingOptions;
+import com.firebase.ui.database.paging.FirebaseRecyclerPagingAdapter;
+import com.firebase.ui.database.paging.LoadingState;
+import com.google.firebase.database.DataSnapshot;
+
+import org.parceler.Parcels;
 
 import java.util.List;
 
-public class CompletedComplaintAdapter extends  RecyclerView.Adapter<CompletedComplaintAdapter.MyHolder1>{
+public class CompletedComplaintAdapter extends FirebaseRecyclerPagingAdapter<Complaint, CompletedComplaintAdapter.CompletedComplaintHolder> {
 
-        Context c;
-        List<Complaint> x ;
+    /**
+     * Construct a new FirestorePagingAdapter from the given {@link DatabasePagingOptions}.
+     *
+     * @param options
+     */
+    Context c;
 
-public CompletedComplaintAdapter(Context c, List<Complaint> x)                                               //Enter the type of data in the space for model
+public CompletedComplaintAdapter(DatabasePagingOptions<Complaint> options, Context c)                                               //Enter the type of data in the space for model
         {
-        this.c = c;
-        this.x = x;
+            super(options);
+            this.c = c;
+
         }
 
 @NonNull
+
+
 @Override
-public CompletedComplaintAdapter.MyHolder1 onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+protected void onBindViewHolder(@NonNull CompletedComplaintAdapter.CompletedComplaintHolder myholder1, int position, Complaint model) {
+
+    myholder1.bind(model);
+    }
+
+    protected void onLoadingStateChanged(@NonNull LoadingState state){
+
+    }
+
+    @Override
+    public CompletedComplaintAdapter.CompletedComplaintHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.completed_complaint_item,null);
-        return new CompletedComplaintAdapter.MyHolder1(view);
-        }
-
-@Override
-public void onBindViewHolder(@NonNull CompletedComplaintAdapter.MyHolder1 myholder1, int position) {
+        return new CompletedComplaintAdapter.CompletedComplaintHolder(view);
+    }
 
 
-        myholder1.pendingComplaintDate.setText(x.get(position).getCompletedDate());
-        myholder1.pendingComplaintDescription.setText(x.get(position).getDescription());
-        myholder1.pendingComplaintServicemanName.setText(x.get(position).getMechanic().getUserName());
-        myholder1.pendingComplaintId.setText((int) x.get(position).getComplaintId());
-        myholder1.pendingComplaintMachineId.setText(x.get(position).getMachine().getMachineId());
-
-
-        Log.i("asdf","fgh");
-
-
-        }
-
-@Override
-public int getItemCount() {
-        return x.size();                                                                                   // Return item count from firebase
-        }
-
-
-class MyHolder1 extends RecyclerView.ViewHolder{
+class CompletedComplaintHolder extends RecyclerView.ViewHolder{
 
     TextView pendingComplaintDate, pendingComplaintId, pendingComplaintServicemanName, pendingComplaintDescription, pendingComplaintMachineId;
     Button statusButton;
 
-    public MyHolder1(@NonNull View itemView) {
+    public CompletedComplaintHolder(@NonNull View itemView) {
         super(itemView);
 
         pendingComplaintDate = itemView.findViewById(R.id.rm_complated_complaint_date);
@@ -78,17 +80,28 @@ class MyHolder1 extends RecyclerView.ViewHolder{
         statusButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Complaint complaint = x.get(getAdapterPosition());
+                DataSnapshot dataSnapshot = getItem(getAdapterPosition());
+                Complaint complaint = null;
+                if (dataSnapshot != null) {
+                    complaint = dataSnapshot.getValue(Complaint.class);
+                }
+
                 Intent intent = new Intent(c, RequestStepIndicator.class);
-                intent.putExtra("status", complaint.getStatus());
-                intent.putExtra("generated date", complaint.getGeneratedDate());
-                intent.putExtra("serviceman", complaint.getMechanic().getUserName());
-                intent.putExtra("completed date", complaint.getCompletedDate());
+                intent.putExtra("complaint", Parcels.wrap(complaint));
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 c.getApplicationContext().startActivity(intent);
             }
         });
 
+
+    }
+    public void bind(Complaint model) {
+
+        pendingComplaintDate.setText(model.getCompletedDate());
+        pendingComplaintDescription.setText(model.getDescription());
+        pendingComplaintServicemanName.setText(model.getMechanic().getUserName());
+        pendingComplaintId.setText(String.valueOf(model.getComplaintId()));
+        pendingComplaintMachineId.setText(model.getMachine().getMachineId());
 
     }
 }

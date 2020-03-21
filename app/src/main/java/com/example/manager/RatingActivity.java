@@ -59,7 +59,7 @@ public class RatingActivity extends AppCompatActivity {
 
                         HashMap<String,Object> update = new HashMap<>();
 
-                        update.put("/Users/Mechanic/"+serviceManUid+"/rating",newRating);
+                        update.put("/Users/Mechanic/"+serviceManUid+"/overallRating",newRating);
                         update.put("/Users/Mechanic/"+serviceManUid+"/numberOfRating",number+1);
 
                         FirebaseDatabase.getInstance().getReference().updateChildren(update);
