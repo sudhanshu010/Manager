@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -46,6 +47,7 @@ public class ComplaintDescriptionDialog extends Dialog implements
 
     private EditText complaintDescription;
     private TextView cancelButton, submitButton;
+    ImageView closeButton;
 
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference machineReference, complaintIdReference, mechanicListReference, managerReference,complaintReference,serviceManReference;
@@ -78,11 +80,14 @@ public class ComplaintDescriptionDialog extends Dialog implements
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.generate_complaint_description_dialog);
 
-        animationView = findViewById(R.id.lottieAnimationView);
+//        animationView = findViewById(R.id.lottieAnimationView);
 
-        complaintDescription = findViewById(R.id.complaintDescription);
-        cancelButton = findViewById(R.id.cancelButton);
-        submitButton = findViewById(R.id.submitButton);
+        complaintDescription = findViewById(R.id.description);
+        cancelButton = findViewById(R.id.cancel_button);
+        submitButton = findViewById(R.id.submit_button);
+        closeButton = findViewById(R.id.cancel);
+
+
 
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
@@ -125,8 +130,9 @@ public class ComplaintDescriptionDialog extends Dialog implements
             @Override
             public void onClick(View v) {
 
-                animationView.setVisibility(View.VISIBLE);
-                animationView.playAnimation();
+//                animationView.setVisibility(View.VISIBLE);
+//                animationView.playAnimation();
+                dismiss();
 
                 mechanicList = new HashMap<>();     // list of mechanic
                 mechanicListReference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -214,6 +220,12 @@ public class ComplaintDescriptionDialog extends Dialog implements
             }
         });
         cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        });
+        closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dismiss();
