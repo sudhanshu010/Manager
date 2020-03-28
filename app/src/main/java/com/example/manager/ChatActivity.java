@@ -30,6 +30,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -168,6 +169,7 @@ public class ChatActivity extends AppCompatActivity {
         hashMap.put("receiver", receiver);
         hashMap.put("message", message);
         hashMap.put("isseen", false);
+        //hashMap.put("time", new Date().getTime());
 
         reference.child("Complaints").child(complaintId).child("Chats").push().setValue(hashMap);
 

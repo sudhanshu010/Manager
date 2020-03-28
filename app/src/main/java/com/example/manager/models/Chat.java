@@ -2,6 +2,8 @@ package com.example.manager.models;
 
 import org.parceler.Parcel;
 
+import java.util.Date;
+
 @Parcel
 public class Chat implements Cloneable{
 
@@ -9,6 +11,8 @@ public class Chat implements Cloneable{
     public String receiver;
     public String message;
     public boolean isseen;
+    public long messageTime;
+
 
     public Object clone() throws
             CloneNotSupportedException
@@ -21,9 +25,12 @@ public class Chat implements Cloneable{
         this.receiver = receiver;
         this.message = message;
         this.isseen = isseen;
+
+        messageTime = new Date().getTime();
     }
 
     public Chat() {
+        messageTime = new Date().getTime();
     }
 
     public String getSender() {
@@ -56,5 +63,13 @@ public class Chat implements Cloneable{
 
     public void setIsseen(boolean isseen) {
         this.isseen = isseen;
+    }
+
+    public long getMessageTime() {
+        return messageTime;
+    }
+
+    public void setMessageTime(long messageTime) {
+        this.messageTime = messageTime;
     }
 }

@@ -18,6 +18,7 @@ import com.firebase.ui.database.paging.LoadingState;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.text.DateFormat;
 import java.util.HashMap;
 import java.util.List;
 
@@ -73,6 +74,8 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
             holder.txt_seen.setVisibility(View.GONE);
         }
 
+        holder.message_time.setText(android.text.format.DateFormat.format("dd-MM-yyyy(HH:mm:ss)",chat.getMessageTime()));
+
     }
 
     @Override
@@ -85,6 +88,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
         public TextView show_message;
         public ImageView profile_image;
         public TextView txt_seen;
+        public TextView message_time;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -92,6 +96,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
             show_message = itemView.findViewById(R.id.show_message);
             profile_image = itemView.findViewById(R.id.profile_image);
             txt_seen = itemView.findViewById(R.id.txt_seen);
+            message_time = itemView.findViewById(R.id.message_time);
         }
     }
 
