@@ -13,14 +13,21 @@
     <uses-permission android:name="android.permission.USE_FINGERPRINT" />
 
     <application
-        tools:replace="android:label"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="manager"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".GetMachineDetailsActivity"/>
+        android:theme="@style/AppTheme"
+        tools:replace="android:label">
+        <activity android:name=".ComplaintDetails">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".GetMachineDetailsActivity" />
         <activity android:name=".SettingActivity" />
         <activity android:name=".BottomNavigationActivity" />
         <activity android:name=".ChatActivity" />
@@ -33,21 +40,16 @@
         <activity android:name=".ScanQRActivity" />
         <activity android:name=".PendingRequestActivity" />
         <activity android:name=".ComplaintsTabActivity" />
-        <activity android:name=".GenerateQRActivity" >
-
-        </activity>
-        <activity android:name=".RegisterActivity"/>
-        <activity android:name=".LoginActivity"/>
+        <activity android:name=".GenerateQRActivity"></activity>
+        <activity android:name=".RegisterActivity" />
+        <activity android:name=".LoginActivity" />
         <activity android:name=".IntroActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".MainActivity" />
-        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
-            android:theme="@style/Base.Theme.AppCompat"/>
+        <activity
+            android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat" />
     </application>
 
 </manifest>

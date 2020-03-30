@@ -47,6 +47,40 @@
                 android:maxLines="1" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <com.google.android.material.textfield.TextInputLayout
+
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            app:boxStrokeColor="@color/colorPrimary">
+
+            <EditText
+                android:id="@+id/life"
+                style="@style/modifiedEditText"
+                android:hint="Enter Expected Life of Machine"
+                android:drawableLeft="@drawable/ic_price"
+                android:drawablePadding="20dp"
+                android:maxLines="1" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            app:boxStrokeColor="@color/colorPrimary">
+
+            <EditText
+                android:id="@+id/scrap_value"
+                style="@style/modifiedEditText"
+                android:hint="Enter Expected Scrap Value"
+                android:drawableLeft="@drawable/ic_price"
+                android:drawablePadding="20dp"
+                android:maxLines="1" />
+        </com.google.android.material.textfield.TextInputLayout>
+
     </LinearLayout>
 
 </FrameLayout>
