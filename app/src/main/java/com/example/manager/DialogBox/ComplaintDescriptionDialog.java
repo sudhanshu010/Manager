@@ -9,6 +9,8 @@ import android.view.Window;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -45,9 +47,13 @@ public class ComplaintDescriptionDialog extends Dialog implements
 
     LinearLayout descriptionlayout;
 
-    private EditText complaintDescription;
+    private EditText complaintDescription, instruction;
     private TextView cancelButton, submitButton;
     ImageView closeButton;
+    RadioGroup radioGroup;
+    RadioButton radioButton;
+
+    String serviceType;
 
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference machineReference, complaintIdReference, mechanicListReference, managerReference,complaintReference,serviceManReference;
@@ -82,10 +88,12 @@ public class ComplaintDescriptionDialog extends Dialog implements
 
 //        animationView = findViewById(R.id.lottieAnimationView);
 
-        complaintDescription = findViewById(R.id.description);
+        complaintDescription = findViewById(R.id.editText);
         cancelButton = findViewById(R.id.cancel_button);
         submitButton = findViewById(R.id.submit_button);
         closeButton = findViewById(R.id.cancel);
+        radioGroup = findViewById(R.id.radioGroup);
+        instruction = findViewById(R.id.instruction);
 
 
 
@@ -157,6 +165,13 @@ public class ComplaintDescriptionDialog extends Dialog implements
 
                         complaint.setComplaintId(complaintId);
                         complaint.setDescription(complaintDescription.getText().toString());
+
+                        int selectId = radioGroup.getCheckedRadioButtonId();
+                        radioButton = findViewById(selectId);
+                        serviceType = radioButton.getText().toString();
+
+                        complaint.setServiceType(serviceType);
+                        complaint.setInstruction(instruction.getText().toString());
 
                         Mechanic tempMechanic = null;
                         try {

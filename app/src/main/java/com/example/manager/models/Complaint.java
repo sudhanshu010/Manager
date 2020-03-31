@@ -23,6 +23,7 @@ public class Complaint implements Cloneable{
     public float cost=0;
     private HashMap<String,Request> pendingRequest;
     private Chat chat;
+    private String serviceType, instruction;
 
     public Object clone() throws
             CloneNotSupportedException
@@ -32,7 +33,7 @@ public class Complaint implements Cloneable{
 
     public Complaint(){}
 
-    public Complaint(long complaintId, String description, String generatedDate, String completedDate, Machine machine, Manager manager, Mechanic mechanic, int status, float cost, HashMap<String, Request> pendingRequest, Chat chat) {
+    public Complaint(long complaintId, String description, String generatedDate, String completedDate, Machine machine, Manager manager, Mechanic mechanic, int status, float cost, HashMap<String, Request> pendingRequest, Chat chat, String serviceType, String instruction) {
         this.complaintId = complaintId;
         this.description = description;
         this.generatedDate = generatedDate;
@@ -44,6 +45,8 @@ public class Complaint implements Cloneable{
         this.cost = cost;
         this.pendingRequest = pendingRequest;
         this.chat = chat;
+        this.serviceType = serviceType;
+        this.instruction = instruction;
     }
 
     public long getComplaintId() {
@@ -135,4 +138,19 @@ public class Complaint implements Cloneable{
     }
 
 
+    public String getServiceType() {
+        return serviceType;
+    }
+
+    public void setServiceType(String serviceType) {
+        this.serviceType = serviceType;
+    }
+
+    public String getInstruction() {
+        return instruction;
+    }
+
+    public void setInstruction(String instruction) {
+        this.instruction = instruction;
+    }
 }
