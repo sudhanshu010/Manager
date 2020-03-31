@@ -10,9 +10,11 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.manager.ChatActivity;
+import com.example.manager.ComplaintDetails;
 import com.example.manager.R;
 import com.example.manager.RequestStepIndicator;
 import com.example.manager.models.Complaint;
@@ -67,6 +69,7 @@ public class PendingComplaintAdapter extends FirebaseRecyclerPagingAdapter<Compl
 
         TextView pendingComplaintDate, pendingComplaintId, pendingComplaintServicemanName, pendingComplaintDescription, pendingComplaintMachineId;
         Button chatButton, statusButton;
+        CardView cardView;
 
         public PendingComplaintHolder(@NonNull View itemView) {
             super(itemView);
@@ -76,26 +79,11 @@ public class PendingComplaintAdapter extends FirebaseRecyclerPagingAdapter<Compl
             pendingComplaintDescription = itemView.findViewById(R.id.rm_pending_complaint_desc);
             pendingComplaintServicemanName = itemView.findViewById(R.id.rm_pending_complaint_serviceman);
             pendingComplaintMachineId = itemView.findViewById(R.id.rm_pending_complaint_machine_id);
-            chatButton = itemView.findViewById(R.id.rm_chat_button);
-            statusButton = itemView.findViewById(R.id.show_status);
+//            chatButton = itemView.findViewById(R.id.rm_chat_button);
+//            statusButton = itemView.findViewById(R.id.show_status);
+            cardView = itemView.findViewById(R.id.complaint_card);
 
-            chatButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    DataSnapshot dataSnapshot = getItem(getAdapterPosition());
-                    Complaint complaint = null;
-                    if (dataSnapshot != null) {
-                        complaint = dataSnapshot.getValue(Complaint.class);
-                    }
-                    Intent intent = new Intent(c, ChatActivity.class);
-                    intent.putExtra("userid", complaint.getMechanic().getUid());
-                    intent.putExtra("complaintId", String.valueOf(complaint.getComplaintId()));
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    c.getApplicationContext().startActivity(intent);
-                }
-            });
-
-            statusButton.setOnClickListener(new View.OnClickListener() {
+            cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     DataSnapshot dataSnapshot = getItem(getAdapterPosition());
@@ -104,12 +92,44 @@ public class PendingComplaintAdapter extends FirebaseRecyclerPagingAdapter<Compl
                         complaint = dataSnapshot.getValue(Complaint.class);
                     }
 
-                    Intent intent = new Intent(c, RequestStepIndicator.class);
+                    Intent intent = new Intent(c, ComplaintDetails.class);
                     intent.putExtra("complaint", Parcels.wrap(complaint));
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     c.getApplicationContext().startActivity(intent);
                 }
             });
+
+//            chatButton.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    DataSnapshot dataSnapshot = getItem(getAdapterPosition());
+//                    Complaint complaint = null;
+//                    if (dataSnapshot != null) {
+//                        complaint = dataSnapshot.getValue(Complaint.class);
+//                    }
+//                    Intent intent = new Intent(c, ChatActivity.class);
+//                    intent.putExtra("userid", complaint.getMechanic().getUid());
+//                    intent.putExtra("complaintId", String.valueOf(complaint.getComplaintId()));
+//                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                    c.getApplicationContext().startActivity(intent);
+//                }
+//            });
+//
+//            statusButton.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    DataSnapshot dataSnapshot = getItem(getAdapterPosition());
+//                    Complaint complaint = null;
+//                    if (dataSnapshot != null) {
+//                        complaint = dataSnapshot.getValue(Complaint.class);
+//                    }
+//
+//                    Intent intent = new Intent(c, RequestStepIndicator.class);
+//                    intent.putExtra("complaint", Parcels.wrap(complaint));
+//                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                    c.getApplicationContext().startActivity(intent);
+//                }
+//            });
 
         }
         public void bind (Complaint model) {
