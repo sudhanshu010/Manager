@@ -12,7 +12,8 @@ public class Machine implements Cloneable{
     private int serviceTime;
     private int[] cost;
 
-    private float price;
+    private float price, scrap, life, averageCost;
+    private  int serviceNumber;
 
     private boolean status;
 
@@ -30,7 +31,7 @@ public class Machine implements Cloneable{
 
     public Machine(String serialNumber, String dateOfInstallation, String department, String machineId,
                    String type, String company, String modelNumber, String qrImageLink, int serviceTime,
-                   int[] cost, float price, boolean status, Manager manager, HashMap<String, Request> pastRecordList) {
+                   int[] cost, float price, boolean status, Manager manager, HashMap<String, Request> pastRecordList, float scrap, float life) {
 
         this.serialNumber = serialNumber;
         this.dateOfInstallation = dateOfInstallation;
@@ -46,6 +47,10 @@ public class Machine implements Cloneable{
         this.status = status;
         this.manager = manager;
         this.pastRecordList = pastRecordList;
+        this.scrap = scrap;
+        this.life = life;
+        this.serviceNumber = 0;
+        this.averageCost = price-scrap;
     }
 
     public String getSerialNumber() {
@@ -158,5 +163,37 @@ public class Machine implements Cloneable{
 
     public void setPastRecordList(HashMap<String, Request> pastRecordList) {
         this.pastRecordList = pastRecordList;
+    }
+
+    public float getLife() {
+        return life;
+    }
+
+    public void setLife(float life) {
+        this.life = life;
+    }
+
+    public float getScrap() {
+        return scrap;
+    }
+
+    public void setScrap(float scrap) {
+        this.scrap = scrap;
+    }
+
+    public float getAverageCost() {
+        return averageCost;
+    }
+
+    public void setAverageCost(float averageCost) {
+        this.averageCost = averageCost;
+    }
+
+    public int getServiceNumber() {
+        return serviceNumber;
+    }
+
+    public void setServiceNumber(int serviceNumber) {
+        this.serviceNumber = serviceNumber;
     }
 }

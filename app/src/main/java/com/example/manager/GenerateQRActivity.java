@@ -67,7 +67,7 @@ import javax.crypto.Mac;
 
 public class GenerateQRActivity extends AppCompatActivity {
 
-    EditText price, serviceTime, serialNumber, typeOfMachine, machineCompany, modelNumber, machinePrice,department;// Serial Number mentioned on Machine
+    EditText price, serviceTime, serialNumber, typeOfMachine, machineCompany, modelNumber, machinePrice,department, scrapValue, life;// Serial Number mentioned on Machine
     TextView installationDate;
     ImageView qrcode;
     ImageView qrtext;
@@ -224,6 +224,8 @@ public class GenerateQRActivity extends AppCompatActivity {
                      if (formFragment3 != null) {
                          machinePrice = Objects.requireNonNull(formFragment3.getView()).findViewById(R.id.price);
                          installationDate = formFragment3.getView().findViewById(R.id.installation_date);
+                         scrapValue = Objects.requireNonNull(formFragment3.getView()).findViewById(R.id.scrap_value);
+                         life = Objects.requireNonNull(formFragment3.getView()).findViewById(R.id.life);
                      }
 
                      if (generationCodeValue != 0) {
@@ -349,7 +351,7 @@ public class GenerateQRActivity extends AppCompatActivity {
     {
 
         final String serialNo, dept, type, model, company;
-        final float price;
+        final float price, scrap, machineLife;
         final int servicetime;
         final String installationdate;
 
@@ -364,6 +366,9 @@ public class GenerateQRActivity extends AppCompatActivity {
         model = modelNumber.getText().toString();
         company = machineCompany.getText().toString();
         price = Float.parseFloat(machinePrice.getText().toString());
+        scrap = Float.parseFloat(scrapValue.getText().toString());
+        machineLife = Float.parseFloat(life.getText().toString());
+
 
         // QRCode image url is fetched and on Completion Machine Data is uploaded to database.
         uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
@@ -393,7 +398,7 @@ public class GenerateQRActivity extends AppCompatActivity {
                         tempManager.setMyMachines(null);
                     }
                     Machine machine = new Machine(serialNo, installationdate, dept, machineId, type, company, model,
-                            Objects.requireNonNull(task.getResult()).toString(), servicetime, null, price, true, tempManager, null);
+                            Objects.requireNonNull(task.getResult()).toString(), servicetime, null, price, true, tempManager, null, scrap, machineLife);
 
                     HashMap<String, Object> hashMap = new HashMap<>();
                     hashMap.put("/Machines/" + machineId, machine);
