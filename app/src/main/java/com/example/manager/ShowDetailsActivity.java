@@ -9,6 +9,7 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.paging.PagedList;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -17,12 +18,14 @@ import com.example.manager.adapters.ShowDetailsAdapter;
 import com.example.manager.models.PastRecord;
 import com.example.manager.models.Request;
 import com.facebook.shimmer.ShimmerFrameLayout;
+import com.firebase.ui.database.paging.DatabasePagingOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -33,7 +36,7 @@ public class ShowDetailsActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     private ShowDetailsAdapter showDetailsAdapter;
     FloatingActionButton floatingActionButton;
-    String generationCode;
+    String machineId;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference historyReference,pastRecordsReference;
     SwipeRefreshLayout swipeRefereshLayout;
@@ -48,10 +51,9 @@ public class ShowDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_history);
 
-        generationCode = getIntent().getStringExtra("generationCode");
+        machineId = getIntent().getStringExtra("machine_id");
 
         firebaseDatabase = FirebaseDatabase.getInstance();
-        historyReference = firebaseDatabase.getReference("machines").child(generationCode).child("pastRecords");
 
         floatingActionButton = findViewById(R.id.btn_float);
         recyclerView = findViewById(R.id.RecyclerView);
@@ -60,9 +62,6 @@ public class ShowDetailsActivity extends AppCompatActivity {
         // shimmerFrameLayout = findViewById(R.id.shimmerFrameLayout);
         // shimmerFrameLayout.startShimmerAnimation();
 
-        pastRecords = new ArrayList<>();
-        showDetailsAdapter = new ShowDetailsAdapter(getApplicationContext(),pastRecords);
-        recyclerView.setAdapter(showDetailsAdapter);
 
         swipeRefereshLayout = findViewById(R.id.swipeRefreshLayout);
 
@@ -76,59 +75,22 @@ public class ShowDetailsActivity extends AppCompatActivity {
             }
         });
 
+        Query baseQuery = firebaseDatabase.getReference("Machines").child(machineId).child("pastRecords");
 
-        historyReference.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+        PagedList.Config config = new PagedList.Config.Builder()
+                .setEnablePlaceholders(false)
+                .setPrefetchDistance(10)
+                .setPageSize(20)
+                .build();
 
-                String request = dataSnapshot.getKey();
+        DatabasePagingOptions<PastRecord> options = new DatabasePagingOptions.Builder<PastRecord>()
+                .setLifecycleOwner(this)
+                .setQuery(baseQuery,config,PastRecord.class)
+                .build();
 
-                Log.i("History","something");
-                DatabaseReference requestRefernce = FirebaseDatabase.getInstance().getReference("Requests").child(request);
-//                requestRefernce.addListenerForSingleValueEvent(new ValueEventListener() {
-//                    @Override
-//                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//
-//                        Log.i("History","something1 ");
-//
-//                        PastRecord pastRecord = new PastRecord();
-//                        Request request= dataSnapshot.getValue(Request.class);
-//                        pastRecord.setDescription(request.getDescription());
-//                        pastRecord.setServiceMan(request.getServicemanName());
-//                        pastRecord.setComplaintId(request.getComplaintId());
-//                        //shimmerFrameLayout.stopShimmerAnimation();
-//                        //shimmerFrameLayout.setVisibility(View.INVISIBLE);
-//                        pastRecords.add(pastRecord);
-//                        showDetailsAdapter.notifyDataSetChanged();
-//                    }
-//
-//                    @Override
-//                    public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//                    }
-//                });
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
+        showDetailsAdapter = new ShowDetailsAdapter(options, ShowDetailsActivity.this);
+        recyclerView.setAdapter(showDetailsAdapter);
+        showDetailsAdapter.startListening();
 
 
         floatingActionButton.setOnClickListener(new View.OnClickListener() {

@@ -49,6 +49,7 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
 
     int complaintId;
     String description;
+    String machineId;
 
 
 
@@ -92,6 +93,7 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
                 serviceTime.setText(machine.getServiceTime()+" months");
                 dateOfInstallation.setText(machine.getDateOfInstallation());
                 //generator.setText(machine.getGeneratorName());
+                machineId = machine.getMachineId();
             }
 
             @Override
@@ -105,7 +107,7 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(GetMachineDetailsActivity.this, ShowDetailsActivity.class);
-                i.putExtra("generationCode",generationCode);
+                i.putExtra("machine_id",machineId);
                 startActivity(i);
                 finish();
             }

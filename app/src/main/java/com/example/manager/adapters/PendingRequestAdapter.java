@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.manager.R;
 import com.example.manager.RatingActivity;
 import com.example.manager.models.Complaint;
+import com.example.manager.models.PastRecord;
 import com.example.manager.models.Request;
 import com.firebase.ui.database.paging.DatabasePagingOptions;
 import com.firebase.ui.database.paging.FirebaseRecyclerPagingAdapter;
@@ -168,27 +169,18 @@ public class PendingRequestAdapter extends FirebaseRecyclerPagingAdapter<Request
                 updateDatabaseValue.put("/Complaints/"+model.getComplaint().getComplaintId()+"/status",5);
 
                 updateDatabaseValue.put("/Users/Manager/"+user.getUid()+"/completedComplaints/"+model.getComplaint().getComplaintId(),model.getComplaint());
-                //updateDatabaseValue.put("/Users/Manager/"+user.getUid()+"/completedComplaints/"+model.getComplaint().getComplaintId()+"/completedDate",day+"/"+month+"/"+year);
-                //updateDatabaseValue.put("/Users/Manager/"+user.getUid()+"/completedComplaints/"+model.getComplaint().getComplaintId()+"/status",5);
 
                 updateDatabaseValue.put("/Users/Mechanic/"+model.getComplaint().getMechanic().getUid()+"/completedComplaints/"+model.getComplaint().getComplaintId(),complaint);
-                //updateDatabaseValue.put("/Users/Mechanic/"+model.getComplaint().getMechanic().getUid()+"/completedComplaints/"+model.getComplaint().getComplaintId()+"/completedDate",day+"/"+month+"/"+year);
-                //updateDatabaseValue.put("/Users/Mechanic/"+model.getComplaint().getMechanic().getUid()+"/completedComplaints/"+model.getComplaint().getComplaintId()+"/status",5);
 
                 updateDatabaseValue.put("/Requests/"+model.getRequestId()+"/approvedDate",day+"/"+month+"/"+year);
                 updateDatabaseValue.put("/Requests/"+model.getRequestId()+"/complaint/completedDate",day+"/"+month+"/"+year);
                 updateDatabaseValue.put("/Requests/"+model.getRequestId()+"/complaint/status",5);
 
                 updateDatabaseValue.put("/Users/Mechanic/"+model.getComplaint().getMechanic().getUid()+"/completedRequests/"+model.getRequestId(),request);
-                //updateDatabaseValue.put("/Users/Mechanic/"+model.getComplaint().getMechanic().getUid()+"/completedRequests/"+model.getRequestId()+"/approvedDate",day+"/"+month+"/"+year);
-                //updateDatabaseValue.put("/Users/Mechanic/"+model.getComplaint().getMechanic().getUid()+"/completedRequests/"+model.getRequestId()+"/complaint/completedDate",day+"/"+month+"/"+year);
-                //updateDatabaseValue.put("/Users/Mechanic/"+model.getComplaint().getMechanic().getUid()+"/completedRequests/"+model.getRequestId()+"/complaint/status",5);
 
                 updateDatabaseValue.put("/Users/Mechanic/"+model.getComplaint().getMechanic().getUid()+"/load",Integer.parseInt(load)-1);
                 updateDatabaseValue.put("/Complaints/"+model.getComplaint().getComplaintId()+"/mechanic/load",Integer.parseInt(load)-1);
                 updateDatabaseValue.put("/Requests/"+model.getRequestId()+"/complaint/mechanic/load",Integer.parseInt(load)-1);
-                //updateDatabaseValue.put("/Users/Manager/"+user.getUid()+"/completedComplaints/"+model.getComplaint().getComplaintId()+"/mechanic/load",Integer.parseInt(load)-1);
-
 
 
 
@@ -216,26 +208,27 @@ public class PendingRequestAdapter extends FirebaseRecyclerPagingAdapter<Request
 
                 FirebaseDatabase.getInstance().getReference().updateChildren(updateDatabaseValue1);
 
-//                FirebaseDatabase.getInstance().getReference("Complaints")
-//                        .child(x.get(position).getComplaintId()).child("complaintMachineId").addListenerForSingleValueEvent(new ValueEventListener() {
-//                    @Override
-//                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//
-//                        String machineId = dataSnapshot.getValue().toString();
-//                        Log.i("machineId",machineId);
-//                        updateDatabaseValue.put("/machines/"+machineId+"/pastRecords/"+x.get(position).getRequestid(),"true");
-//                        FirebaseDatabase.getInstance().getReference().updateChildren(updateDatabaseValue);
-//
-//                    }
-//
-//                    @Override
-//                    public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//                    }
-//                });
+                String serviceDate;
+                String serviceMan;
+                String description;
+                String complaintId;
+                float cost;
 
+                serviceDate = day+"/"+month+"/"+year;
+                serviceMan = model.getComplaint().getMechanic().getUserName();
+                description = model.getDescription();
+                complaintId = String.valueOf(model.getComplaint().getComplaintId());
+                cost = 2500;
 
+                PastRecord pastRecord = new PastRecord(serviceDate, serviceMan, description, true, complaintId, cost);
 
+                HashMap<String, Object> hashMap = new HashMap<>();
+
+                hashMap.put("/Machines/"+model.getComplaint().getMachine().getMachineId()+"/pastRecords/"+model.getRequestId(),pastRecord);
+
+                hashMap.put("/Users/Manager/"+user.getUid()+"/myMachines/"+model.getComplaint().getMachine().getMachineId()+"/pastRecords/"+model.getRequestId(),pastRecord);
+
+                FirebaseDatabase.getInstance().getReference().updateChildren(hashMap);
 
                 Intent i = new Intent(c, RatingActivity.class);
                 i.putExtra("serviceManUid",model.getComplaint().getMechanic().getUid());
@@ -262,8 +255,6 @@ public class PendingRequestAdapter extends FirebaseRecyclerPagingAdapter<Request
                 updateDatabaseValue.put("/Users/Mechanic/"+model.getComplaint().getMechanic().getUid()+"/pendingComplaints/"+model.getComplaint().getComplaintId()+"/status",2);
 
                 updateDatabaseValue.put("/Users/Mechanic/"+model.getComplaint().getMechanic().getUid()+"/completedRequests/"+model.getRequestId(),request);
-                //updateDatabaseValue.put("/Users/Mechanic/"+model.getComplaint().getMechanic().getUid()+"/completedRequests/"+model.getRequestId()+"/approvedDate",day+"/"+month+"/"+year);
-                //updateDatabaseValue.put("/Users/Mechanic/"+model.getComplaint().getMechanic().getUid()+"/completedRequests/"+model.getRequestId()+"/complaint/status",2);
 
                 updateDatabaseValue.put("/Complaints/"+model.getComplaint().getComplaintId()+"/status",2);
 
@@ -282,24 +273,6 @@ public class PendingRequestAdapter extends FirebaseRecyclerPagingAdapter<Request
 
                 FirebaseDatabase.getInstance().getReference().updateChildren(updateDatabaseValue1);
 
-//                FirebaseDatabase.getInstance().getReference("Complaints")
-//                        .child(x.get(position).getComplaintId()).child("complaintMachineId").addListenerForSingleValueEvent(new ValueEventListener() {
-//                    @Override
-//                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//
-//                        String machineId = dataSnapshot.getValue().toString();
-//                        Log.i("machineId",machineId);
-//                        updateDatabaseValue.put("/machines/" + machineId + "/pastRecords/" + x.get(position).getRequestid(), "true");
-//                        FirebaseDatabase.getInstance().getReference().updateChildren(updateDatabaseValue);
-//
-//                    }
-//
-//                    @Override
-//                    public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//                    }
-//
-//                });
             }
             }
         });

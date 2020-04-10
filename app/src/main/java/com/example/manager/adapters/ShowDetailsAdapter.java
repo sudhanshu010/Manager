@@ -14,27 +14,27 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.manager.R;
 import com.example.manager.models.PastRecord;
+import com.firebase.ui.database.paging.DatabasePagingOptions;
+import com.firebase.ui.database.paging.FirebaseRecyclerPagingAdapter;
+import com.firebase.ui.database.paging.LoadingState;
 
 import java.util.List;
 
-public class ShowDetailsAdapter extends RecyclerView.Adapter<ShowDetailsAdapter.MyHolder> {
+public class ShowDetailsAdapter extends FirebaseRecyclerPagingAdapter<PastRecord, ShowDetailsAdapter.MyHolder> {
 
     Context c;
-    public List<PastRecord> pastRecords;
+    /**
+     * Construct a new FirestorePagingAdapter from the given {@link DatabasePagingOptions}.
+     *
+     * @param options
+     */
 
 
-    public ShowDetailsAdapter(Context c, List<PastRecord> pastRecords) {
+    public ShowDetailsAdapter(DatabasePagingOptions<PastRecord> options, Context c) {
+        super(options);
         this.c = c;
-        this.pastRecords = pastRecords;
     }
 
-    public ShowDetailsAdapter(Context c) {
-        this.c = c;
-    }
-
-    public void setPastRecords(List<PastRecord> pastRecords) {
-        this.pastRecords = pastRecords;
-    }
 
     @NonNull
     @Override
@@ -45,23 +45,14 @@ public class ShowDetailsAdapter extends RecyclerView.Adapter<ShowDetailsAdapter.
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyHolder myholder, int position) {
-
-        myholder.date.setText("19/01/2020");
-        myholder.AgentId.setText(pastRecords.get(position).getServiceMan());
-        myholder.Description.setText(pastRecords.get(position).getDescription());
-        myholder.CompliantId.setText(pastRecords.get(position).getComplaintId());
-
-        boolean isExpanded = pastRecords.get(position).isExpanded();
-        myholder.ll_hide.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
+    public void onBindViewHolder(@NonNull MyHolder myholder, int position, PastRecord model) {
+        myholder.bind(model);
     }
 
     @Override
-    public int getItemCount() {
-        Log.i("VikasSIze",String.valueOf(pastRecords.size()));
-        return pastRecords.size();
-    }
+    protected  void  onLoadingStateChanged(LoadingState state) {
 
+    }
 
     class MyHolder extends RecyclerView.ViewHolder {
 
@@ -69,7 +60,7 @@ public class ShowDetailsAdapter extends RecyclerView.Adapter<ShowDetailsAdapter.
         TextView date;
         CardView cardview;
         TextView CompliantId;
-        TextView AgentId;
+        TextView mechanic;
         TextView Description;
         LinearLayout ll_hide;
 
@@ -78,29 +69,31 @@ public class ShowDetailsAdapter extends RecyclerView.Adapter<ShowDetailsAdapter.
 
             date = itemView.findViewById(R.id.RecyclerView_Date);
             CompliantId = itemView.findViewById(R.id.RecyclerView_ComplaintId);
-            AgentId = itemView.findViewById(R.id.RecyclerView_AgentId);
+            mechanic = itemView.findViewById(R.id.RecyclerView_AgentId);
             Description = itemView.findViewById(R.id.RecyclerView_Description);
             ll_hide = itemView.findViewById(R.id.ll_hide);
             cardview = itemView.findViewById(R.id.cardview);
 
-            cardview.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    PastRecord past = pastRecords.get(getAdapterPosition());
-                    past.setExpanded(!past.isExpanded());
-                    notifyItemChanged(getAdapterPosition());
-
-                }
-            });
+//            cardview.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//
+//                    PastRecord past = pastRecords.get(getAdapterPosition());
+//                    past.setExpanded(!past.isExpanded());
+//                    notifyItemChanged(getAdapterPosition());
+//
+//                }
+//            });
 
         }
-
+        public void bind(final PastRecord model)
+        {
+            date.setText(model.getServiceDate());
+            CompliantId.setText(model.getComplaintId());
+            mechanic.setText(model.getServiceMan());
+            Description.setText(model.getDescription());
+        }
 
     }
-
-
-
-
 
 }
