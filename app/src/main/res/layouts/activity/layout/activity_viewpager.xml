@@ -5,9 +5,18 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/hi_img"
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="260dp"
-        tools:srcCompat="@tools:sample/avatars" />
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        app:cardCornerRadius="15dp"
+        app:cardElevation="2dp"
+        >
+        <ImageView
+            android:id="@+id/hi_img"
+            android:layout_width="match_parent"
+            android:layout_height="244dp"
+           android:src="@drawable/generateqrimg" />
+    </androidx.cardview.widget.CardView>
+
 </LinearLayout>
