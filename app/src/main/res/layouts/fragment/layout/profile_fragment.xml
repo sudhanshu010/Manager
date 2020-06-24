@@ -2,7 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="778dp"
+    android:layout_height="658dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="fragments.ProfileFragment">
 
@@ -11,7 +11,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:background="@android:color/white"
-        android:fitsSystemWindows="true">
+        android:fitsSystemWindows="false">
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/app_bar"
             android:layout_width="match_parent"

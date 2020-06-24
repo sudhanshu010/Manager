@@ -22,7 +22,9 @@
         android:theme="@style/AppTheme">
         <activity android:name=".GetMachineDetailsActivity"/>
         <activity android:name=".SettingActivity" />
-        <activity android:name=".BottomNavigationActivity" />
+        <activity android:name=".BottomNavigationActivity" >
+
+        </activity>
         <activity android:name=".ChatActivity" />
         <activity android:name=".FaqActivity" />
         <activity android:name=".FeedbackActivity" />

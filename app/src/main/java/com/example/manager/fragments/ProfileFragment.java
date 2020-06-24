@@ -108,55 +108,55 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        dialogBox = new CustomDialogBox(getActivity());
-        dialogBox.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        //dialogBox.show();
-
-        user = FirebaseAuth.getInstance().getCurrentUser();
-
-        name = view.findViewById(R.id.rm_profile_name);
-        email = view.findViewById(R.id.rm_profile_email);
-        phoneNumber = view.findViewById(R.id.rm_profile_phone);
-
-        databaseReference = FirebaseDatabase.getInstance()
-                .getReference("Users")
-                .child("Manager")
-                .child(user.getUid());
-
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                Manager manager = dataSnapshot.getValue(Manager.class);
-                Picasso.get().load(manager.getProfilePicLink()).into(profilePic);
-                name.setText(manager.getUserName());
-                email.setText(manager.getEmail());
-
-                dialogBox.dismiss();
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-
-        storageReference = FirebaseStorage.getInstance().getReference().child(user.getUid()+".jpg");
-
-        profilePicChange.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-////                Activity activity = getActivity();
-////                if (activity != null)
-//                getActivity().startActivityForResult(i, 12);
-
-                CropImage.activity().setGuidelines(CropImageView.Guidelines.ON).
-                        setAspectRatio(1, 1).start(getContext(),ProfileFragment.this);
-            }
-        });
+//        dialogBox = new CustomDialogBox(getActivity());
+//        dialogBox.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+//        //dialogBox.show();
+//
+//        user = FirebaseAuth.getInstance().getCurrentUser();
+//
+//        name = view.findViewById(R.id.rm_profile_name);
+//        email = view.findViewById(R.id.rm_profile_email);
+//        phoneNumber = view.findViewById(R.id.rm_profile_phone);
+//
+//        databaseReference = FirebaseDatabase.getInstance()
+//                .getReference("Users")
+//                .child("Manager")
+//                .child(user.getUid());
+//
+//        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//
+//                Manager manager = dataSnapshot.getValue(Manager.class);
+//                Picasso.get().load(manager.getProfilePicLink()).into(profilePic);
+//                name.setText(manager.getUserName());
+//                email.setText(manager.getEmail());
+//
+//                dialogBox.dismiss();
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
+//
+//
+//        storageReference = FirebaseStorage.getInstance().getReference().child(user.getUid()+".jpg");
+//
+//        profilePicChange.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+////                Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//////                Activity activity = getActivity();
+//////                if (activity != null)
+////                getActivity().startActivityForResult(i, 12);
+//
+//                CropImage.activity().setGuidelines(CropImageView.Guidelines.ON).
+//                        setAspectRatio(1, 1).start(getContext(),ProfileFragment.this);
+//            }
+//        });
 
         return view;
     }
