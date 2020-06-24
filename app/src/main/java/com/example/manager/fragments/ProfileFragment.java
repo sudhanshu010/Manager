@@ -127,11 +127,9 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                Manager manager = dataSnapshot.getValue(Manager.class);
-                Picasso.get().load(manager.getProfilePicLink()).into(profilePic);
-                name.setText(manager.getUserName());
-                email.setText(manager.getEmail());
-
+                //Picasso.get().load(manager.getProfilePicLink()).into(profilePic)
+                name.setText((String) dataSnapshot.child("userName").getValue());
+                email.setText((String) dataSnapshot.child("email").getValue());
                 dialogBox.dismiss();
 
             }
