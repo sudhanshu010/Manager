@@ -132,12 +132,11 @@ public class GenerateQRActivity extends AppCompatActivity {
         user = FirebaseAuth.getInstance().getCurrentUser();
         managerReference = firebaseDatabase.getReference("Users").child("Manager").child(user.getUid());
 //
-        managerReference.addValueEventListener(new ValueEventListener() {
+        managerReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 manager = dataSnapshot.getValue(Manager.class);
                 myMachines = manager != null ? manager.getMyMachines() : null;
-
             }
 
             @Override
@@ -162,7 +161,6 @@ public class GenerateQRActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 generationCodeValue = (long) Objects.requireNonNull(dataSnapshot.getValue());
-
             }
 
             @Override
@@ -419,6 +417,7 @@ public class GenerateQRActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<Void> task) {
                             if(task.isSuccessful())
                             {
+                                Toast.makeText(GenerateQRActivity.this, "File Updated", Toast.LENGTH_SHORT).show();
                                 generationCodeValue = generationCodeValue+1; // increase Value of generationCode Everytime a new machine is entered.
                                 generationCodeReference.setValue(generationCodeValue);
                             }
