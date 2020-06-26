@@ -137,7 +137,6 @@ public class GenerateQRActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 manager = dataSnapshot.getValue(Manager.class);
                 myMachines = manager != null ? manager.getMyMachines() : null;
-
             }
 
             @Override
@@ -162,7 +161,6 @@ public class GenerateQRActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 generationCodeValue = (long) Objects.requireNonNull(dataSnapshot.getValue());
-
             }
 
             @Override
@@ -419,11 +417,9 @@ public class GenerateQRActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<Void> task) {
                             if(task.isSuccessful())
                             {
-                                Log.i("hi","hello");
+                                Toast.makeText(GenerateQRActivity.this, "File Updated", Toast.LENGTH_SHORT).show();
                                 generationCodeValue = generationCodeValue+1; // increase Value of generationCode Everytime a new machine is entered.
-                                Log.i("hi","hello");
                                 generationCodeReference.setValue(generationCodeValue);
-                                Log.i("hi","hello");
                             }
                         }
                     });
