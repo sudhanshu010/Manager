@@ -132,7 +132,7 @@ public class GenerateQRActivity extends AppCompatActivity {
         user = FirebaseAuth.getInstance().getCurrentUser();
         managerReference = firebaseDatabase.getReference("Users").child("Manager").child(user.getUid());
 //
-        managerReference.addValueEventListener(new ValueEventListener() {
+        managerReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 manager = dataSnapshot.getValue(Manager.class);
@@ -419,8 +419,11 @@ public class GenerateQRActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<Void> task) {
                             if(task.isSuccessful())
                             {
+                                Log.i("hi","hello");
                                 generationCodeValue = generationCodeValue+1; // increase Value of generationCode Everytime a new machine is entered.
+                                Log.i("hi","hello");
                                 generationCodeReference.setValue(generationCodeValue);
+                                Log.i("hi","hello");
                             }
                         }
                     });
