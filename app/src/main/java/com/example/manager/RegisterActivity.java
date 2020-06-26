@@ -91,16 +91,12 @@ public class RegisterActivity extends AppCompatActivity {
                                             HashMap<String,String> hashMap = (HashMap<String, String>) httpsCallableResult.getData();
                                             if(hashMap.get("status").equals("Successful"))
                                             {
-                                                Manager manager = new Manager(email,userName,null,null, null,null,
-                                                        null,null,null,user.getUid());
-//                                                manager.setEmail(email);
-//                                                manager.setUserName(userName);
-//                                                manager.setUid(user.getUid());
+                                                Manager manager = new Manager();
+                                                manager.setEmail(email);
+                                                manager.setUserName(userName);
+                                                manager.setUid(user.getUid());
 
-                                                //userReference.child("Manager").child(user.getUid()).setValue(manager);
-                                                HashMap<String, Object> mymap = new HashMap<>();
-                                                mymap.put("/Users/Manager/" + user.getUid(), manager);
-                                                FirebaseDatabase.getInstance().getReference().updateChildren(mymap);
+                                                userReference.child("Manager").child(user.getUid()).setValue(manager);
                                                 startActivity(new Intent(getApplicationContext(), BottomNavigationActivity.class));
                                                 finish();
                                             }
