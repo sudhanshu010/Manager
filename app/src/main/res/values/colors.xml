@@ -30,5 +30,18 @@
     <color name="intro_title_color">#000000</color>
     <color name="intro_description_color">#656565</color>
 
+    <!-- Colors for Recycler View -->
+
+    <color name="list_color_1">#EDFAE3</color>
+    <color name="list_color_2">#FFCED6</color>
+    <color name="list_color_3">#FFE5D9</color>
+    <color name="list_color_4">#C7F2A7</color>
+    <color name="list_color_5">#F9EDCC</color>
+    <color name="list_color_6">#D5F2E3</color>
+    <color name="list_color_7">#B7FFD8</color>
+    <color name="list_color_8">#D5BEE4</color>
+    <color name="list_color_9">#DDF9C1</color>
+    <color name="list_color_10">#E6BCDD</color>
+    <color name="list_color_11">#DBFAFA</color>
 
 </resources>

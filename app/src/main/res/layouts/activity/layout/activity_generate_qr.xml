@@ -59,29 +59,37 @@
 
      <RelativeLayout
          android:layout_width="match_parent"
-         android:layout_height="wrap_content"
+         android:layout_height="50dp"
 
          android:layout_margin="15dp"
          android:layout_marginTop="25dp"
          >
 
-         <ImageView
-             android:layout_width="60dp"
-             android:layout_height="60dp"
-             android:src="@drawable/ic_arrow"
-             android:rotation="180"
+         <Button
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="Prev"
+             android:background="#fff"
              android:id="@+id/prev_arrow"
              android:visibility="invisible"
+            android:drawableLeft="@drawable/ic_arrow_back_white_24dp"
+             android:drawableTint="@color/gradient_start_color"
              android:layout_alignParentLeft="true"
              android:layout_marginStart="20dp" />
 
-         <ImageView
-             android:layout_width="60dp"
-             android:layout_height="60dp"
-             android:src="@drawable/ic_arrow"
+         <Button
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
              android:id="@+id/next_arrow"
+             android:background="#fff"
+             android:text="next"
+             android:drawableRight="@drawable/ic_arrow_forward_black_24dp"
+             android:drawableTint="@color/gradient_start_color"
+              android:textColor="@color/gradient_start_color"
              android:layout_marginEnd="20dp"
              android:layout_alignParentRight="true"/>
+
+
      </RelativeLayout>
 
 

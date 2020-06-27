@@ -25,14 +25,21 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.paging.PagedList;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.example.manager.DialogBox.CustomDialogBox;
+import com.example.manager.MainActivity;
 import com.example.manager.MyMachinesActivity;
 import com.example.manager.R;
 import com.example.manager.SettingActivity;
+import com.example.manager.adapters.MachineAdapter;
+import com.example.manager.models.Machine;
 import com.example.manager.models.Manager;
 import com.example.manager.utilityclass.CircleTransform;
+import com.firebase.ui.database.paging.DatabasePagingOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -41,6 +48,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
@@ -77,6 +85,13 @@ public class ProfileFragment extends Fragment {
 
     ImageView setting_imegeView;
 
+    RecyclerView recyclerView_machine;
+    MachineAdapter machineAdapter;
+
+    FirebaseAuth auth;
+
+    FirebaseDatabase firebaseDatabase;
+    LinearLayoutManager HorizontalLayout;
     public ProfileFragment() {
         // Required empty public constructor
     }
@@ -87,6 +102,7 @@ public class ProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.profile_fragment, container, false);
+
 
 
 
@@ -155,6 +171,35 @@ public class ProfileFragment extends Fragment {
                         setAspectRatio(1, 1).start(getContext(),ProfileFragment.this);
             }
         });
+
+        //Horizontal recycler view
+        recyclerView_machine=view.findViewById(R.id.recyclerView_machine);
+        recyclerView_machine.setLayoutManager(new LinearLayoutManager(getActivity()));
+        HorizontalLayout
+                = new LinearLayoutManager(
+                getActivity(),
+                LinearLayoutManager.HORIZONTAL,
+                false);
+        recyclerView_machine.setLayoutManager(HorizontalLayout);
+        firebaseDatabase = FirebaseDatabase.getInstance();
+
+        Query baseQuery = firebaseDatabase.getReference("Users").child("Manager").child(user.getUid()).child("myMachines");
+
+        PagedList.Config config = new PagedList.Config.Builder()
+                .setEnablePlaceholders(false)
+                .setPrefetchDistance(10)
+                .setPageSize(20)
+                .build();
+
+        DatabasePagingOptions<Machine> options = new DatabasePagingOptions.Builder<Machine>()
+                .setLifecycleOwner(this)
+                .setQuery(baseQuery,config,Machine.class)
+                .build();
+
+        machineAdapter = new MachineAdapter(options,getActivity().getApplicationContext());
+        recyclerView_machine.setAdapter(machineAdapter);
+        machineAdapter.startListening();
+
 
         return view;
     }

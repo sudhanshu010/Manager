@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 
@@ -35,6 +37,9 @@ import java.util.List;
 public class PendingRequestAdapter extends FirebaseRecyclerPagingAdapter<Request, PendingRequestAdapter.MyHolder> {
 
     Context c;
+    private final int[] mColors = {R.color.list_color_1,R.color.list_color_2,R.color.list_color_3,R.color.list_color_4,R.color.list_color_5,
+            R.color.list_color_6,R.color.list_color_7,R.color.list_color_8,R.color.list_color_9,R.color.list_color_10,R.color.list_color_11};
+
     /**
      * Construct a new FirestorePagingAdapter from the given {@link DatabasePagingOptions}.
      *
@@ -59,7 +64,8 @@ public class PendingRequestAdapter extends FirebaseRecyclerPagingAdapter<Request
     }
 
     protected void onBindViewHolder(PendingRequestAdapter.MyHolder viewHolder,int position,  Request model) {
-
+        int bgColor = ContextCompat.getColor(c, mColors[position % 12]);
+        viewHolder.cardView.setCardBackgroundColor(bgColor);
         viewHolder.bind(model);
 
     }
@@ -78,7 +84,7 @@ public class PendingRequestAdapter extends FirebaseRecyclerPagingAdapter<Request
         String load;
         FirebaseDatabase firebaseDatabase;
         DatabaseReference complaintReference,loadValue, mechComplaint, mechRequest;
-
+        CardView cardView;
         FirebaseAuth auth;
         FirebaseUser user;
 
@@ -94,6 +100,7 @@ public class PendingRequestAdapter extends FirebaseRecyclerPagingAdapter<Request
             description = itemView.findViewById(R.id.description);
             accept_button = itemView.findViewById(R.id.accept_button);
             decline_button = itemView.findViewById(R.id.decline_button);
+            cardView = itemView.findViewById(R.id.cardview12);
 
         }
 

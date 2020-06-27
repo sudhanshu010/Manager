@@ -10,6 +10,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 
@@ -33,6 +35,8 @@ public class CompletedComplaintAdapter extends FirebaseRecyclerPagingAdapter<Com
      * @param options
      */
     Context c;
+    private final int[] mColors = {R.color.list_color_1,R.color.list_color_2,R.color.list_color_3,R.color.list_color_4,R.color.list_color_5,
+            R.color.list_color_6,R.color.list_color_7,R.color.list_color_8,R.color.list_color_9,R.color.list_color_10,R.color.list_color_11};
 
 public CompletedComplaintAdapter(DatabasePagingOptions<Complaint> options, Context c)                                               //Enter the type of data in the space for model
         {
@@ -46,7 +50,8 @@ public CompletedComplaintAdapter(DatabasePagingOptions<Complaint> options, Conte
 
 @Override
 protected void onBindViewHolder(@NonNull CompletedComplaintAdapter.CompletedComplaintHolder myholder1, int position, Complaint model) {
-
+    int bgColor = ContextCompat.getColor(c, mColors[position % 12]);
+    myholder1.cardView.setCardBackgroundColor(bgColor);
     myholder1.bind(model);
     }
 
@@ -66,7 +71,7 @@ class CompletedComplaintHolder extends RecyclerView.ViewHolder{
 
     TextView pendingComplaintDate, pendingComplaintId, pendingComplaintServicemanName, pendingComplaintDescription, pendingComplaintMachineId;
     Button statusButton;
-
+    CardView cardView;
     public CompletedComplaintHolder(@NonNull View itemView) {
         super(itemView);
 
@@ -76,7 +81,7 @@ class CompletedComplaintHolder extends RecyclerView.ViewHolder{
         pendingComplaintServicemanName = itemView.findViewById(R.id.rm_complated_complaint_serviceman);
         pendingComplaintMachineId = itemView.findViewById(R.id.rm_complated_complaint_machine_id);
         statusButton = itemView.findViewById(R.id.rm_status_button);
-
+        cardView = itemView.findViewById(R.id.cardview_com);
         statusButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

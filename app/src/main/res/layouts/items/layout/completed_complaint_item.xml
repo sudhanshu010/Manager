@@ -7,7 +7,7 @@
     android:layout_margin="10dp"
     android:orientation="vertical"
     app:cardCornerRadius="8dp"
-
+    android:id="@+id/cardview_com"
     app:cardElevation="4dp"
     app:cardUseCompatPadding="true">
 
@@ -37,6 +37,7 @@
                         android:layout_height="wrap_content"
                         android:text="Serviceman:"
                         android:textStyle="bold"
+                        android:fontFamily="@font/imprima"
                         android:textColor="#363333"
                         android:textSize="15sp" />
                     <TextView
@@ -46,6 +47,7 @@
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="70dp"
                         android:text="Aditya Garg"
+                        android:fontFamily="@font/imprima"
                         android:textColor="#1A1717"
                         android:textSize="15sp" />
 
@@ -63,6 +65,7 @@
                         android:layout_height="wrap_content"
                         android:text="Machine Id:"
                         android:textStyle="bold"
+                        android:fontFamily="@font/imprima"
                         android:textColor="#363333"
                         android:textSize="15sp" />
                     <TextView
@@ -71,6 +74,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="30dp"
                         android:text="111111111"
+                        android:fontFamily="@font/imprima"
                         android:textColor="#1A1717"
                         android:textSize="15sp" />
 
@@ -87,6 +91,7 @@
                         android:layout_height="wrap_content"
                         android:text="Complain Id:"
                         android:textStyle="bold"
+                        android:fontFamily="@font/imprima"
                         android:textColor="#363333"
                         android:textSize="15sp" />
                     <TextView
@@ -95,6 +100,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
                         android:text="111111111"
+                        android:fontFamily="@font/imprima"
                         android:textColor="#1A1717"
                         android:textSize="15sp" />
 
@@ -110,6 +116,7 @@
                         android:layout_height="wrap_content"
                         android:text="Date(Completed):"
                         android:textStyle="bold"
+                        android:fontFamily="@font/imprima"
                         android:textColor="#363333"
                         android:textSize="15sp" />
                     <TextView
@@ -118,21 +125,22 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="17dp"
                         android:text="21/07/2020"
+                        android:fontFamily="@font/imprima"
                         android:textColor="#1A1717"
                         android:textSize="15sp" />
 
                 </LinearLayout>
 
             </LinearLayout>
-            <ImageView
+            <com.mikhaellopez.circularimageview.CircularImageView
                 android:layout_width="70dp"
-                android:layout_height="60dp"
+                android:layout_height="70dp"
                 android:layout_alignParentRight="true"
-                android:src="@drawable/ic_profile"
+                android:src="@drawable/profilepicdemo1"
 
                 >
 
-            </ImageView>
+            </com.mikhaellopez.circularimageview.CircularImageView>
         </RelativeLayout>
 
 
@@ -159,6 +167,7 @@
                 android:text="Description"
                 android:textColor="#363333"
                 android:textSize="15sp"
+                android:fontFamily="@font/imprima"
                 android:textStyle="bold" />
 
             <TextView
@@ -168,6 +177,7 @@
                 android:layout_margin="5dp"
                 android:text="I have completed my work for repairing computer.All thing are now working nice."
                 android:textColor="#4c4c4c"
+                android:fontFamily="@font/imprima"
                 android:textSize="15sp" />
 
 
@@ -177,13 +187,9 @@
                 android:layout_height="35dp"
                 android:text="status"
                 android:layout_gravity="center_horizontal"
-                style="@style/loginButton"/>
+                android:background="@drawable/generate_complaint_dialog_cancel_button"/>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_margin="5dp"
-                android:background="#A29F9F" />
+
 
 
         </LinearLayout>

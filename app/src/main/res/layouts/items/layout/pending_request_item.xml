@@ -36,8 +36,9 @@
                         android:id="@+id/serviceman"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Serviceman:"
+                        android:text="Mechanic:"
                         android:textStyle="bold"
+                        android:fontFamily="@font/imprima"
                         android:textColor="#363333"
                         android:textSize="15sp" />
                     <TextView
@@ -46,6 +47,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
                         android:text="Aditya Garg"
+                        android:fontFamily="@font/imprima"
                         android:textColor="#1A1717"
                         android:textSize="15sp" />
 
@@ -62,6 +64,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Request Id:"
+                        android:fontFamily="@font/imprima"
                         android:textStyle="bold"
                         android:textColor="#363333"
                         android:textSize="15sp" />
@@ -69,7 +72,8 @@
                         android:id="@+id/request_id1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="30dp"
+                        android:layout_marginLeft="20dp"
+                        android:fontFamily="@font/imprima"
                         android:text="111111111"
                         android:textColor="#1A1717"
                         android:textSize="15sp" />
@@ -86,6 +90,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Complain Id:"
+                        android:fontFamily="@font/imprima"
                         android:textStyle="bold"
                         android:textColor="#363333"
                         android:textSize="15sp" />
@@ -93,8 +98,9 @@
                         android:id="@+id/complain_id"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
+                        android:layout_marginLeft="10dp"
                         android:text="111111111"
+                        android:fontFamily="@font/imprima"
                         android:textColor="#1A1717"
                         android:textSize="15sp" />
 
@@ -102,15 +108,15 @@
 
 
             </LinearLayout>
-            <ImageView
+            <com.mikhaellopez.circularimageview.CircularImageView
                 android:layout_width="70dp"
-                android:layout_height="60dp"
+                android:layout_height="70dp"
                 android:layout_alignParentRight="true"
-                android:src="@drawable/ic_profile"
+                android:src="@drawable/profilepicdemo1"
 
                 >
 
-            </ImageView>
+            </com.mikhaellopez.circularimageview.CircularImageView>
         </RelativeLayout>
 
 
@@ -135,6 +141,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:text="Description"
+                android:fontFamily="@font/imprima"
                 android:textStyle="bold"
                 android:textColor="#363333"
                 android:textSize="15sp" />
@@ -145,6 +152,7 @@
                 android:layout_margin="5dp"
                 android:text="I have completed my work for repairing computer.All thing are now working nice."
                 android:textColor="#4c4c4c"
+                android:fontFamily="@font/imprima"
                 android:textSize="15sp" />
             <View
                 android:layout_width="match_parent"
@@ -164,8 +172,12 @@
                     android:id="@+id/accept_button"
                     android:layout_marginLeft="10dp"
                     android:text="ACCEPT"
-                    android:textColor="#E01515"
-                    android:background="@drawable/transparent_button_border"></Button>
+                    android:textColor="#E6000000"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/tillana"
+                    android:textSize="15sp"
+                    android:background="@drawable/btn_round_corner"
+                    android:backgroundTint="#A1E8A8"></Button>
                 <View
                     android:layout_width="1dp"
                     android:layout_height="match_parent"
@@ -179,8 +191,11 @@
                     android:id="@+id/decline_button"
                     android:layout_marginLeft="25dp"
                     android:text="DECLINE"
-                    android:textColor="#1570E0"
-                    android:background="@drawable/transparent_button_border"></Button>
+                    android:textStyle="bold"
+                    android:fontFamily="@font/tillana"
+                    android:textColor="#E6000000"
+                    android:background="@drawable/btn_round_corner"
+                    android:backgroundTint="#B1DCF3"></Button>
 
 
             </LinearLayout>

@@ -184,8 +184,8 @@ public class GenerateQRActivity extends AppCompatActivity {
 //            public void onClick(View v) {
 //
 //
-        final ImageView nextarrow = (ImageView) findViewById(R.id.next_arrow);
-        final ImageView prevarrow = (ImageView) findViewById(R.id.prev_arrow);
+        final Button nextarrow = (Button) findViewById(R.id.next_arrow);
+        final Button prevarrow = (Button) findViewById(R.id.prev_arrow);
 
 
         nextarrow.setOnClickListener(new View.OnClickListener() {
@@ -199,10 +199,26 @@ public class GenerateQRActivity extends AppCompatActivity {
                          department = formFragment1.getView().findViewById(R.id.department);
                          typeOfMachine = formFragment1.getView().findViewById(R.id.machine_type);
                      }
-
-                     stateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.TWO);
-                     setOurFragment(new FormFragment2());
-                     prevarrow.setVisibility(View.VISIBLE);
+                     final String department1,machine_type;
+                     department1 = department.getText().toString().trim();
+                     machine_type = typeOfMachine.getText().toString().trim();
+                     if(department1.isEmpty())
+                     {
+                         department.setError("Enter Department");
+                         department.requestFocus();
+                         count--;
+                     }
+                     else if(machine_type.isEmpty())
+                     {
+                         typeOfMachine.setError("Enter Machine Type");
+                         typeOfMachine.requestFocus();
+                         count--;
+                     }
+                     else {
+                         stateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.TWO);
+                         setOurFragment(new FormFragment2());
+                         prevarrow.setVisibility(View.VISIBLE);
+                     }
 
                  } else if (count == 3) {
                      FormFragment2 formFragment2 = (FormFragment2) getSupportFragmentManager().findFragmentById(R.id.mainframe);
@@ -212,9 +228,39 @@ public class GenerateQRActivity extends AppCompatActivity {
                          modelNumber = formFragment2.getView().findViewById(R.id.model_number);
                          serviceTime = formFragment2.getView().findViewById(R.id.serviceTime);
                      }
-
-                     stateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.THREE);
-                     setOurFragment(new FormFragment3());
+                     final String serialNumber1,machineCompany1,modelNumber1,serviceTime1;
+                        serialNumber1=serialNumber.getText().toString().trim();
+                       machineCompany1=machineCompany.getText().toString().trim();
+                     modelNumber1=modelNumber.getText().toString().trim();
+                     serviceTime1=serviceTime.getText().toString().trim();
+                     if(serialNumber1.isEmpty())
+                     {
+                         serialNumber.setError("Enter Department");
+                         serialNumber.requestFocus();
+                         count--;
+                     }
+                     else if(machineCompany1.isEmpty())
+                     {
+                         machineCompany.setError("Enter Department");
+                         machineCompany.requestFocus();
+                         count--;
+                     }
+                     else if(modelNumber1.isEmpty())
+                     {
+                          modelNumber.setError("Enter Department");
+                         modelNumber.requestFocus();
+                         count--;
+                     }
+                     else if(serviceTime1.isEmpty())
+                     {
+                         serviceTime.setError("Enter Department");
+                         serviceTime.requestFocus();
+                         count--;
+                     }
+                     else {
+                         stateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.THREE);
+                         setOurFragment(new FormFragment3());
+                     }
 
                  } else {
 
@@ -225,21 +271,50 @@ public class GenerateQRActivity extends AppCompatActivity {
                          scrapValue = Objects.requireNonNull(formFragment3.getView()).findViewById(R.id.scrap_value);
                          life = Objects.requireNonNull(formFragment3.getView()).findViewById(R.id.life);
                      }
+                     final String machinePrice1,installationDate1,scrapValue1,life1;
+                     machinePrice1 = machinePrice.getText().toString().trim();
+                     installationDate1=installationDate.getText().toString().trim();
+                     scrapValue1=scrapValue.getText().toString().trim();
+                     life1=life.getText().toString().trim();
+                     if(machinePrice1.isEmpty())
+                     {
+                         machinePrice.setError("Enter Department");
+                         machinePrice.requestFocus();
+                         count--;
+                     }
+                     else if(installationDate1.isEmpty())
+                     {
+                         installationDate.setError("Enter Department");
+                         installationDate.requestFocus();
+                         count--;
+                     }
+                     else if(scrapValue1.isEmpty())
+                     {
+                         scrapValue.setError("Enter Department");
+                         scrapValue.requestFocus();
+                         count--;
+                     }
+                     else if(life1.isEmpty())
+                     {
+                         life.setError("Enter Department");
+                         life.requestFocus();
+                         count--;
+                     }
+                     else {
+                         if (generationCodeValue != 0) {
 
-                     if (generationCodeValue != 0) {
+                             // update value to database.
+                             MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
+                             try {
+                                 BitMatrix bitMatrix = multiFormatWriter.encode(String.valueOf(generationCodeValue), BarcodeFormat.QR_CODE, 200, 200);
+                                 BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
+                                 Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);// bitmap contains QRCode image.
+                                 final BottomSheetDialog bottomSheet = new BottomSheetDialog(generationCodeValue, bitmap);
+                                 bottomSheet.show(getSupportFragmentManager(), bottomSheet.getTag());
 
-                         // update value to database.
-                         MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
-                         try {
-                             BitMatrix bitMatrix = multiFormatWriter.encode(String.valueOf(generationCodeValue), BarcodeFormat.QR_CODE, 200, 200);
-                             BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
-                             Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);// bitmap contains QRCode image.
-                             final BottomSheetDialog bottomSheet = new BottomSheetDialog(generationCodeValue,bitmap);
-                             bottomSheet.show(getSupportFragmentManager(),bottomSheet.getTag());
+                                 //qrcode.setImageBitmap(bitmap);
 
-                             //qrcode.setImageBitmap(bitmap);
-
-                             uploadQR(bitmap); // upload QRcode image to FirebaseStorage
+                                 uploadQR(bitmap); // upload QRcode image to FirebaseStorage
 //                             save.setVisibility(View.VISIBLE);
 //                             GenerateQR.setVisibility(View.INVISIBLE);
 //                             aqwesd.setVisibility(View.INVISIBLE);
@@ -248,40 +323,40 @@ public class GenerateQRActivity extends AppCompatActivity {
 //                             qrtext.setImageResource(R.drawable.ic_qr_code);
 //                             linearLayout.setVisibility(View.INVISIBLE);
 
-                         } catch (WriterException e) {
-                             e.printStackTrace();
+                             } catch (WriterException e) {
+                                 e.printStackTrace();
+                             }
+                         } else {
+                             Toast.makeText(GenerateQRActivity.this, "failed", Toast.LENGTH_SHORT).show();
                          }
-                     } else {
-                         Toast.makeText(GenerateQRActivity.this, "failed", Toast.LENGTH_SHORT).show();
-                     }
 
 
-                     installationDate.setOnClickListener(new View.OnClickListener() {
-                         @Override
-                         public void onClick(View view) {
-                             Calendar cal = Calendar.getInstance();
-                             int year = cal.get(Calendar.YEAR);
-                             int month = cal.get(Calendar.MONTH);
-                             int day = cal.get(Calendar.DAY_OF_MONTH);
+                         installationDate.setOnClickListener(new View.OnClickListener() {
+                             @Override
+                             public void onClick(View view) {
+                                 Calendar cal = Calendar.getInstance();
+                                 int year = cal.get(Calendar.YEAR);
+                                 int month = cal.get(Calendar.MONTH);
+                                 int day = cal.get(Calendar.DAY_OF_MONTH);
 
-                             DatePickerDialog dialog = new DatePickerDialog(
-                                     GenerateQRActivity.this,
-                                     //android.R.style.Theme_Holo_Light_Dialog_MinWidth,
-                                     mDateSetListener,
-                                     year, month, day);
-                             // dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                             dialog.show();
-                         }
-                     });
+                                 DatePickerDialog dialog = new DatePickerDialog(
+                                         GenerateQRActivity.this,
+                                         //android.R.style.Theme_Holo_Light_Dialog_MinWidth,
+                                         mDateSetListener,
+                                         year, month, day);
+                                 // dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                                 dialog.show();
+                             }
+                         });
 
-                     mDateSetListener = new DatePickerDialog.OnDateSetListener() {
-                         @Override
-                         public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                             month = month + 1;
-                             String date = day + "/" + month + "/" + year;
-                             installationDate.setText(date);
-                         }
-                     };
+                         mDateSetListener = new DatePickerDialog.OnDateSetListener() {
+                             @Override
+                             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                                 month = month + 1;
+                                 String date = day + "/" + month + "/" + year;
+                                 installationDate.setText(date);
+                             }
+                         };
 
 //                     save.setOnClickListener(new View.OnClickListener() {
 //                         @Override
@@ -291,7 +366,7 @@ public class GenerateQRActivity extends AppCompatActivity {
 //                         }
 //                     });
 
-
+                     }
                  }
              }
          });
