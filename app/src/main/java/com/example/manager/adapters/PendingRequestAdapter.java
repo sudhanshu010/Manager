@@ -28,6 +28,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.parceler.Parcels;
+
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -230,10 +232,7 @@ public class PendingRequestAdapter extends FirebaseRecyclerPagingAdapter<Request
 
                 FirebaseDatabase.getInstance().getReference().updateChildren(hashMap);
 
-                Intent i = new Intent(c, RatingActivity.class);
-                i.putExtra("serviceManUid",model.getComplaint().getMechanic().getUid());
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                c.startActivity(i);
+
 
             }
             else
@@ -274,6 +273,11 @@ public class PendingRequestAdapter extends FirebaseRecyclerPagingAdapter<Request
                 FirebaseDatabase.getInstance().getReference().updateChildren(updateDatabaseValue1);
 
             }
+
+                Intent i = new Intent(c, RatingActivity.class);
+                i.putExtra("serviceManUid",model.getComplaint().getMechanic().getUid());
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                c.getApplicationContext().startActivity(i);
             }
         });
 

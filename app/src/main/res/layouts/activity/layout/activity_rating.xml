@@ -26,6 +26,19 @@
         />
 
 
+    <EditText
+        android:id="@+id/mech_review"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="your reviews"
+        android:inputType="textMultiLine"
+        android:layout_marginHorizontal="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rating_bar">
+
+    </EditText>
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
