@@ -1,5 +1,6 @@
 package com.example.manager.models;
 
+
 import org.parceler.Parcel;
 
 import java.util.HashMap;
@@ -9,9 +10,9 @@ import java.util.List;
 public class Mechanic implements Cloneable{
 
     private String userName, email, profilePicLink, uid;
-    private int load = 0,numberOfRating;
+    private int load = 0,numberOfRating=0;
     private float overallRating=0;
-    private HashMap<String,Float> rating;
+    private HashMap<String, MechRating> ratings;
     private HashMap<String,Complaint> pendingComplaints, completedComplaints;
     private HashMap<String,Request> pendingRequest, completedRequest;
 
@@ -24,14 +25,14 @@ public class Mechanic implements Cloneable{
     public Mechanic() {
     }
 
-    public Mechanic(String userName, String email, String profilePicLink, int load, int numberOfRating, float overallRating, HashMap<String, Float> rating, HashMap<String, Complaint> pendingComplaints, HashMap<String, Complaint> completedComplaints, HashMap<String, Request> pendingRequest, HashMap<String, Request> completedRequest, String uid) {
+    public Mechanic(String userName, String email, String profilePicLink, int load, int numberOfRating, float overallRating, HashMap<String, MechRating> ratings, HashMap<String, Complaint> pendingComplaints, HashMap<String, Complaint> completedComplaints, HashMap<String, Request> pendingRequest, HashMap<String, Request> completedRequest, String uid) {
         this.userName = userName;
         this.email = email;
         this.profilePicLink = profilePicLink;
         this.load = load;
         this.numberOfRating = numberOfRating;
         this.overallRating = overallRating;
-        this.rating = rating;
+        this.ratings = ratings;
         this.pendingComplaints = pendingComplaints;
         this.completedComplaints = completedComplaints;
         this.pendingRequest = pendingRequest;
@@ -87,12 +88,12 @@ public class Mechanic implements Cloneable{
         this.overallRating = overallRating;
     }
 
-    public HashMap<String, Float> getRating() {
-        return rating;
+    public HashMap<String, MechRating> getRating() {
+        return ratings;
     }
 
-    public void setRating(HashMap<String, Float> rating) {
-        this.rating = rating;
+    public void setRating(HashMap<String, MechRating> ratings) {
+        this.ratings = ratings;
     }
 
     public HashMap<String, Complaint> getPendingComplaints() {
