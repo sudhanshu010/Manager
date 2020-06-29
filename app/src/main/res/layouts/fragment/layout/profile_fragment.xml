@@ -6,19 +6,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="fragments.ProfileFragment">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        app:title="Profile"
-        app:menu="@menu/toolbar_menu">
-    </androidx.appcompat.widget.Toolbar>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="250dp"
         android:background="@color/list_color_1"
-        android:layout_marginTop="?actionBarSize"
+
         android:id="@+id/profile_layout">
 
         <Button

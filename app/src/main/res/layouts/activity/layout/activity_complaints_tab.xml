@@ -38,7 +38,7 @@
             android:background="#23AC9F"
             app:tabIndicatorColor="#fff"
             app:tabTextColor="#fff"
-
+            app:tabTextAppearance="@style/tab_text"
             android:layout_weight="5"
             />
         <LinearLayout

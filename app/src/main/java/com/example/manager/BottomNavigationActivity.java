@@ -2,12 +2,15 @@ package com.example.manager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -29,6 +32,13 @@ public class BottomNavigationActivity extends AppCompatActivity {
         setOurFragment(new HomeFragment(),1,1);
         setContentView(R.layout.activity_bottom_navigation);
         MeowBottomNavigation bottomNavigation = findViewById(R.id.bottom_bar);
+        final Toolbar toolbar=findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayUseLogoEnabled(true);
+        getSupportActionBar().setLogo(R.drawable.ic_home_toolbar);
+        toolbar.setTitleTextAppearance(this,R.style.TitleTextAppearance);
 
         bottomNavigation.add(new MeowBottomNavigation.Model(1, R.drawable.ic_home));
         bottomNavigation.add(new MeowBottomNavigation.Model(2, R.drawable.ic_history));
@@ -42,18 +52,26 @@ public class BottomNavigationActivity extends AppCompatActivity {
                 switch (item.getId()) {
                     case 1:
                         setOurFragment(new HomeFragment(),old_id,1);
+                        toolbar.setTitle("Home");
+                        getSupportActionBar().setLogo(R.drawable.ic_home_toolbar);
                         old_id = 1;
                         break;
                     case 2:
                         setOurFragment(new HistoryFragment(),old_id,2);
+                        toolbar.setTitle("History");
+                        getSupportActionBar().setLogo(R.drawable.ic_history_tb);
                         old_id = 2;
                         break;
                     case 3:
                         setOurFragment(new NotificationFragment(),old_id,3);
+                        toolbar.setTitle("Notification");
+                        getSupportActionBar().setLogo(R.drawable.ic_notfication_tb);
                         old_id = 3;
                         break;
                     case 4:
                         setOurFragment(new ProfileFragment(),old_id,4);
+                        toolbar.setTitle("Profile");
+                        getSupportActionBar().setLogo(R.drawable.ic_account_tb);
                         old_id = 4;
                 }
 
@@ -127,6 +145,26 @@ public class BottomNavigationActivity extends AppCompatActivity {
 //        if (uploadType != null) {
 //            uploadType.onActivityResult(requestCode, resultCode, data);
 //        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // handle item selection
+        switch (item.getItemId()) {
+            case R.id.settings:
+                Intent intent= new Intent(getApplicationContext(), SettingActivity.class);
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }
 

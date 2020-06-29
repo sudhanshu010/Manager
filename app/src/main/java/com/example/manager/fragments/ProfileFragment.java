@@ -106,10 +106,7 @@ public class ProfileFragment extends Fragment {
 
 
 
-        mTopToolbar = (Toolbar) view.findViewById(R.id.toolbar);
-        ((AppCompatActivity) getActivity()).setSupportActionBar(mTopToolbar);
 
-        setHasOptionsMenu(true);
         profilePicChange = view.findViewById(R.id.rm_change_profile);
         profilePic = view.findViewById(R.id.profilepic);
         myMachine = view.findViewById(R.id.myMachine);
@@ -204,23 +201,6 @@ public class ProfileFragment extends Fragment {
         return view;
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.toolbar_menu, menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // handle item selection
-        switch (item.getItemId()) {
-            case R.id.settings:
-                Intent intent= new Intent(getActivity().getApplicationContext(), SettingActivity.class);
-                startActivity(intent);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
 
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

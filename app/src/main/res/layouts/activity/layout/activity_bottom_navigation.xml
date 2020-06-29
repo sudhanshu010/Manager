@@ -9,6 +9,15 @@
     tools:context=".BottomNavigationActivity"
     >
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        app:title="Home"
+        app:titleMarginStart="35dp"
+        app:menu="@menu/toolbar_menu">
+    </androidx.appcompat.widget.Toolbar>
+
     <com.etebarian.meowbottomnavigation.MeowBottomNavigation
         android:id="@+id/bottom_bar"
         android:layout_width="match_parent"
@@ -29,6 +38,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="658dp"
+        android:layout_marginTop="45dp"
         android:layout_above="@+id/bottom_bar"
        >
 
