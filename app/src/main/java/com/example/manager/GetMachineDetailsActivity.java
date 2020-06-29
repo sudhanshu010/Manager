@@ -9,8 +9,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -212,7 +214,7 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
 
 
         //Circle Display
-        CircleDisplay cd1 = (CircleDisplay)findViewById(R.id.circle_display1);
+        final CircleDisplay cd1 = (CircleDisplay)findViewById(R.id.circle_display1);
         cd1.setAnimDuration(3000);
         cd1.setValueWidthPercent(5f);
         cd1.setTextSize(18f);
@@ -223,10 +225,25 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
         cd1.setTouchEnabled(false);
         cd1.setUnit("%");
         cd1.setStepSize(0.5f);
-        // sets a custom array of text
-        cd1.showValue(75f, 100f, true);
 
-        CircleDisplay cd2 = (CircleDisplay)findViewById(R.id.circle_display2);
+
+        final Handler handler = new Handler();
+
+
+
+        // sets a custom array of text
+
+//        Handler delay = new Handler();
+//        delay.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                cd1.startAnim();
+//            }
+//        },5000);
+
+
+
+        final CircleDisplay cd2 = (CircleDisplay)findViewById(R.id.circle_display2);
         cd2.setAnimDuration(3000);
         cd2.setValueWidthPercent(5f);
         cd2.setTextSize(18f);
@@ -238,11 +255,32 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
         cd2.setUnit("%");
         cd2.setStepSize(0.5f);
         // sets a custom array of text
-        cd2.showValue(90f, 100f, true);
+
+        // continuously check its circle is completely on screen or not. If yes, start the animation.
+        final Runnable runnable = new Runnable() {
+            public void run() {
+                // code for checking component is on screen or not.
+                Rect rect = new Rect();
+                if(cd1.getGlobalVisibleRect(rect)
+                        && cd1.getHeight()/2 <= rect.height()) {
+                    cd1.showValue(75f, 100f,false);
+                    cd2.showValue(90f, 100f, false);
+                    cd1.startAnim();
+                    cd2.startAnim();
+                }
+                else
+                {
+                    handler.postDelayed(this, 1000);
+                }
+
+            }
+        };
+
+        handler.postDelayed(runnable, 1);
 
         //Histogram
 
-        ColumnChartView chart = findViewById(R.id.chart);
+        final ColumnChartView chart = findViewById(R.id.chart);
         ColumnChartData columnChartData;
         final List<Column> columns;
         columns = new ArrayList<>();
@@ -277,6 +315,28 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
         columnChartData.setStacked(true);
         chart.setColumnChartData(columnChartData);
         chart.setZoomEnabled(false);
+        for (Column column : columnChartData.getColumns()) {
+            for (SubcolumnValue value : column.getValues()) {
+                value.setTarget((float) Math.random() * 100);//some random target value
+            }
+        }
+
+        final Runnable runnable1 = new Runnable() {
+            public void run() {
+                // code for checking component is on screen or not.
+                Rect rect = new Rect();
+                if(chart.getGlobalVisibleRect(rect)
+                        && chart.getHeight()/2 <= rect.height()) {
+                     chart.startDataAnimation(3000);
+                }
+                else
+                {
+                    handler.postDelayed(this, 1000);
+                }
+
+            }
+        };
+        handler.postDelayed(runnable1, 1);
 
 
     }
