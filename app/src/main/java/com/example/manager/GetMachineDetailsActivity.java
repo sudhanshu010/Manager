@@ -243,7 +243,7 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
 
         //Histogram
 
-        ColumnChartView chart = findViewById(R.id.chart);
+        final ColumnChartView chart = findViewById(R.id.chart);
         ColumnChartData columnChartData;
         final List<Column> columns;
         columns = new ArrayList<>();
@@ -278,6 +278,28 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
         columnChartData.setStacked(true);
         chart.setColumnChartData(columnChartData);
         chart.setZoomEnabled(false);
+        for (Column column : columnChartData.getColumns()) {
+            for (SubcolumnValue value : column.getValues()) {
+                value.setTarget((float) Math.random() * 100);//some random target value
+            }
+        }
+
+        final Runnable runnable1 = new Runnable() {
+            public void run() {
+                // code for checking component is on screen or not.
+                Rect rect = new Rect();
+                if(chart.getGlobalVisibleRect(rect)
+                        && chart.getHeight()/2 <= rect.height()) {
+                     chart.startDataAnimation(3000);
+                }
+                else
+                {
+                    handler.postDelayed(this, 1000);
+                }
+
+            }
+        };
+        handler.postDelayed(runnable1, 1);
 
     }
     private static String lastColor0, lastColor1, lastColor2;
