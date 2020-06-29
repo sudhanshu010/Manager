@@ -3,6 +3,9 @@ package com.example.manager;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.paging.PagedList;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -15,15 +18,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.manager.DialogBox.ComplaintDescriptionDialog;
+import com.example.manager.adapters.ShowDetailsAdapter;
 import com.example.manager.models.Complaint;
 import com.example.manager.models.Machine;
 import com.example.manager.models.Manager;
+import com.example.manager.models.PastRecord;
+import com.firebase.ui.database.paging.DatabasePagingOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.lang.reflect.Array;
@@ -54,6 +61,8 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
     String generationCode;
     Machine machine;
 
+    private ShowDetailsAdapter showDetailsAdapter;
+    LinearLayoutManager HorizontalLayout;
     ImageView QRCodeImage;
     Button show_history;
     Button generateComplaint;
@@ -64,9 +73,9 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
 
     int complaintId;
     String description;
-    String machineId;
+    String machineId="";
 
-
+    RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +85,7 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
 //        generateComplaint = findViewById(R.id.generateComplaint);
-//        show_history = findViewById(R.id.show_history);
+       show_history = findViewById(R.id.show_history);
 
         description = new String("");
 
@@ -119,15 +128,43 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
         });
 
 
-//        show_history.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent i = new Intent(GetMachineDetailsActivity.this, ShowDetailsActivity.class);
-//                i.putExtra("machine_id",machineId);
-//                startActivity(i);
-//                finish();
-//            }
-//        });
+        recyclerView=findViewById(R.id.machine_history_rv);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        HorizontalLayout
+                = new LinearLayoutManager(
+                this,
+                LinearLayoutManager.HORIZONTAL,
+                false);
+        recyclerView.setLayoutManager(HorizontalLayout);
+
+        firebaseDatabase = FirebaseDatabase.getInstance();
+             Query baseQuery1 = firebaseDatabase.getReference("Machines").child(machineId).child("pastRecords");
+
+
+             PagedList.Config config = new PagedList.Config.Builder()
+                     .setEnablePlaceholders(false)
+                     .setPrefetchDistance(10)
+                     .setPageSize(20)
+                     .build();
+
+             DatabasePagingOptions<PastRecord> options = new DatabasePagingOptions.Builder<PastRecord>()
+                     .setLifecycleOwner(this)
+                     .setQuery(baseQuery1, config, PastRecord.class)
+                     .build();
+
+             showDetailsAdapter = new ShowDetailsAdapter(options, GetMachineDetailsActivity.this);
+             recyclerView.setAdapter(showDetailsAdapter);
+             showDetailsAdapter.startListening();
+
+        show_history.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(GetMachineDetailsActivity.this, ShowDetailsActivity.class);
+                i.putExtra("machine_id",machineId);
+                startActivity(i);
+                finish();
+            }
+        });
 
 
 
@@ -177,7 +214,7 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
         //Circle Display
         CircleDisplay cd1 = (CircleDisplay)findViewById(R.id.circle_display1);
         cd1.setAnimDuration(3000);
-        cd1.setValueWidthPercent(10f);
+        cd1.setValueWidthPercent(5f);
         cd1.setTextSize(18f);
         cd1.setColor(R.color.list_color_10);
         cd1.setDrawText(true);
@@ -234,12 +271,13 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
                     .setLabel(GetMonthShort(i + 1)));
         }
         axisX.setValues(axisValueList);
-        Axis axisY = new Axis().setHasLines(true);
+        Axis axisY = new Axis().setHasLines(false);
         columnChartData.setAxisXBottom(axisX);
         columnChartData.setAxisYLeft(axisY);
         columnChartData.setStacked(true);
         chart.setColumnChartData(columnChartData);
         chart.setZoomEnabled(false);
+
 
     }
     private static String lastColor0, lastColor1, lastColor2;

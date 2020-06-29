@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.manager.R;
@@ -28,6 +29,8 @@ public class ShowDetailsAdapter extends FirebaseRecyclerPagingAdapter<PastRecord
      *
      * @param options
      */
+    private final int[] mColors = {R.color.list_color_2,R.color.list_color_3,R.color.list_color_4,R.color.list_color_5,
+            R.color.list_color_6,R.color.list_color_7,R.color.list_color_8,R.color.list_color_9,R.color.list_color_10,R.color.list_color_11};
 
 
     public ShowDetailsAdapter(DatabasePagingOptions<PastRecord> options, Context c) {
@@ -46,6 +49,8 @@ public class ShowDetailsAdapter extends FirebaseRecyclerPagingAdapter<PastRecord
 
     @Override
     public void onBindViewHolder(@NonNull MyHolder myholder, int position, PastRecord model) {
+        int bgColor = ContextCompat.getColor(c, mColors[position % 10]);
+        myholder.cardview.setCardBackgroundColor(bgColor);
         myholder.bind(model);
     }
 

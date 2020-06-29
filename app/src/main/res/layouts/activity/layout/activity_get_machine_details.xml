@@ -37,6 +37,18 @@
         android:layout_margin="18dp"
         android:src="@drawable/ic_machine" />
 
+          <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical"
+              android:layout_marginTop="20dp">
+              <androidx.recyclerview.widget.RecyclerView
+                  android:layout_width="match_parent"
+                  android:layout_height="200dp"
+                  android:id="@+id/machine_history_rv"
+                  ></androidx.recyclerview.widget.RecyclerView>
+          </LinearLayout>
+
     <LinearLayout
         android:id="@+id/Nothing_much"
         android:layout_width="match_parent"
@@ -353,17 +365,7 @@
 
             </LinearLayout>
         </LinearLayout>
-<!--        <LinearLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:orientation="vertical"-->
-<!--            android:layout_marginTop="20dp">-->
-<!--            <androidx.recyclerview.widget.RecyclerView-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:id="@+id/machine_history_rv"-->
-<!--                ></androidx.recyclerview.widget.RecyclerView>-->
-<!--        </LinearLayout>-->
+
 
        <LinearLayout
            android:layout_width="match_parent"
@@ -437,6 +439,16 @@
             >
         </lecho.lib.hellocharts.view.ColumnChartView>
         </androidx.cardview.widget.CardView>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Show history"
+            android:id="@+id/show_history"
+            android:background="@drawable/btn_round_corner"
+            android:backgroundTint="@color/list_color_7"
+            />
     </LinearLayout>
       </LinearLayout>
   </androidx.core.widget.NestedScrollView>

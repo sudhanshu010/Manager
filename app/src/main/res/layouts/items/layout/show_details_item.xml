@@ -46,14 +46,15 @@
                         android:fontFamily="@font/imprima"
                         android:textColor="#363333"
                         android:textSize="15sp" />
+
                     <TextView
                         android:id="@+id/RecyclerView_AgentId"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_marginLeft="20dp"
-                        android:text="Aditya Garg"
-                        android:fontFamily="@font/imprima"
                         android:layout_marginRight="70dp"
+                        android:fontFamily="@font/imprima"
+                        android:text="Aditya Garg"
                         android:textColor="#1A1717"
                         android:textSize="15sp" />
 
