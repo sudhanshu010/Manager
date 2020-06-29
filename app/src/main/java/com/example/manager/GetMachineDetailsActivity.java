@@ -73,7 +73,7 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
 
     int complaintId;
     String description;
-    String machineId="";
+    String machineId="4";
 
     RecyclerView recyclerView;
 
