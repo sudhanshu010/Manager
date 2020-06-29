@@ -96,6 +96,22 @@ public class SettingActivity extends AppCompatActivity {
             }
         });
 
+        //        com.suke.widget.SwitchButton switchButton = (com.suke.widget.SwitchButton)
+//                findViewById(R.id.switch_button);
+//
+//        switchButton.setChecked(true);
+//        switchButton.isChecked();
+//        switchButton.toggle();     //switch state
+//        switchButton.toggle(false);//switch without animation
+//        switchButton.setShadowEffect(true);//disable shadow effect
+//        switchButton.setEnabled(false);//disable button
+//        switchButton.setEnableEffect(false);//disable the switch animation
+//        switchButton.setOnCheckedChangeListener(new SwitchButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(SwitchButton view, boolean isChecked) {
+//
+//            }
+//        });
 
     }
 }

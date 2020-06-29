@@ -7,6 +7,7 @@ import com.example.manager.fragments.FormFragment3;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -77,7 +78,7 @@ public class GenerateQRActivity extends AppCompatActivity {
     OutputStream outputStream;
     long generationCodeValue = 0;
 
-    String[] descriptionData = {"Step 1", "Step 2", "Step 3"};
+    String[] descriptionData = {"Basic", "Specific", "Commercial"};
     private int count = 1;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
 
@@ -102,6 +103,12 @@ public class GenerateQRActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_generate_qr);
+
+
+        Toolbar toolbar=findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         final FormFragment1 fragment1 = new FormFragment1();
         setOurFragment(fragment1);
@@ -505,7 +512,11 @@ public class GenerateQRActivity extends AppCompatActivity {
 
     }
 //
-
+@Override
+public boolean onSupportNavigateUp() {
+    onBackPressed();
+    return true;
+}
 }
 
 

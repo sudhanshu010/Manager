@@ -3,6 +3,7 @@ package com.example.manager;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.paging.PagedList;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -42,14 +43,17 @@ public class PendingRequestActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pending_request);
 
+        Toolbar toolbar=findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
 
 
         pendingRequestRecycler = findViewById(R.id.rmpending_request);
         pendingRequestRecycler.setLayoutManager(new LinearLayoutManager(this));
-
-
         firebaseDatabase =  FirebaseDatabase.getInstance();
 
         Query baseQuery = firebaseDatabase.getReference("Users").child("Manager").child(user.getUid()).child("pendingRequests");
@@ -70,5 +74,10 @@ public class PendingRequestActivity extends AppCompatActivity {
         pendingRequestAdapter.startListening();
 
 
+    }
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }

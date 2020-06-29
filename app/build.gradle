@@ -139,4 +139,11 @@ dependencies {
     //Animated bottom nav
     implementation 'com.etebarian:meow-bottom-navigation-java:1.2.0'
 
+
+    //Custom Switch Button
+    implementation 'com.github.zcweng:switch-button:0.0.3@aar'
+
+    //Histogram
+    implementation 'com.github.lecho:hellocharts-library:1.5.8@aar'
+
 }

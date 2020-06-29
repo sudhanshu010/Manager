@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/frame3"
+    android:background="@color/list_color_8"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.FormFragment3">
 
@@ -26,6 +27,9 @@
                 style="@style/modifiedEditText"
                 android:hint="Enter Date of Installation"
                 android:maxLines="1"
+                android:fontFamily="@font/imprima"
+                android:textColorHint="#000"
+                android:textColor="#232323"
                 android:drawableLeft="@drawable/ic_calendar"
                 android:drawablePadding="20dp"/>
         </com.google.android.material.textfield.TextInputLayout>
@@ -44,6 +48,9 @@
                 android:hint="Enter Machine Price"
                 android:drawableLeft="@drawable/ic_price"
                 android:drawablePadding="20dp"
+                android:textColor="#232323"
+                android:fontFamily="@font/imprima"
+                android:textColorHint="#000"
                 android:maxLines="1" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -61,6 +68,9 @@
                 android:hint="Enter Expected Life of Machine"
                 android:drawableLeft="@drawable/ic_price"
                 android:drawablePadding="20dp"
+                android:fontFamily="@font/imprima"
+                android:textColor="#232323"
+                android:textColorHint="#000"
                 android:maxLines="1" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -78,6 +88,9 @@
                 android:hint="Enter Expected Scrap Value"
                 android:drawableLeft="@drawable/ic_price"
                 android:drawablePadding="20dp"
+                android:fontFamily="@font/imprima"
+                android:textColorHint="#000"
+                android:textColor="#232323"
                 android:maxLines="1" />
         </com.google.android.material.textfield.TextInputLayout>
 

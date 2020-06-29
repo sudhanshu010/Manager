@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/frame2"
+    android:background="@color/list_color_6"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.FormFragment2">
 
@@ -19,7 +20,7 @@
             android:layout_width="match_parent"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_marginTop="@dimen/loginViewsMargin"
-            app:boxStrokeColor="@color/colorPrimary">
+            app:boxStrokeColor="#2C2C2C">
 
             <EditText
                 android:id="@+id/serialNumber"
@@ -27,6 +28,9 @@
                 android:hint="Enter Serial Number"
                 android:inputType="numberDecimal"
                 android:maxLines="1"
+                android:textColor="#232323"
+                android:fontFamily="@font/imprima"
+                android:textColorHint="#000"
                 android:drawableLeft="@drawable/ic_serial_number1"
                 android:drawablePadding="20dp"/>
         </com.google.android.material.textfield.TextInputLayout>
@@ -37,13 +41,16 @@
             android:layout_width="match_parent"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_marginTop="@dimen/loginViewsMargin"
-            app:boxStrokeColor="@color/colorPrimary">
+            app:boxStrokeColor="#2C2C2C">
 
             <EditText
                 android:id="@+id/company"
                 style="@style/modifiedEditText"
                 android:hint="Enter Company"
                 android:inputType="textEmailAddress"
+                android:textColor="#232323"
+                android:fontFamily="@font/imprima"
+                android:textColorHint="#000"
                 android:drawableLeft="@drawable/ic_company"
                 android:drawablePadding="20dp"
                 android:maxLines="1" />
@@ -56,12 +63,15 @@
             android:layout_width="match_parent"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_marginTop="@dimen/loginViewsMargin"
-            app:boxStrokeColor="@color/colorPrimary">
+            app:boxStrokeColor="#2C2C2C">
 
             <EditText
                 android:id="@+id/model_number"
                 style="@style/modifiedEditText"
                 android:hint="Enter Model Number"
+                android:textColor="#232323"
+                android:fontFamily="@font/imprima"
+                android:textColorHint="#000"
                 android:drawableLeft="@drawable/ic_model_number"
                 android:drawablePadding="20dp"
                 android:maxLines="1" />
@@ -74,7 +84,7 @@
             android:layout_width="match_parent"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_marginTop="@dimen/loginViewsMargin"
-            app:boxStrokeColor="@color/colorPrimary">
+            app:boxStrokeColor="#2C2C2C">
 
             <EditText
                 android:id="@+id/serviceTime"
@@ -83,6 +93,9 @@
                 android:inputType="numberDecimal"
                 android:drawableLeft="@drawable/ic_service_time1"
                 android:drawablePadding="20dp"
+                android:textColor="#232323"
+                android:fontFamily="@font/imprima"
+                android:textColorHint="#000"
                 android:maxLines="1" />
         </com.google.android.material.textfield.TextInputLayout>
 
