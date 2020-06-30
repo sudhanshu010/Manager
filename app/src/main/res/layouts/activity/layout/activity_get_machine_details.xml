@@ -26,7 +26,7 @@
           android:layout_width="match_parent"
           android:layout_height="match_parent"
           android:orientation="vertical"
-          android:layout_marginBottom="100dp"
+          android:layout_marginBottom="50dp"
           >
     <ImageView
         android:id="@+id/QrCodeImage"
@@ -396,7 +396,7 @@
             android:layout_height="wrap_content"
             android:text="Statistics:"
             android:textStyle="bold"
-            android:textColor="#6699cc"
+            android:textColor="#5B9FE3"
             android:textSize="18sp"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="20dp"
@@ -519,8 +519,8 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="300dp"
-            app:cardCornerRadius="2dp"
-            app:cardElevation="2dp"
+            app:cardCornerRadius="7dp"
+            app:cardElevation="0dp"
             android:backgroundTint="@color/list_color_1"
             app:cardPreventCornerOverlap="false"
             android:layout_marginTop="10dp"
