@@ -26,7 +26,7 @@
           android:layout_width="match_parent"
           android:layout_height="match_parent"
           android:orientation="vertical"
-          android:layout_marginBottom="100dp"
+          android:layout_marginBottom="50dp"
           >
     <ImageView
         android:id="@+id/QrCodeImage"
@@ -44,33 +44,45 @@
         android:layout_height="wrap_content"
         android:background="@android:color/white"
         android:orientation="vertical"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        >
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:orientation="horizontal">
 
+        >
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="30dp"-->
+<!--        android:orientation="horizontal">-->
+
+<!--&lt;!&ndash;        <TextView&ndash;&gt;-->
+<!--&lt;!&ndash;            android:layout_width="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:layout_height="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:gravity="center"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:text="MACHINE INFO:"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:textColor="#6699cc"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:textSize="17dp"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:fontFamily="@font/imprima"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:textStyle="bold"&ndash;&gt;-->
+<!--&lt;!&ndash;            />&ndash;&gt;-->
+
+<!--    </LinearLayout>-->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="MACHINE INFO:"
-            android:textColor="#6699cc"
-            android:textSize="17dp"
+            android:text="Machine Specific Details:"
             android:fontFamily="@font/imprima"
+            android:textSize="18sp"
             android:textStyle="bold"
-            />
-
-    </LinearLayout>
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            android:textColor="#6699cc"
+            ></TextView>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:background="@drawable/btn_round_corner"
-            android:backgroundTint="@color/list_color_3">
+            android:backgroundTint="@color/list_color_7">
             <LinearLayout
                 android:id="@+id/comp"
                 android:layout_width="match_parent"
@@ -85,8 +97,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:fontFamily="@font/imprima"
                     android:text="Company:"
+                    android:fontFamily="@font/imprima"
                     android:textColor="#F5474747"
                     android:textSize="15sp"
                     android:textStyle="bold" />
@@ -96,7 +108,8 @@
                     android:layout_width="fill_parent"
 
                     android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
+                    android:fontFamily="@font/imprima"
+                    android:textColor="#F5474747"
                     android:layout_marginLeft="10dp"
                     />
             </LinearLayout>
@@ -125,7 +138,8 @@
                         android:layout_width="fill_parent"
 
                         android:layout_height="wrap_content"
-                        android:textColor="@android:color/black"
+                        android:fontFamily="@font/imprima"
+                        android:textColor="#F5474747"
                         android:layout_marginLeft="10dp"
                         />
             </LinearLayout>
@@ -155,7 +169,8 @@
                     android:layout_width="fill_parent"
 
                     android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
+                    android:fontFamily="@font/imprima"
+                    android:textColor="#F5474747"
                     android:layout_marginLeft="10dp"
                     />
             </LinearLayout>
@@ -183,9 +198,9 @@
                 <TextView
                     android:id="@+id/price"
                     android:layout_width="fill_parent"
-
                     android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
+                    android:fontFamily="@font/imprima"
+                    android:textColor="#F5474747"
                     android:layout_marginLeft="10dp"
                     />
             </LinearLayout>
@@ -213,20 +228,33 @@
                 <TextView
                     android:id="@+id/machineDetailsSerialNo"
                     android:layout_width="fill_parent"
-
                     android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
+                    android:fontFamily="@font/imprima"
+                    android:textColor="#F5474747"
                     android:layout_marginLeft="10dp"
                     />
             </LinearLayout>
         </LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Machine Basic Details:"
+            android:fontFamily="@font/imprima"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:textColor="#6699cc"
+            ></TextView>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:orientation="vertical"
             android:background="@drawable/btn_round_corner"
-            android:backgroundTint="@color/list_color_4">
+            android:backgroundTint="#D4CDF4">
             <LinearLayout
                 android:id="@+id/department"
                 android:layout_width="match_parent"
@@ -243,6 +271,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Department:"
+                    android:fontFamily="@font/imprima"
                     android:textColor="#F5474747"
                     android:textSize="15sp"
                     android:textStyle="bold"
@@ -253,7 +282,8 @@
                     android:id="@+id/machineDetailsDepartment"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
+                    android:fontFamily="@font/imprima"
+                    android:textColor="#F5474747"
                     android:layout_marginLeft="10dp"
                     />
 
@@ -275,6 +305,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Service Time:"
+                    android:fontFamily="@font/imprima"
                     android:textColor="#F5474747"
                     android:textSize="15sp"
                     android:textStyle="bold"
@@ -285,7 +316,8 @@
                     android:id="@+id/machineDetailsServiceTime"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
+                    android:fontFamily="@font/imprima"
+                    android:textColor="#F5474747"
                     android:layout_marginLeft="10dp"
                     />
             </LinearLayout>
@@ -305,6 +337,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Date of Installation:"
+                    android:fontFamily="@font/imprima"
                     android:textColor="#F5474747"
                     android:textSize="15sp"
                     android:textStyle="bold"
@@ -316,7 +349,8 @@
                     android:layout_width="fill_parent"
 
                     android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
+                    android:fontFamily="@font/imprima"
+                    android:textColor="#F5474747"
                     android:layout_marginLeft="10dp"
                     />
             </LinearLayout>
@@ -337,6 +371,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Generated By:"
+                    android:fontFamily="@font/imprima"
                     android:textColor="#F5474747"
                     android:textSize="15sp"
                     android:textStyle="bold"
@@ -347,7 +382,8 @@
                     android:id="@+id/generator_name"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
+                    android:fontFamily="@font/imprima"
+                    android:textColor="#F5474747"
                     android:layout_marginLeft="10dp"
                     />
 
@@ -355,29 +391,32 @@
             </LinearLayout>
         </LinearLayout>
 
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            >
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/machine_history_rv" />
-        </ScrollView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Statistics:"
+            android:textStyle="bold"
+            android:textColor="#5B9FE3"
+            android:textSize="18sp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            ></TextView>
        <LinearLayout
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
            android:orientation="horizontal"
-           android:layout_margin="20dp"
+           android:background="@drawable/btn_round_corner"
+           android:backgroundTint="@color/list_color_11"
+           android:layout_marginTop="10dp"
+           android:layout_marginLeft="20dp"
+           android:layout_marginRight="20dp"
+           android:layout_marginBottom="20dp"
            >
            <LinearLayout
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
                android:orientation="vertical"
-               android:layout_marginRight="10dp"
-               android:layout_marginBottom="10dp"
-               android:layout_marginTop="10dp"
+               android:layout_margin="20dp"
                >
                <com.example.manager.CircleDisplay
                    android:layout_width="100dp"
@@ -398,9 +437,7 @@
                android:layout_width="match_parent"
                android:layout_height="wrap_content"
                android:orientation="vertical"
-               android:layout_marginTop="10dp"
-               android:layout_marginLeft="20dp"
-               android:layout_marginBottom="10dp"
+               android:layout_margin="20dp"
                >
                <com.example.manager.CircleDisplay
                    android:layout_width="100dp"
@@ -420,13 +457,76 @@
            </LinearLayout>
 
        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="20dp"
+            android:orientation="vertical"
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginLeft="10dp"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Machine History"
+                    android:fontFamily="@font/imprima"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="#6699cc"
+                    ></TextView>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Show All"
+                    android:id="@+id/show_history"
+                    android:textColor="#F60000"
+                    android:fontFamily="@font/imprima"
+                    android:textAlignment="viewEnd"
+                    android:layout_marginEnd="10dp"
+                    android:textSize="16sp"
+                    ></TextView>
 
+            </LinearLayout>
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginLeft="5dp"
+                >
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/machine_history_rv" />
+            </ScrollView>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bar Graph:"
+            android:textStyle="bold"
+            android:textColor="#6699cc"
+            android:textSize="18sp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            ></TextView>
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="300dp"
-            app:cardCornerRadius="2dp"
-            app:cardElevation="2dp"
+            app:cardCornerRadius="7dp"
+            app:cardElevation="0dp"
+            android:backgroundTint="@color/list_color_1"
             app:cardPreventCornerOverlap="false"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="20dp"
             app:contentPadding="0dp">
 
 
@@ -439,15 +539,7 @@
         </lecho.lib.hellocharts.view.ColumnChartView>
         </androidx.cardview.widget.CardView>
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="Show history"
-            android:id="@+id/show_history"
-            android:background="@drawable/btn_round_corner"
-            android:backgroundTint="@color/list_color_7"
-            />
+
     </LinearLayout>
       </LinearLayout>
   </androidx.core.widget.NestedScrollView>
