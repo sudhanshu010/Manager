@@ -31,7 +31,7 @@ public class BottomNavigationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setOurFragment(new HomeFragment(),1,1);
         setContentView(R.layout.activity_bottom_navigation);
-        MeowBottomNavigation bottomNavigation = findViewById(R.id.bottom_bar);
+        final MeowBottomNavigation bottomNavigation = findViewById(R.id.bottom_bar);
         final Toolbar toolbar=findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
@@ -44,6 +44,9 @@ public class BottomNavigationActivity extends AppCompatActivity {
         bottomNavigation.add(new MeowBottomNavigation.Model(2, R.drawable.ic_history));
         bottomNavigation.add(new MeowBottomNavigation.Model(3, R.drawable.ic_notification1));
         bottomNavigation.add(new MeowBottomNavigation.Model(4, R.drawable.ic_account));
+        bottomNavigation.setCount(2,"5");
+        bottomNavigation.setCount(3,"10");
+        bottomNavigation.setCount(4,"1");
 
         bottomNavigation.setOnClickMenuListener(new MeowBottomNavigation.ClickListener() {
             @Override
@@ -61,17 +64,20 @@ public class BottomNavigationActivity extends AppCompatActivity {
                         toolbar.setTitle("History");
                         getSupportActionBar().setLogo(R.drawable.ic_history_tb);
                         old_id = 2;
+                        bottomNavigation.clearCount(2);
                         break;
                     case 3:
                         setOurFragment(new NotificationFragment(),old_id,3);
                         toolbar.setTitle("Notification");
                         getSupportActionBar().setLogo(R.drawable.ic_notfication_tb);
                         old_id = 3;
+                        bottomNavigation.clearCount(3);
                         break;
                     case 4:
                         setOurFragment(new ProfileFragment(),old_id,4);
                         toolbar.setTitle("Profile");
                         getSupportActionBar().setLogo(R.drawable.ic_account_tb);
+                        bottomNavigation.clearCount(4);
                         old_id = 4;
                 }
 
