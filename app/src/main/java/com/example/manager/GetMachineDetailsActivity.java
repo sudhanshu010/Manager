@@ -91,6 +91,7 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
 
         generationCode = getIntent().getStringExtra("generationCode");
 
+
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
 
@@ -178,7 +179,7 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
 
         //Circle Display
         final CircleDisplay cd1 = (CircleDisplay)findViewById(R.id.circle_display1);
-        cd1.setAnimDuration(3000);
+        cd1.setAnimDuration(1500);
         cd1.setValueWidthPercent(10f);
         cd1.setTextSize(18f);
         cd1.setColor(R.color.list_color_10);
@@ -189,25 +190,8 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
         cd1.setUnit("%");
         cd1.setStepSize(0.5f);
 
-
-        final Handler handler = new Handler();
-
-
-
-        // sets a custom array of text
-
-//        Handler delay = new Handler();
-//        delay.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                cd1.startAnim();
-//            }
-//        },5000);
-
-
-
         final CircleDisplay cd2 = (CircleDisplay)findViewById(R.id.circle_display2);
-        cd2.setAnimDuration(3000);
+        cd2.setAnimDuration(1500);
         cd2.setValueWidthPercent(5f);
         cd2.setTextSize(18f);
         cd2.setColor(Color.RED);
@@ -217,9 +201,9 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
         cd2.setTouchEnabled(false);
         cd2.setUnit("%");
         cd2.setStepSize(0.5f);
-        // sets a custom array of text
 
         // continuously check its circle is completely on screen or not. If yes, start the animation.
+        final Handler handler = new Handler();
         final Runnable runnable = new Runnable() {
             public void run() {
                 // code for checking component is on screen or not.
@@ -233,7 +217,7 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
                 }
                 else
                 {
-                    handler.postDelayed(this, 1000);
+                    handler.postDelayed(this, 10);
                 }
 
             }
@@ -290,11 +274,11 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
                 Rect rect = new Rect();
                 if(chart.getGlobalVisibleRect(rect)
                         && chart.getHeight()/2 <= rect.height()) {
-                     chart.startDataAnimation(3000);
+                     chart.startDataAnimation(1500);
                 }
                 else
                 {
-                    handler.postDelayed(this, 1000);
+                    handler.postDelayed(this, 10);
                 }
 
             }
