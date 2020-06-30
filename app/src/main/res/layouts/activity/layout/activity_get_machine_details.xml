@@ -82,7 +82,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:background="@drawable/btn_round_corner"
-            android:backgroundTint="@color/list_color_6">
+            android:backgroundTint="@color/list_color_7">
             <LinearLayout
                 android:id="@+id/comp"
                 android:layout_width="match_parent"
@@ -254,7 +254,7 @@
             android:layout_marginRight="20dp"
             android:orientation="vertical"
             android:background="@drawable/btn_round_corner"
-            android:backgroundTint="@color/list_color_8">
+            android:backgroundTint="#D4CDF4">
             <LinearLayout
                 android:id="@+id/department"
                 android:layout_width="match_parent"
