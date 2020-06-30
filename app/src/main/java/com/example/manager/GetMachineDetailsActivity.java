@@ -66,7 +66,7 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
     private ShowDetailsAdapter showDetailsAdapter;
     LinearLayoutManager HorizontalLayout;
     ImageView QRCodeImage;
-    Button show_history;
+    TextView show_history;
     Button generateComplaint;
 
     TextView serialNo,department,serviceTime,dateOfInstallation, generator;
@@ -75,7 +75,7 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
 
     int complaintId;
     String description;
-    String machineId="4";
+    String machineId;
 
     RecyclerView recyclerView;
 
@@ -215,7 +215,7 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
 
         //Circle Display
         final CircleDisplay cd1 = (CircleDisplay)findViewById(R.id.circle_display1);
-        cd1.setAnimDuration(3000);
+        cd1.setAnimDuration(1500);
         cd1.setValueWidthPercent(5f);
         cd1.setTextSize(18f);
         cd1.setColor(R.color.list_color_10);
@@ -244,7 +244,7 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
 
 
         final CircleDisplay cd2 = (CircleDisplay)findViewById(R.id.circle_display2);
-        cd2.setAnimDuration(3000);
+        cd2.setAnimDuration(1500);
         cd2.setValueWidthPercent(5f);
         cd2.setTextSize(18f);
         cd2.setColor(Color.RED);
@@ -327,7 +327,7 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
                 Rect rect = new Rect();
                 if(chart.getGlobalVisibleRect(rect)
                         && chart.getHeight()/2 <= rect.height()) {
-                     chart.startDataAnimation(3000);
+                     chart.startDataAnimation(1500);
                 }
                 else
                 {
