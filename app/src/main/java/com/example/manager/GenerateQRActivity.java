@@ -109,12 +109,14 @@ public class GenerateQRActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-
+        toolbar.setTitleTextAppearance(this,R.style.TitleTextAppearance);
         final FormFragment1 fragment1 = new FormFragment1();
         setOurFragment(fragment1);
         final StateProgressBar stateProgressBar = (StateProgressBar) findViewById(R.id.your_stare_progress_id_bar);
         stateProgressBar.setStateDescriptionData(descriptionData);
 
+        stateProgressBar.setStateDescriptionTypeface("fonts/imprima.ttf");
+        stateProgressBar.setStateNumberTypeface("fonts/imprima.ttf");
 //        serialNumber = findViewById(R.id.serialNumber);
 //
 //        serviceTime = findViewById(R.id.serviceTime);

@@ -43,7 +43,7 @@
                         android:id="@+id/rm_pending_complaint_serviceman1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Manager:"
+                        android:text="Mechanic:"
                         android:fontFamily="@font/imprima"
                         android:textStyle="bold"
                         android:textColor="#363333"

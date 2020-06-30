@@ -35,7 +35,7 @@
                         android:id="@+id/rm_complated_complaint_serviceman1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Serviceman:"
+                        android:text="Mechanic:"
                         android:textStyle="bold"
                         android:fontFamily="@font/imprima"
                         android:textColor="#363333"

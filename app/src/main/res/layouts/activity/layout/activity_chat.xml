@@ -47,7 +47,7 @@
         android:layout_height="match_parent"
         android:id="@+id/recycler_view"
         android:paddingTop="25dp"
-        android:background="@drawable/chat_recycler"
+        android:background="#fff"
         android:layout_below="@id/bar_layout"
         android:layout_above="@id/bottom"/>
 
@@ -85,8 +85,8 @@
                 android:layout_centerVertical="true"/>
 
             <ImageButton
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:background="@drawable/ic_send"
                 android:id="@+id/btn_send"
                 android:layout_alignParentEnd="true"

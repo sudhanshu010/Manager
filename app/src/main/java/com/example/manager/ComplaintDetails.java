@@ -1,6 +1,7 @@
 package com.example.manager;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -25,7 +26,10 @@ public class ComplaintDetails extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_complaint_details);
-
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
         complaintId = findViewById(R.id.complaint_id);
         date = findViewById(R.id.generated_date);
         cost = findViewById(R.id.cost);
@@ -110,5 +114,10 @@ public class ComplaintDetails extends AppCompatActivity {
 
         }
 
+    }
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }
