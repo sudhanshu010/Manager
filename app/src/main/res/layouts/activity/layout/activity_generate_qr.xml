@@ -16,49 +16,50 @@
         android:background="#fff"
         app:titleTextColor="#3A3A3A"
         />
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:layout_margin="15dp"
-        app:cardCornerRadius="5dp"
-        app:cardElevation="2dp"
-        >
-        <com.kofigyan.stateprogressbar.StateProgressBar
-            android:id="@+id/your_stare_progress_id_bar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
 
-            app:spb_currentStateNumber="one"
-            app:spb_maxStateNumber="three"
-            app:spb_stateBackgroundColor="#BDBDBD"
-            app:spb_stateForegroundColor="#4CAF50"
-            app:spb_stateNumberBackgroundColor="#808080"
-            app:spb_stateNumberForegroundColor="#eeeeee"
-            app:spb_currentStateDescriptionColor="@color/colorPrimary"
-            app:spb_stateDescriptionColor="#808080"
-            app:spb_animateToCurrentProgressState="true"
-            app:spb_checkStateCompleted="true"
-            app:spb_descriptionTopSpaceIncrementer="5dp"
-
-            app:spb_stateSize="25dp"/>
-    </androidx.cardview.widget.CardView>
 
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="400dp"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:layout_marginBottom="15dp"
             app:cardCornerRadius="5dp"
             app:cardElevation="2dp"
             >
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                app:cardCornerRadius="5dp"
+                app:cardElevation="0dp"
+
+                >
+                <com.kofigyan.stateprogressbar.StateProgressBar
+                    android:id="@+id/your_stare_progress_id_bar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+
+                    app:spb_currentStateNumber="one"
+                    app:spb_maxStateNumber="three"
+                    app:spb_stateBackgroundColor="#BDBDBD"
+                    app:spb_stateForegroundColor="#4CAF50"
+                    app:spb_stateNumberBackgroundColor="#808080"
+                    app:spb_stateNumberForegroundColor="#eeeeee"
+                    app:spb_currentStateDescriptionColor="@color/colorPrimary"
+                    app:spb_stateDescriptionColor="#808080"
+                    app:spb_animateToCurrentProgressState="true"
+                    app:spb_checkStateCompleted="true"
+                    app:spb_descriptionTopSpaceIncrementer="5dp"
+
+                    app:spb_stateSize="25dp"/>
+            </androidx.cardview.widget.CardView>
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="400dp"
                     android:layout_marginStart="0dp"
-                    android:layout_marginTop="0dp"
+                    android:layout_marginTop="80dp"
                     android:layout_marginBottom="3dp"
                     android:id="@+id/mainframe">
 
