@@ -140,7 +140,7 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(HorizontalLayout);
 
         firebaseDatabase = FirebaseDatabase.getInstance();
-             Query baseQuery1 = firebaseDatabase.getReference("Machines").child(machineId).child("pastRecords");
+             Query baseQuery1 = firebaseDatabase.getReference("Machines").child(generationCode).child("pastRecords");
 
 
              PagedList.Config config = new PagedList.Config.Builder()
