@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
@@ -39,6 +40,7 @@ public class PendingComplaintFragment extends Fragment {
     FirebaseDatabase firebaseDatabase;
     FirebaseAuth auth;
     FirebaseUser user;
+    LinearLayout nothing;
 
     public PendingComplaintFragment() {
         // Required empty public constructor
@@ -53,13 +55,33 @@ public class PendingComplaintFragment extends Fragment {
         View rootView =  inflater.inflate(R.layout.pending_complaint_fragment, container, false);
         rm_recyclerView_pending_complaint = rootView.findViewById(R.id.rm_recyclerView_pending_complaint);
         rm_recyclerView_pending_complaint.setLayoutManager(new LinearLayoutManager(getActivity()));
-
+        nothing = rootView.findViewById(R.id.EmptyList);
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
 
         firebaseDatabase =  FirebaseDatabase.getInstance();
 
         Query baseQuery = firebaseDatabase.getReference("Users").child("Manager").child(user.getUid()).child("pendingComplaints");
+
+        DatabaseReference reference1 = firebaseDatabase.getReference().child("Users").child("Manager").child(user.getUid()).child("pendingComplaints");
+
+        reference1.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(!dataSnapshot.exists())
+                {
+                    nothing.setVisibility(View.VISIBLE);
+                    rm_recyclerView_pending_complaint.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
 
         PagedList.Config config = new PagedList.Config.Builder()
                 .setEnablePlaceholders(false)

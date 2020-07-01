@@ -175,6 +175,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
+
                 android:text="I have completed my work for repairing computer.All thing are now working nice."
                 android:textColor="#4c4c4c"
                 android:fontFamily="@font/imprima"
@@ -183,10 +184,11 @@
 
             <Button
                 android:id="@+id/rm_status_button"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="35dp"
                 android:text="status"
-                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="5dp"
                 android:background="@drawable/generate_complaint_dialog_cancel_button"/>
 
 

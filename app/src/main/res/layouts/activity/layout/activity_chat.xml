@@ -69,24 +69,25 @@
             android:layout_width="match_parent"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
             android:background="@android:color/white"
             android:layout_height="wrap_content">
 
             <EditText
+                android:textSize="16sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/text_send"
                 android:background="@android:color/transparent"
-
+                android:fontFamily="@font/imprima"
                 android:hint="Type a message..."
                 android:layout_toLeftOf="@id/btn_send"
                 android:layout_centerVertical="true"/>
 
             <ImageButton
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:background="@drawable/ic_send"
                 android:id="@+id/btn_send"
                 android:layout_alignParentEnd="true"
