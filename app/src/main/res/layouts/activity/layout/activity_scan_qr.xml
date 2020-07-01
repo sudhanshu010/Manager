@@ -12,29 +12,25 @@
         android:layout_height="match_parent"
         >
 
-        <com.otaliastudios.cameraview.CameraView
+        <me.dm7.barcodescanner.zxing.ZXingScannerView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:cameraFlash="off"
-            android:id="@+id/CameraView">
+            android:id="@+id/ScannerFrontend">
 
-            <View
-                android:layout_marginTop="200dp"
-                android:layout_width="250dp"
-                android:layout_height="250dp"
-                android:layout_gravity="center_horizontal"
-                android:background="@drawable/rectangle"/>
+        </me.dm7.barcodescanner.zxing.ZXingScannerView>
 
-        </com.otaliastudios.cameraview.CameraView>
+        <View
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:layout_gravity="center"
+            ></View>
 
         <ImageButton
-            android:id="@+id/flashLightid"
-            android:layout_width="60dp"
-            android:layout_height="59dp"
-            android:layout_gravity="right"
-            android:layout_marginTop="60dp"
-            android:background="@android:color/transparent"
-            android:src="@drawable/ic_flash_off_black_24dp"
-            />
+            android:id="@+id/flashlight1"
+            android:layout_width="50dp"
+            android:layout_height="70dp"
+            android:onClick="FlashLight"
+            android:src="@drawable/ic_flash_on_black_24dp" />
+
     </FrameLayout>
 </RelativeLayout>

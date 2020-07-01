@@ -68,7 +68,7 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
     ImageView QRCodeImage;
     TextView show_history;
     Button generateComplaint;
-
+    TextView companyName,machineType,modelNumber,price;
     TextView serialNo,department,serviceTime,dateOfInstallation, generator;
 
     Complaint complaint;
@@ -86,16 +86,22 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-//        generateComplaint = findViewById(R.id.generateComplaint);
+        generateComplaint = findViewById(R.id.generateComplaint);
        show_history = findViewById(R.id.show_history);
 
         description = new String("");
+        modelNumber = findViewById(R.id.machineModelNumber);
+        price = findViewById(R.id.price);
 
+
+        machineType= findViewById(R.id.machine_type);
+        companyName = findViewById(R.id.company_name);
         serialNo = findViewById(R.id.machineDetailsSerialNo);
         department = findViewById(R.id.machineDetailsDepartment);
         serviceTime = findViewById(R.id.machineDetailsServiceTime);
         dateOfInstallation = findViewById(R.id.machineDetailsInstallationDate);
         generator = findViewById(R.id.generator_name);
+
 
 
         generationCode = getIntent().getStringExtra("generationCode");
@@ -119,7 +125,11 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
                 department.setText(machine.getDepartment());
                 serviceTime.setText(machine.getServiceTime()+" months");
                 dateOfInstallation.setText(machine.getDateOfInstallation());
-                //generator.setText(machine.getGeneratorName());
+                generator.setText(machine.getManager().getUserName());
+                companyName.setText(machine.getCompany());
+                price.setText(String.valueOf(machine.getPrice()));
+                machineType.setText(machine.getType());
+                modelNumber.setText(machine.getModelNumber());
                 machineId = machine.getMachineId();
             }
 
@@ -169,47 +179,47 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
 
 
 
-//
-//        generateComplaint.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                complaint = new Complaint();
-//                Manager tempManager = null;
-//                try {
-//                    tempManager = (Manager) machine.getManager().clone();
-//                } catch (CloneNotSupportedException e) {
-//                    e.printStackTrace();
-//                }
-//                if (tempManager != null) {
-//                    tempManager.setPendingComplaints(null);
-//                }
-//                complaint.setManager(tempManager);
-//
-//                Machine tempMachine = null;
-//                try {
-//                    tempMachine = (Machine) machine.clone();
-//                    tempMachine.setManager(null);
-//                } catch (CloneNotSupportedException e) {
-//                    e.printStackTrace();
-//                }
-//
-//                complaint.setMachine(tempMachine);
-//                Calendar cal = Calendar.getInstance();
-//                int year = cal.get(Calendar.YEAR);
-//                int month = cal.get(Calendar.MONTH);
-//                month = month+1;
-//                int day = cal.get(Calendar.DAY_OF_MONTH);
-//
-//                complaint.setGeneratedDate(day+"/"+month+"/"+year);
-//                complaint.setStatus(Complaint.generatedOnly);
-//
-//                ComplaintDescriptionDialog complaintDescriptionDialog = new ComplaintDescriptionDialog(GetMachineDetailsActivity.this,complaint);
-//                complaintDescriptionDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-//                complaintDescriptionDialog.show();
-//
-//            }
-//        });
+
+        generateComplaint.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                complaint = new Complaint();
+                Manager tempManager = null;
+                try {
+                    tempManager = (Manager) machine.getManager().clone();
+                } catch (CloneNotSupportedException e) {
+                    e.printStackTrace();
+                }
+                if (tempManager != null) {
+                    tempManager.setPendingComplaints(null);
+                }
+                complaint.setManager(tempManager);
+
+                Machine tempMachine = null;
+                try {
+                    tempMachine = (Machine) machine.clone();
+                    tempMachine.setManager(null);
+                } catch (CloneNotSupportedException e) {
+                    e.printStackTrace();
+                }
+
+                complaint.setMachine(tempMachine);
+                Calendar cal = Calendar.getInstance();
+                int year = cal.get(Calendar.YEAR);
+                int month = cal.get(Calendar.MONTH);
+                month = month+1;
+                int day = cal.get(Calendar.DAY_OF_MONTH);
+
+                complaint.setGeneratedDate(day+"/"+month+"/"+year);
+                complaint.setStatus(Complaint.generatedOnly);
+
+                ComplaintDescriptionDialog complaintDescriptionDialog = new ComplaintDescriptionDialog(GetMachineDetailsActivity.this,complaint);
+                complaintDescriptionDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                complaintDescriptionDialog.show();
+
+            }
+        });
 
 
         //Circle Display
