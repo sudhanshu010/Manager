@@ -10,6 +10,7 @@ import android.widget.RatingBar;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.example.manager.models.Manager;
 import com.example.manager.models.MechRating;
@@ -52,7 +53,11 @@ public class RatingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rating);
         submit_rating = findViewById(R.id.submit_rating);
-
+        Toolbar toolbar=findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        toolbar.setTitleTextAppearance(this,R.style.TitleTextAppearance);
         ratingBar = findViewById(R.id.rating_bar);
 
         reviews = findViewById(R.id.mech_review);
@@ -132,5 +137,10 @@ public class RatingActivity extends AppCompatActivity {
             }
         });
 
+    }
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }

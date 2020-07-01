@@ -1,12 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="150dp"
+    android:orientation="vertical"
     tools:context=".RatingActivity">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:title="Review Your Service"
+        android:background="#fff"
+        app:titleTextColor="#3A3A3A"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorPrimary"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:text="@string/review_text"
+        android:layout_margin="20dp"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="50dp">
     <ImageView
         android:layout_width="80dp"
         android:layout_height="80dp"
@@ -14,40 +34,47 @@
         android:layout_centerHorizontal="true"
         />
 
-    <RatingBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/rating_bar"
-        android:layout_below="@+id/pic_dialog"
-        android:layout_marginTop="20dp"
-        android:layout_centerHorizontal="true"
-        android:stepSize="0.5"
-        android:max="5"
-        />
+        <RatingBar
+            android:id="@+id/rating_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:max="5"
+            android:stepSize="0.5" />
 
 
-    <EditText
-        android:id="@+id/mech_review"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="your reviews"
-        android:inputType="textMultiLine"
-        android:layout_marginHorizontal="15dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rating_bar">
+        <EditText
+            android:id="@+id/mech_review"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="71dp"
 
-    </EditText>
+            android:background="@drawable/border_feedback"
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Submit"
-        android:layout_marginTop="50dp"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/rating_bar"
-        style="@style/loginButton"
-        android:id="@+id/submit_rating"
-        />
+            android:fontFamily="@font/imprima"
 
-</RelativeLayout>
+            android:gravity="start"
+            android:hint="Write your Feedback here"
+            android:inputType="text|textMultiLine"
+            android:padding="5dp" />
+
+        <Button
+            android:id="@+id/submit_rating"
+            style="@style/loginButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rating_bar"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="111dp"
+            android:layout_marginTop="253dp"
+            android:layout_marginEnd="118dp"
+            android:layout_marginBottom="174dp"
+            android:text="Submit" />
+    </RelativeLayout>
+</LinearLayout>

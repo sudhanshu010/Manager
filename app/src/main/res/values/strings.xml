@@ -64,4 +64,7 @@
     <string name="november_short">Nov.</string>
     <string name="december_short">Dec.</string>
 
+
+    <string name="feedback_text">Please write to us about your concern\n regarding our App.</string>
+    <string name="review_text">Please Rate and Review Your work done by Mechanic in order to make our services better</string>
 </resources>

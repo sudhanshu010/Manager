@@ -78,7 +78,6 @@ public class SettingActivity extends AppCompatActivity {
                 //pass intent to serviceman and responsibleman saperately
                 Intent intent=new Intent(getApplicationContext(), FaqActivity.class);
                 startActivity(intent);
-                finish();
             }
         });
 
