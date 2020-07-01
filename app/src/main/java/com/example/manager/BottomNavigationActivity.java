@@ -3,11 +3,9 @@ package com.example.manager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -16,11 +14,10 @@ import androidx.fragment.app.FragmentTransaction;
 
 
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
-import com.example.manager.fragments.HistoryFragment;
+import com.example.manager.fragments.RecentChatFragment;
 import com.example.manager.fragments.HomeFragment;
 import com.example.manager.fragments.NotificationFragment;
 import com.example.manager.fragments.ProfileFragment;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class BottomNavigationActivity extends AppCompatActivity {
 
@@ -41,7 +38,7 @@ public class BottomNavigationActivity extends AppCompatActivity {
         toolbar.setTitleTextAppearance(this,R.style.TitleTextAppearance);
 
         bottomNavigation.add(new MeowBottomNavigation.Model(1, R.drawable.ic_home));
-        bottomNavigation.add(new MeowBottomNavigation.Model(2, R.drawable.ic_history));
+        bottomNavigation.add(new MeowBottomNavigation.Model(2, R.drawable.ic_chat));
         bottomNavigation.add(new MeowBottomNavigation.Model(3, R.drawable.ic_notification1));
         bottomNavigation.add(new MeowBottomNavigation.Model(4, R.drawable.ic_account));
         bottomNavigation.setCount(2,"5");
@@ -60,9 +57,9 @@ public class BottomNavigationActivity extends AppCompatActivity {
                         old_id = 1;
                         break;
                     case 2:
-                        setOurFragment(new HistoryFragment(),old_id,2);
-                        toolbar.setTitle("History");
-                        getSupportActionBar().setLogo(R.drawable.ic_history_tb);
+                        setOurFragment(new RecentChatFragment(),old_id,2);
+                        toolbar.setTitle("Recent Chats");
+                        getSupportActionBar().setLogo(R.drawable.ic_chat_tb);
                         old_id = 2;
                         bottomNavigation.clearCount(2);
                         break;
