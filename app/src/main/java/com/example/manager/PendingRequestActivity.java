@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.LinearLayout;
 
 import com.example.manager.adapters.PendingRequestAdapter;
 import com.example.manager.models.Complaint;
@@ -32,7 +34,7 @@ public class PendingRequestActivity extends AppCompatActivity {
 
     RecyclerView pendingRequestRecycler;
     PendingRequestAdapter pendingRequestAdapter;
-
+    LinearLayout nothing;
     FirebaseDatabase firebaseDatabase;
 
     FirebaseAuth auth;
@@ -51,12 +53,29 @@ public class PendingRequestActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
 
-
+        nothing = findViewById(R.id.EmptyList3);
         pendingRequestRecycler = findViewById(R.id.rmpending_request);
         pendingRequestRecycler.setLayoutManager(new LinearLayoutManager(this));
         firebaseDatabase =  FirebaseDatabase.getInstance();
 
         Query baseQuery = firebaseDatabase.getReference("Users").child("Manager").child(user.getUid()).child("pendingRequests");
+
+        DatabaseReference reference1 = firebaseDatabase.getReference().child("Users").child("Manager").child(user.getUid()).child("pendingRequests");
+        reference1.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(!dataSnapshot.exists())
+                {
+                    nothing.setVisibility(View.VISIBLE);
+                    pendingRequestRecycler.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
         PagedList.Config config = new PagedList.Config.Builder()
                 .setEnablePlaceholders(false)

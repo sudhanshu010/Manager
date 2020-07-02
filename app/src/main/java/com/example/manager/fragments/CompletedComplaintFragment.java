@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -37,7 +38,7 @@ public class CompletedComplaintFragment extends Fragment {
 
     FirebaseDatabase firebaseDatabase;
     DatabaseReference complaintReference, responsibleManReference, pendingComplaintListReference;
-
+    LinearLayout nothing;
     FirebaseAuth auth;
     FirebaseUser user;
 
@@ -52,7 +53,7 @@ public class CompletedComplaintFragment extends Fragment {
         // Inflate the layout for this fragment
 
         View rootView =  inflater.inflate(R.layout.completed_complaint_fragment, container, false);
-
+        nothing = rootView.findViewById(R.id.EmptyList1);
         rm_recyclerView_completed_complaint = rootView.findViewById(R.id.rm_recyclerView_completed_complaint);
         rm_recyclerView_completed_complaint.setLayoutManager(new LinearLayoutManager(getActivity()));
 
@@ -68,6 +69,22 @@ public class CompletedComplaintFragment extends Fragment {
 //        complaintReference = firebaseDatabase.getReference("Complaints");
 
         Query baseQuery = firebaseDatabase.getReference("Users").child("Manager").child(user.getUid()).child("completedComplaints");
+        DatabaseReference reference1 = firebaseDatabase.getReference().child("Users").child("Manager").child(user.getUid()).child("completedComplaints");
+        reference1.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(!dataSnapshot.exists())
+                {
+                    nothing.setVisibility(View.VISIBLE);
+                    rm_recyclerView_completed_complaint.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
         PagedList.Config config = new PagedList.Config.Builder()
                 .setEnablePlaceholders(false)

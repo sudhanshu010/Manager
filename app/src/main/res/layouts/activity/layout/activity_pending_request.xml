@@ -17,9 +17,47 @@
         />
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/rmpending_request"
         />
 
+    <LinearLayout
+        android:id="@+id/EmptyList3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:visibility="gone"
+        android:orientation="vertical"
+        >
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="350dp"
+            android:gravity="center"
+            android:src="@drawable/emptyrafiki"
+            android:contentDescription="All issues resolved"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:fontFamily="@font/imprima"
+            android:textColor="#333"
+            android:layout_marginBottom="15dp"
+            android:text="You don't have any requests"
+            android:textSize="18sp"
+
+            />
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            />
+    </LinearLayout>
 
 </LinearLayout>

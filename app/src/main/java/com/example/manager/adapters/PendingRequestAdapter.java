@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -85,7 +86,7 @@ public class PendingRequestAdapter extends FirebaseRecyclerPagingAdapter<Request
 
         String load;
         FirebaseDatabase firebaseDatabase;
-        DatabaseReference complaintReference,loadValue, mechComplaint, mechRequest;
+        DatabaseReference complaintReference,loadValue, mechComplaint, mechRequest,machineReference;
         CardView cardView;
         FirebaseAuth auth;
         FirebaseUser user;
@@ -118,7 +119,7 @@ public class PendingRequestAdapter extends FirebaseRecyclerPagingAdapter<Request
             auth = FirebaseAuth.getInstance();
             user = auth.getCurrentUser();
 
-
+            machineReference = FirebaseDatabase.getInstance().getReference().child("Machines");
             complaintReference = FirebaseDatabase.getInstance().getReference("Complaints").child(String.valueOf(model.getComplaint().getComplaintId()));
             loadValue = FirebaseDatabase.getInstance().getReference("Users").child("Mechanic").child(model.getComplaint().getMechanic().getUid()).child("load");
             mechComplaint = FirebaseDatabase.getInstance().getReference("Users").child("Mechanic").child(model.getComplaint().getMechanic().getUid()).child("pendingComplaints").child(String.valueOf(model.getComplaint().getComplaintId()));
@@ -164,6 +165,10 @@ public class PendingRequestAdapter extends FirebaseRecyclerPagingAdapter<Request
             public void onClick(View view) {
             if(model.isStatus())
             {
+
+
+
+
                 final HashMap<String,Object> updateDatabaseValue = new HashMap<>();
 
                 //add data
@@ -172,6 +177,171 @@ public class PendingRequestAdapter extends FirebaseRecyclerPagingAdapter<Request
                 int month = cal.get(Calendar.MONTH);
                 month = month+1;
                 int day = cal.get(Calendar.DAY_OF_MONTH);
+
+
+
+                //TODO: Check once
+                //[ ReplacementAlgo Starts-->]
+
+
+                /*
+
+                complaintReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        String complaintType;
+                        int machineCode,serviceCount;
+                        final String machineType;
+                        final String dept;
+                        complaintType = dataSnapshot.child("serviceType").getValue().toString();
+                        machineCode = Integer.parseInt(dataSnapshot.child("machine").child("machineId").getValue().toString());
+                        dept = dataSnapshot.child("machine").child("department").getValue().toString();
+                        machineType = dataSnapshot.child("machine").child("type").getValue().toString();
+
+
+                        //TODO: lets assume faultCost as 100, change after the input says
+
+                        final int faultCost = 100;
+
+                        if(complaintType.equals("Regular Service"))
+                        {
+                            Log.i("Replacement", "Regular Service Going in");
+
+                            final DatabaseReference reference1 = FirebaseDatabase.getInstance().getReference().child("comparisonMachine").child(dept).child(machineType).child(String.valueOf(machineCode));
+
+                            reference1.addListenerForSingleValueEvent(new ValueEventListener() {
+                                int serviceCount;
+                                float Tavg;
+                                int sum;
+                                int currentCost;
+                                int buyCost;
+                                int serviceTime;
+                                int maxCostSum;
+
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+
+                                    serviceCount = Integer.parseInt(dataSnapshot.child("serviceCount").getValue().toString());
+                                    buyCost = Integer.parseInt(dataSnapshot.child("buyCost").getValue().toString());
+                                    serviceTime = Integer.parseInt(dataSnapshot.child("serviceTime").getValue().toString());
+                                    sum = Integer.parseInt(dataSnapshot.child("sum").getValue().toString());
+                                    maxCostSum = sum;
+                                    currentCost = Integer.parseInt(dataSnapshot.child("extras").getValue().toString());
+
+                                    sum += currentCost + faultCost;
+
+                                    reference1.child("OverallCost").child(String.valueOf(serviceCount+1)).setValue(currentCost+faultCost);
+
+                                    reference1.child("extras").setValue("0");
+                                    reference1.child("serviceCount").setValue(String.valueOf(serviceCount+1));
+                                    reference1.child("faultCostPM").setValue(String.valueOf(sum/((serviceCount+1)*serviceTime)));
+                                    final int faultCostPM = sum/((serviceCount+1)*serviceTime);
+                                    Tavg = Float.valueOf(dataSnapshot.child("tavg").getValue().toString());
+
+
+                                    String nextServiceTime = dataSnapshot.child("nextServiceTime").getValue().toString();
+                                    String[] arrOfStr = nextServiceTime.split("/", 4);
+                                    int date = Integer.parseInt(arrOfStr[0]);
+                                    int month = Integer.parseInt((arrOfStr[1]));
+                                    int year = Integer.parseInt(arrOfStr[2]);
+                                    month--;
+                                    month += serviceTime;
+                                    year += month/12;
+                                    month %=12;
+                                    month++;
+                                    String nextOne = String.valueOf(date)+'/'+String.valueOf(month)+'/'+String.valueOf(year);
+                                    reference1.child("nextServiceTime").setValue(nextOne);
+
+                                    if(Tavg<currentCost)
+                                    {
+                                        DatabaseReference reference2 = FirebaseDatabase.getInstance().getReference().child("ComparisonMachine").child(dept).child(machineType);
+
+                                        reference2.addListenerForSingleValueEvent(new ValueEventListener() {
+
+                                            String best="none";
+                                            @Override
+
+                                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                int fault1 = faultCostPM;
+                                                for(DataSnapshot ndata : dataSnapshot.getChildren())
+                                                {
+                                                    String y = ndata.child("machineUID").toString();
+                                                    int x =  Integer.parseInt(ndata.child("faultCostPM").toString());
+                                                    if(x<fault1)
+                                                    {
+                                                        best = y;
+                                                        fault1 = x;
+                                                    }
+                                                }
+                                                Log.i("Replacement machine is working bad,change with ", best);
+                                            };
+
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                            }
+                                        });
+
+
+                                    }
+                                    else
+                                    {
+                                        int newTavg = (buyCost+sum)/serviceCount;
+                                        reference1.child("tavg").setValue(newTavg);
+                                    }
+
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                }
+                            });
+
+
+
+                            Log.i("Replacement", "Regular Service Going out");
+                        }
+                        else
+                        {
+                            Log.i("Replacement", "BreakDown Going in");
+                            final DatabaseReference reference1 = FirebaseDatabase.getInstance().getReference().child("comparisonMachine").child(dept).child(machineType).child(String.valueOf(machineCode));
+
+                            reference1.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    int extra = Integer.parseInt(dataSnapshot.child("extras").getValue().toString());
+                                    Log.i("Replacement old value",String.valueOf(extra));
+                                    extra += faultCost;
+                                    Log.i("Replacement new Value", String.valueOf(extra));
+                                    reference1.child("extras").setValue(extra);
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                }
+                            });
+                            Toast.makeText(c, "ho gya bhai sara kaam", Toast.LENGTH_SHORT).show();
+                            Log.i("Replacement", "BreakDown Going in");
+                        }
+                    }
+
+
+
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
+                */
+                //[ReplacementAlgo end --> ]
+
+
+
 
 
                 updateDatabaseValue.put("/Complaints/"+model.getComplaint().getComplaintId()+"/completedDate",day+"/"+month+"/"+year);

@@ -29,6 +29,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.manager.models.ComparisonMachine;
 import com.example.manager.models.Machine;
 import com.example.manager.models.Manager;
 import com.google.android.gms.tasks.Continuation;
@@ -481,6 +482,36 @@ public class GenerateQRActivity extends AppCompatActivity {
                     }
                     Machine machine = new Machine(serialNo, installationdate, dept, machineId, type, company, model,
                             Objects.requireNonNull(task.getResult()).toString(), servicetime, null, price, true, tempManager, null, scrap, machineLife);
+
+                    //TODO: Check once
+
+                    // [ ReplacementAlgo   starts -->]
+
+                    String[] arrOfStr = installationdate.split("/", 4);
+                    int  date = Integer.parseInt(arrOfStr[0]);
+                    int month = Integer.parseInt(arrOfStr[1]);
+                    int year = Integer.parseInt(arrOfStr[2]);
+
+                    int serviceTime = servicetime;
+                    month += serviceTime;
+                    month = (month+11)%12;
+                    year += month/12;
+                    month %= 12;
+                    float Tavg = 2*price;
+
+
+                    String nextServiceDate = String.valueOf(date)+'/'+String.valueOf(month)+'/'+String.valueOf(year);
+                    ComparisonMachine comparisonMachine = new ComparisonMachine(dept, type,0,nextServiceDate,manager.getUid(),Tavg,0,0,(int)price,serviceTime,machineId);
+
+                    DatabaseReference reference1 = firebaseDatabase.getReference();
+                    reference1.child("comparisonMachine").child(dept).child(type).child(machineId).setValue(comparisonMachine);
+                    reference1.child("comparisonMachine").child(dept).child(type).child(machineId).child("OverallCost").child("0").setValue("0");
+
+                    // [ ReplacementAlgo   end -->]
+
+
+
+
 
                     HashMap<String, Object> hashMap = new HashMap<>();
                     hashMap.put("/Machines/" + machineId, machine);
