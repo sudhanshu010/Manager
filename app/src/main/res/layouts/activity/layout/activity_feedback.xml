@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/list_color_1"
     tools:context=".FeedbackActivity">
 
     <androidx.appcompat.widget.Toolbar
@@ -28,15 +29,42 @@
         android:layout_marginLeft="20dp"
         android:layout_marginTop="30dp"
         />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:drawableLeft="@drawable/ic_account_tb"
+        android:paddingLeft="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/border_feedback"
+        android:hint="Your Name..."
+        android:fontFamily="@font/imprima"
+        android:drawablePadding="10dp"
+        />
+    <com.google.android.material.textfield.TextInputEditText
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+         android:drawableLeft="@drawable/ic_baseline_email_24"
+        android:drawableTint="@color/colorPrimary"
+        android:paddingLeft="20dp"
+        android:layout_margin="20dp"
+        android:background="@drawable/border_feedback"
+        android:hint="Mail Id..."
+        android:fontFamily="@font/imprima"
+        android:drawablePadding="10dp"
+        />
+
     <EditText
         android:background="@drawable/border_feedback"
         android:id="@+id/edit_text_feedback"
         android:layout_width="match_parent"
-        android:padding="5dp"
+        android:padding="25dp"
         android:layout_height="200dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:inputType="text|textMultiLine"
         android:hint="Write your Feedback here"
         android:fontFamily="@font/imprima"
