@@ -20,12 +20,14 @@
             android:layout_height="wrap_content"
             android:background="@drawable/chat_action_bar"
             android:theme="@style/Base.ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:popupTheme="@style/MenuStyle">
+            app:popupTheme="@style/MenuStyle"
+            >
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:id="@+id/profile_image"/>
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:id="@+id/profile_image"
+                android:src="@drawable/profilepicdemo1" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -35,6 +37,7 @@
                 android:layout_marginLeft="25dp"
                 android:textColor="#fff"
                 android:textStyle="bold"
+                android:fontFamily="@font/imprima"
                 android:layout_marginStart="25dp" />
 
         </androidx.appcompat.widget.Toolbar>
@@ -61,19 +64,27 @@
         android:id="@+id/bottom"
         >
 
-        <View
+
+        <RelativeLayout
+            android:id="@+id/rl_bottom"
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@android:color/black"/>
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="5dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:background="#E9EDED"
+            android:layout_alignParentBottom="true"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
         <RelativeLayout
             android:layout_width="match_parent"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            android:background="@android:color/white"
-            android:layout_height="wrap_content">
-
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/btn_send"
+            android:background="@drawable/bg_white_rounded"
+            android:layout_marginRight="5dp"
+            android:paddingLeft="10dp"
+            android:layout_centerVertical="true">
             <EditText
                 android:textSize="16sp"
                 android:layout_width="match_parent"
@@ -82,16 +93,23 @@
                 android:background="@android:color/transparent"
                 android:fontFamily="@font/imprima"
                 android:hint="Type a message..."
-                android:layout_toLeftOf="@id/btn_send"
+                android:padding="15dp"
+                android:maxLines="3"
+                android:ems="10"
+                android:inputType="textCapSentences"
                 android:layout_centerVertical="true"/>
-
-            <ImageButton
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:background="@drawable/ic_send"
+        </RelativeLayout>
+            <ImageView
                 android:id="@+id/btn_send"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true" />
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:gravity="center"
+                android:background="@drawable/background_send"
+                android:src="@drawable/ic_baseline_send_24"
+                android:padding="10dp"
+                android:layout_alignParentRight="true"
+                android:stateListAnimator="@null"
+                android:layout_centerInParent="true"/>
 
         </RelativeLayout>
 

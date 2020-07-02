@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,7 +46,7 @@ public class ChatActivity extends AppCompatActivity {
     DatabaseReference reference;
     FirebaseDatabase firebaseDatabase;
 
-    ImageButton btn_send;
+    ImageView btn_send;
     EditText text_send;
 
     ChatAdapter chatAdapter;
@@ -120,13 +121,13 @@ public class ChatActivity extends AppCompatActivity {
                 Mechanic user = dataSnapshot.getValue(Mechanic.class);
                 username.setText(user.getUserName());
                 if (true){
-                    profile_image.setImageResource(R.mipmap.ic_launcher);
+                    profile_image.setImageResource(R.drawable.profilepicdemo1);
                 } else {
                     //and this
                     //Glide.with(getApplicationContext()).load(user.getProfilePicLink()).into(profile_image);
                 }
 
-                readMesagges(fuser.getUid(), userid, "R.mipmap.ic_launcher");
+                readMesagges(fuser.getUid(), userid, "R.drawable.profilepicdemo1");
             }
 
             @Override

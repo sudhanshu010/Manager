@@ -10,6 +10,8 @@
   <androidx.constraintlayout.widget.ConstraintLayout
       android:layout_width="match_parent"
       android:layout_height="match_parent"
+      android:id="@+id/empty_view_mesg"
+      android:visibility="gone"
       >
 
       <pl.droidsonroids.gif.GifImageView
@@ -41,4 +43,9 @@
           app:layout_constraintVertical_bias="0.595" />
 
   </androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/recent_chat_rv"
+        />
 </FrameLayout>

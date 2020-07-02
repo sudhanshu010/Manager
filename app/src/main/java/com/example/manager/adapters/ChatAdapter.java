@@ -77,7 +77,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
             holder.txt_seen.setVisibility(View.GONE);
         }
 
-        holder.message_time.setText(android.text.format.DateFormat.format("dd-MM-yyyy(HH:mm:ss)",chat.getMessageTime()));
+        holder.message_time.setText(android.text.format.DateFormat.format("HH:mm",chat.getMessageTime()));
 
     }
 
