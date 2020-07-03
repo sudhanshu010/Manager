@@ -15,6 +15,7 @@ import android.Manifest;
 import android.app.DatePickerDialog;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -79,7 +80,7 @@ public class GenerateQRActivity extends AppCompatActivity {
     OutputStream outputStream;
     long generationCodeValue = 0;
 
-    String[] descriptionData = {"Basic", "Specific", "Commercial"};
+    String[] descriptionData = {"Basic\nDetails", "Specific\nDetails", "Commercial\nDetails"};
     private int count = 1;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
 
@@ -117,7 +118,7 @@ public class GenerateQRActivity extends AppCompatActivity {
         stateProgressBar.setStateDescriptionData(descriptionData);
 
         stateProgressBar.setStateDescriptionTypeface("fonts/imprima.ttf");
-        stateProgressBar.setStateNumberTypeface("fonts/imprima.ttf");
+        stateProgressBar.setStateNumberTypeface( "fonts/imprima.ttf");
 //        serialNumber = findViewById(R.id.serialNumber);
 //
 //        serviceTime = findViewById(R.id.serviceTime);

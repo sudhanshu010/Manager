@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".GenerateQRActivity"
     android:orientation="vertical"
+
     android:background="@android:color/white"
     >
     <androidx.appcompat.widget.Toolbar
@@ -16,54 +17,39 @@
         android:background="#fff"
         app:titleTextColor="#3A3A3A"
         />
+    <com.kofigyan.stateprogressbar.StateProgressBar
+        android:id="@+id/your_stare_progress_id_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:spb_currentStateNumber="one"
+        app:spb_maxStateNumber="three"
+        app:spb_stateBackgroundColor="#BDBDBD"
+        app:spb_stateForegroundColor="#4CAF50"
+        app:spb_stateNumberBackgroundColor="#808080"
+        app:spb_stateNumberForegroundColor="#eeeeee"
+        app:spb_currentStateDescriptionColor="@color/colorPrimary"
+        app:spb_stateDescriptionColor="#808080"
+        app:spb_animateToCurrentProgressState="true"
+        app:spb_checkStateCompleted="true"
+        app:spb_descriptionTopSpaceIncrementer="5dp"
+
+        app:spb_stateSize="25dp"/>
 
 
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginBottom="15dp"
-            app:cardCornerRadius="5dp"
-            app:cardElevation="2dp"
-            >
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="70dp"
-                app:cardCornerRadius="5dp"
-                app:cardElevation="0dp"
 
-                >
-                <com.kofigyan.stateprogressbar.StateProgressBar
-                    android:id="@+id/your_stare_progress_id_bar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-
-                    app:spb_currentStateNumber="one"
-                    app:spb_maxStateNumber="three"
-                    app:spb_stateBackgroundColor="#BDBDBD"
-                    app:spb_stateForegroundColor="#4CAF50"
-                    app:spb_stateNumberBackgroundColor="#808080"
-                    app:spb_stateNumberForegroundColor="#eeeeee"
-                    app:spb_currentStateDescriptionColor="@color/colorPrimary"
-                    app:spb_stateDescriptionColor="#808080"
-                    app:spb_animateToCurrentProgressState="true"
-                    app:spb_checkStateCompleted="true"
-                    app:spb_descriptionTopSpaceIncrementer="5dp"
-
-                    app:spb_stateSize="25dp"/>
-            </androidx.cardview.widget.CardView>
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="400dp"
                     android:layout_marginStart="0dp"
-                    android:layout_marginTop="80dp"
+                    android:layout_marginTop="40dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
                     android:id="@+id/mainframe">
 
                 </FrameLayout>
-        </androidx.cardview.widget.CardView>
+
 
 
      <RelativeLayout
@@ -92,21 +78,21 @@
              android:layout_marginStart="20dp" />
 
          <Button
+             android:id="@+id/next_arrow"
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
-             android:id="@+id/next_arrow"
-             android:text="next"
-             android:paddingLeft="10dp"
-             android:paddingRight="10dp"
-             android:drawableRight="@drawable/ic_arrow_forward_black_24dp"
-             android:drawableTint="#000"
-              android:textColor="#000"
+             android:layout_alignParentRight="true"
              android:layout_marginEnd="20dp"
-             android:fontFamily="@font/tillana"
-             android:textSize="15sp"
              android:background="@drawable/btn_round_corner"
              android:backgroundTint="#A1E8A8"
-             android:layout_alignParentRight="true"/>
+             android:drawableRight="@drawable/ic_arrow_forward_black_24dp"
+             android:drawableTint="#000"
+             android:fontFamily="@font/tillana"
+             android:paddingLeft="10dp"
+             android:paddingRight="10dp"
+             android:text="next"
+             android:textColor="#000"
+             android:textSize="15sp" />
 
 
      </RelativeLayout>

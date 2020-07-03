@@ -66,7 +66,7 @@ public class PendingRequestAdapter extends FirebaseRecyclerPagingAdapter<Request
         return new PendingRequestAdapter.MyHolder(view);
     }
 
-    protected void onBindViewHolder(PendingRequestAdapter.MyHolder viewHolder,int position,  Request model) {
+    protected void onBindViewHolder(PendingRequestAdapter.MyHolder viewHolder,int position,@NonNull Request model) {
         int bgColor = ContextCompat.getColor(c, mColors[position % 12]);
         viewHolder.cardView.setCardBackgroundColor(bgColor);
         viewHolder.bind(model);
