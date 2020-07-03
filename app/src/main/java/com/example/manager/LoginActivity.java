@@ -1,6 +1,7 @@
 package com.example.manager;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
@@ -14,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.manager.DialogBox.CustomDialogBox;
@@ -29,6 +31,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.zxing.client.android.Intents;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -45,6 +48,7 @@ public class LoginActivity extends AppCompatActivity {
     DatabaseReference serviceManReference;
 
     CustomDialogBox customDialogBox;
+    TextView ScanBC;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,12 +67,22 @@ public class LoginActivity extends AppCompatActivity {
         customDialogBox = new CustomDialogBox(LoginActivity.this);
         customDialogBox.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
+        ScanBC = findViewById(R.id.scanBC);
         loginEmail = findViewById(R.id.loginEmail);
         loginPassword = findViewById(R.id.loginPassword);
         loginButton = findViewById(R.id.loginButton);
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         serviceManReference = firebaseDatabase.getReference("Users").child("Mechanic");
+
+        ScanBC.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(LoginActivity.this, BarCodeLogin.class);
+                overridePendingTransition(R.anim.slide_in_left,R.anim.stay);
+                startActivityForResult(i, 32);
+            }
+        });
 
 
         loginButton.setOnClickListener(new View.OnClickListener() {
@@ -140,11 +154,30 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode==32)
+        {
+            if(resultCode == RESULT_OK)
+            {
+                String Result = data.getStringExtra("Scan_result");
+                Toast.makeText(this, Result, Toast.LENGTH_SHORT).show();
+                Log.i("Result bhai", Result);
+//                customDialogBox.show();
+//                login(email,password);
+            }
+        }
+    }
+
     public void onLoginClick(View View){
         startActivity(new Intent(this,RegisterActivity.class));
         overridePendingTransition(R.anim.slide_in_right,R.anim.stay);
         finish();
 
     }
+
 
 }

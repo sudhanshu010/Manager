@@ -107,6 +107,17 @@
                 android:textColor="@color/colorPrimary"
                 android:textSize="17sp"
                 android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/scanBC"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Scan"
+                android:textSize="18sp"
+                android:background="#abcdef"
+                android:padding="5dp"
+
+                />
         </LinearLayout>
     </ScrollView>
 

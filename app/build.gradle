@@ -149,4 +149,7 @@ dependencies {
     // One New Scanner
     implementation 'me.dm7.barcodescanner:zxing:1.9'
 
+    //Barcode Scanner
+    implementation 'com.journeyapps:zxing-android-embedded:3.4.0'
+
 }

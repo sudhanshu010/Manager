@@ -150,7 +150,7 @@ public class RecentChatAdapter extends FirebaseRecyclerPagingAdapter<Complaint, 
                         if (getAdapterPosition() == getItemCount() - 1) {
                             ShimmerFrameLayout shimmerFrameLayout = fragmentView.findViewById(R.id.shimmer_container);
                             RecyclerView recyclerView = fragmentView.findViewById(R.id.recent_chat_rv);
-                            shimmerFrameLayout.stopShimmer();
+//                            shimmerFrameLayout.stopShimmerAnimation();
                             shimmerFrameLayout.setVisibility(View.GONE);
                             recyclerView.setVisibility(View.VISIBLE);
 
