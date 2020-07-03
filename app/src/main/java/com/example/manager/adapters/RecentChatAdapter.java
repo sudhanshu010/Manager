@@ -18,6 +18,7 @@ import com.example.manager.models.Chat;
 import com.example.manager.models.Complaint;
 import com.example.manager.models.Mechanic;
 import com.example.manager.models.Request;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.firebase.ui.database.paging.DatabasePagingOptions;
 import com.firebase.ui.database.paging.FirebaseRecyclerPagingAdapter;
 import com.firebase.ui.database.paging.LoadingState;
@@ -37,11 +38,12 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class RecentChatAdapter extends FirebaseRecyclerPagingAdapter<Complaint, RecentChatAdapter.MyHolder> {
 
     Context c;
+    View fragmentView;
 
-
-    public RecentChatAdapter(@NonNull DatabasePagingOptions<Complaint> options, Context c) {
+    public RecentChatAdapter(@NonNull DatabasePagingOptions<Complaint> options, Context c,View fragmentView) {
         super(options);
         this.c = c;
+        this.fragmentView = fragmentView;
     }
 
     @Override
@@ -101,62 +103,75 @@ public class RecentChatAdapter extends FirebaseRecyclerPagingAdapter<Complaint, 
 
         public void bind(final Complaint model) {
 
-            complaintid = String.valueOf(model.getComplaintId());
-            complaintId.setText(complaintid);
-            senderName.setText(model.getMechanic().getUserName());
+            if (getItemCount() == 0) {
+                // do empty view thing.
+            } else {
+                complaintid = String.valueOf(model.getComplaintId());
+                complaintId.setText(complaintid);
+                senderName.setText(model.getMechanic().getUserName());
 
-            FirebaseDatabase firebaseDatabase =  FirebaseDatabase.getInstance();
-            fuser = FirebaseAuth.getInstance().getCurrentUser();
-            reference = FirebaseDatabase.getInstance().getReference("Complaints").child(complaintid).child("Chats");
-//            reference.addListenerForSingleValueEvent(new ValueEventListener() {
-//                @Override
-//                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                    if(!dataSnapshot.exists())
-//                    {
-//                        itemView.setVisibility(View.GONE);
-//                    }
-//                    else {
-//                        itemView.setVisibility(View.VISIBLE);
-//                    }
-//                }
-//
-//                @Override
-//                public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//                }
-//            });
-            reference.addChildEventListener(new ChildEventListener() {
-                @Override
-                public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+                fuser = FirebaseAuth.getInstance().getCurrentUser();
+                reference = FirebaseDatabase.getInstance().getReference("Complaints").child(complaintid).child("Chats");
 
-                    Chat chat = dataSnapshot.getValue(Chat.class);
-                    lastMessage.setText(chat.getMessage());
+                reference.addChildEventListener(new ChildEventListener() {
+                    @Override
+                    public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
-                }
+                        Chat chat = dataSnapshot.getValue(Chat.class);
+                        lastMessage.setText(chat.getMessage());
+                    }
 
-                @Override
-                public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                    Chat chat = dataSnapshot.getValue(Chat.class);
-                    lastMessage.setText(chat.getMessage());
-                }
+                    @Override
+                    public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                        Chat chat = dataSnapshot.getValue(Chat.class);
+                        lastMessage.setText(chat.getMessage());
+                    }
 
-                @Override
-                public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+                    @Override
+                    public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
 
-                }
+                    }
 
-                @Override
-                public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                    @Override
+                    public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
-                }
+                    }
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                }
-            });
+                    }
+                });
+
+                reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if (getAdapterPosition() == getItemCount() - 1) {
+                            ShimmerFrameLayout shimmerFrameLayout = fragmentView.findViewById(R.id.shimmer_container);
+                            RecyclerView recyclerView = fragmentView.findViewById(R.id.recent_chat_rv);
+                            shimmerFrameLayout.stopShimmer();
+                            shimmerFrameLayout.setVisibility(View.GONE);
+                            recyclerView.setVisibility(View.VISIBLE);
+
+                        }
+                        if (!dataSnapshot.exists()) {
+                            itemView.setVisibility(View.GONE);
+                        } else {
+                            itemView.setVisibility(View.VISIBLE);
+
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
 
 
+
+            }
         }
     }
 }

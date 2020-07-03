@@ -15,6 +15,7 @@ import com.example.manager.R;
 import com.example.manager.adapters.RecentChatAdapter;
 import com.example.manager.models.Complaint;
 import com.example.manager.models.Machine;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.firebase.ui.database.paging.DatabasePagingOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -32,7 +33,7 @@ public class RecentChatFragment extends Fragment {
     FirebaseAuth auth;
     FirebaseUser user;
 
-
+    ShimmerFrameLayout shimmerFrameLayout;
     public RecentChatFragment() {
         // Required empty public constructor
     }
@@ -42,7 +43,10 @@ public class RecentChatFragment extends Fragment {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.recent_chat_fragment, container, false);
 
+        shimmerFrameLayout = view.findViewById(R.id.shimmer_container);
+        shimmerFrameLayout.startShimmer();
         recyclerView = view.findViewById(R.id.recent_chat_rv);
+        recyclerView.setVisibility(View.INVISIBLE); // this will be set to visible recent chat adapter after shimmer effect stops.
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         firebaseDatabase = FirebaseDatabase.getInstance();
         auth = FirebaseAuth.getInstance();
@@ -58,10 +62,12 @@ public class RecentChatFragment extends Fragment {
                 .setLifecycleOwner(this)
                 .setQuery(baseQuery,config,Complaint.class)
                 .build();
-        RecentChatAdapter recentChatAdapter = new RecentChatAdapter(options,getActivity().getApplicationContext());
+        RecentChatAdapter recentChatAdapter = new RecentChatAdapter(options,getActivity().getApplicationContext(),view);
         recyclerView.setAdapter(recentChatAdapter);
         recentChatAdapter.startListening();
 
         return view;
     }
+
+
 }
