@@ -13,10 +13,12 @@ import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.example.manager.DialogBox.ComplaintDescriptionDialog;
@@ -62,11 +64,13 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
 
     String generationCode;
     Machine machine;
+    TextView NoMachineHistory;
 
     private ShowDetailsAdapter showDetailsAdapter;
     LinearLayoutManager HorizontalLayout;
     ImageView QRCodeImage;
     TextView show_history;
+    ScrollView ScrollViewHistory;
     Button generateComplaint;
     TextView companyName,machineType,modelNumber,price;
     TextView serialNo,department,serviceTime,dateOfInstallation, generator;
@@ -79,6 +83,7 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,6 +93,8 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
 
         generateComplaint = findViewById(R.id.generateComplaint);
        show_history = findViewById(R.id.show_history);
+       NoMachineHistory = findViewById(R.id.xyz);
+       ScrollViewHistory = (ScrollView) findViewById(R.id.scrollViewHistory);
 
         description = new String("");
         modelNumber = findViewById(R.id.machineModelNumber);
@@ -131,6 +138,26 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
                 machineType.setText(machine.getType());
                 modelNumber.setText(machine.getModelNumber());
                 machineId = machine.getMachineId();
+
+                final String manager1 = machine.getManager().getUserName().toString();
+
+                final DatabaseReference reference2 = firebaseDatabase.getReference().child("Users").child("Manager").child(user.getUid());
+                reference2.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        String realManager = dataSnapshot.child("userName").getValue().toString();
+                        if(!realManager.equals(manager1))
+                        {
+                            generateComplaint.setVisibility(View.GONE);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
             }
 
             @Override
@@ -138,6 +165,8 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
 
             }
         });
+
+
 
 
         recyclerView=findViewById(R.id.machine_history_rv);
@@ -152,6 +181,24 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
         firebaseDatabase = FirebaseDatabase.getInstance();
              Query baseQuery1 = firebaseDatabase.getReference("Machines").child(generationCode).child("pastRecords");
 
+             DatabaseReference reference1 = firebaseDatabase.getReference().child("Machines").child(generationCode).child("pastRecords");
+             reference1.addListenerForSingleValueEvent(new ValueEventListener() {
+                 @Override
+                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                     if(!dataSnapshot.exists())
+                     {
+                         show_history.setVisibility(View.GONE);
+                         ScrollViewHistory.setVisibility(View.GONE);
+                         recyclerView.setVisibility(View.GONE);
+                         NoMachineHistory.setVisibility(View.VISIBLE);
+                     }
+                 }
+
+                 @Override
+                 public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                 }
+             });
 
              PagedList.Config config = new PagedList.Config.Builder()
                      .setEnablePlaceholders(false)
@@ -265,6 +312,8 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
         cd2.setStepSize(0.5f);
         // sets a custom array of text
 
+
+
         // continuously check its circle is completely on screen or not. If yes, start the animation.
         final Runnable runnable = new Runnable() {
             public void run() {
@@ -272,8 +321,43 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
                 Rect rect = new Rect();
                 if(cd1.getGlobalVisibleRect(rect)
                         && cd1.getHeight()/2 <= rect.height()) {
+
+
+                    //Checking the life of machine
+                    //TODO:Uncomment this when finalise
+                    /*
+
+                    DatabaseReference reference2 = firebaseDatabase.getReference().child("comparisonMachine").child(machine.getDepartment()).child(machine.getType()).child(machine.getMachineId());
+                    reference2.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                            int a = Integer.valueOf(dataSnapshot.child("sum").getValue().toString());
+                            int serviceCount = Integer.valueOf(dataSnapshot.child("serviceCount").getValue().toString());
+                            Float ExpectedLife = machine.getLife();
+                            int serviceTime = machine.getServiceTime();
+                            Float ans1 = (serviceCount*serviceTime)/(ExpectedLife*12);
+                            ans1*=100;
+
+                            Float buyCost = machine.getPrice();
+                            Float ans2 = (a*100f)/buyCost;
+
+                            cd1.showValue(ans1, 100f,false);
+                            cd2.showValue(ans2, 100f, false);
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+
+                    */
+
+
+
                     cd1.showValue(75f, 100f,false);
-                    cd2.showValue(90f, 100f, false);
+                    cd2.showValue(30f, 100f, false);
                     cd1.startAnim();
                     cd2.startAnim();
                 }
@@ -289,11 +373,17 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
 
         //Histogram
 
+
+
+
+
         final ColumnChartView chart = findViewById(R.id.chart);
         ColumnChartData columnChartData;
-        final List<Column> columns;
+        List<Column> columns;
         columns = new ArrayList<>();
         List<SubcolumnValue> subcolumnValues;
+
+
         int numColumns = 12;
         for (int i = 0; i < numColumns; i++) {
             subcolumnValues = new ArrayList<>();
