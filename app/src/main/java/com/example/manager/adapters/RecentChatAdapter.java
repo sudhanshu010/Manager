@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.manager.ChatActivity;
@@ -22,6 +23,7 @@ import com.firebase.ui.database.paging.FirebaseRecyclerPagingAdapter;
 import com.firebase.ui.database.paging.LoadingState;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -35,6 +37,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class RecentChatAdapter extends FirebaseRecyclerPagingAdapter<Complaint, RecentChatAdapter.MyHolder> {
 
     Context c;
+
 
     public RecentChatAdapter(@NonNull DatabasePagingOptions<Complaint> options, Context c) {
         super(options);
@@ -60,18 +63,20 @@ public class RecentChatAdapter extends FirebaseRecyclerPagingAdapter<Complaint, 
 
     public class MyHolder extends RecyclerView.ViewHolder {
         CircleImageView senderImg;
-        TextView senderName,complaintId,unreadmesg;
+        TextView senderName,complaintId,unreadmesg,lastMessage;
         LinearLayout chatLL;
         String complaintid;
         DatabaseReference reference;
         FirebaseUser fuser;
         Mechanic mechanic;
+
         public MyHolder(@NonNull View itemView) {
             super(itemView);
             senderImg = itemView.findViewById(R.id.mechanic_image);
             complaintId = itemView.findViewById(R.id.complain_id);
             senderName = itemView.findViewById(R.id.mechanic_name);
             unreadmesg = itemView.findViewById(R.id.unread_mesg_no);
+            lastMessage = itemView.findViewById(R.id.last_message);
             chatLL = itemView.findViewById(R.id.chat_ll);
 
             chatLL.setOnClickListener(new View.OnClickListener() {
@@ -97,28 +102,52 @@ public class RecentChatAdapter extends FirebaseRecyclerPagingAdapter<Complaint, 
         public void bind(final Complaint model) {
 
             complaintid = String.valueOf(model.getComplaintId());
-            mechanic = model.getMechanic();
+            complaintId.setText(complaintid);
+            senderName.setText(model.getMechanic().getUserName());
+
             FirebaseDatabase firebaseDatabase =  FirebaseDatabase.getInstance();
             fuser = FirebaseAuth.getInstance().getCurrentUser();
             reference = FirebaseDatabase.getInstance().getReference("Complaints").child(complaintid).child("Chats");
-            final HashMap<Integer,String> map= new HashMap<Integer,String>();
-            reference.addValueEventListener(new ValueEventListener() {
+//            reference.addListenerForSingleValueEvent(new ValueEventListener() {
+//                @Override
+//                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                    if(!dataSnapshot.exists())
+//                    {
+//                        itemView.setVisibility(View.GONE);
+//                    }
+//                    else {
+//                        itemView.setVisibility(View.VISIBLE);
+//                    }
+//                }
+//
+//                @Override
+//                public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//                }
+//            });
+            reference.addChildEventListener(new ChildEventListener() {
                 @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    Chat chat;
-                    if(dataSnapshot.exists()) {
-                        for(DataSnapshot ds : dataSnapshot.getChildren())
-                        {
-                            chat = ds.getValue(Chat.class);
-                            if(chat!=null  && (chat.getSender().equals(fuser.getUid()) || chat.getReceiver().equals(fuser.getUid())) && !map.containsValue(complaintid) && mechanic!=null)
-                            {
-                                senderName.setText(model.getMechanic().getUserName());
-                                complaintId.setText(String.valueOf(model.getComplaintId()));
-                                map.put(1,String.valueOf(model.getComplaintId()));
-                                break;
-                            }
-                        }
-                    }
+                public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                    Chat chat = dataSnapshot.getValue(Chat.class);
+                    lastMessage.setText(chat.getMessage());
+
+                }
+
+                @Override
+                public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                    Chat chat = dataSnapshot.getValue(Chat.class);
+                    lastMessage.setText(chat.getMessage());
+                }
+
+                @Override
+                public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+                }
+
+                @Override
+                public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
                 }
 
                 @Override

@@ -16,6 +16,8 @@ import com.example.manager.adapters.RecentChatAdapter;
 import com.example.manager.models.Complaint;
 import com.example.manager.models.Machine;
 import com.firebase.ui.database.paging.DatabasePagingOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
@@ -27,6 +29,8 @@ public class RecentChatFragment extends Fragment {
     DatabaseReference databaseReference;
     FirebaseDatabase firebaseDatabase;
     ConstraintLayout emptyView;
+    FirebaseAuth auth;
+    FirebaseUser user;
 
 
     public RecentChatFragment() {
@@ -41,7 +45,9 @@ public class RecentChatFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recent_chat_rv);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         firebaseDatabase = FirebaseDatabase.getInstance();
-        Query baseQuery = firebaseDatabase.getReference("Complaints");
+        auth = FirebaseAuth.getInstance();
+        user = auth.getCurrentUser();
+        Query baseQuery = firebaseDatabase.getReference("Users/Manager/"+user.getUid()+"/pendingComplaints");
         PagedList.Config config = new PagedList.Config.Builder()
                 .setEnablePlaceholders(false)
                 .setPrefetchDistance(10)
