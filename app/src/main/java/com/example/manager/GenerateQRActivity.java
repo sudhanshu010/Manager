@@ -68,6 +68,8 @@ import java.util.Objects;
 
 import javax.crypto.Mac;
 
+import xyz.hasnat.sweettoast.SweetToast;
+
 public class GenerateQRActivity extends AppCompatActivity {
 
     EditText price, serviceTime, serialNumber, typeOfMachine, machineCompany, modelNumber, machinePrice,department, scrapValue, life;// Serial Number mentioned on Machine
@@ -338,7 +340,7 @@ public class GenerateQRActivity extends AppCompatActivity {
                                  e.printStackTrace();
                              }
                          } else {
-                             Toast.makeText(GenerateQRActivity.this, "failed", Toast.LENGTH_SHORT).show();
+                             SweetToast.error(GenerateQRActivity.this, "failed");
                          }
 
 
@@ -533,7 +535,7 @@ public class GenerateQRActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<Void> task) {
                             if(task.isSuccessful())
                             {
-                                Toast.makeText(GenerateQRActivity.this, "File Updated", Toast.LENGTH_SHORT).show();
+                                SweetToast.success(GenerateQRActivity.this, "File Updated");
                                 generationCodeValue = generationCodeValue+1; // increase Value of generationCode Everytime a new machine is entered.
                                 generationCodeReference.setValue(generationCodeValue);
                             }

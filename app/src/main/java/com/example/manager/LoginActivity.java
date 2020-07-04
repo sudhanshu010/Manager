@@ -36,6 +36,8 @@ import com.google.zxing.client.android.Intents;
 import java.util.HashMap;
 import java.util.Map;
 
+import xyz.hasnat.sweettoast.SweetToast;
+
 public class LoginActivity extends AppCompatActivity {
 
     EditText loginEmail, loginPassword;
@@ -127,6 +129,7 @@ public class LoginActivity extends AppCompatActivity {
                                         if(isManager)
                                         {
                                             customDialogBox.dismiss();
+                                            SweetToast.success(LoginActivity.this,"Success");
                                             Intent i = new Intent(LoginActivity.this,BottomNavigationActivity.class);
                                             startActivity(i);
                                             finish();
@@ -134,13 +137,13 @@ public class LoginActivity extends AppCompatActivity {
                                         else
                                         {
                                             customDialogBox.dismiss();
-                                            Toast.makeText(LoginActivity.this, "error", Toast.LENGTH_SHORT).show();
+                                            SweetToast.error(LoginActivity.this, "error");
                                         }
                                     }
                                     catch (Exception e)
                                     {
                                         customDialogBox.dismiss();
-                                        Toast.makeText(LoginActivity.this, "Error Occured", Toast.LENGTH_SHORT).show();
+                                        SweetToast.error(LoginActivity.this, "Error Occured");
 
                                     }
 
@@ -150,7 +153,7 @@ public class LoginActivity extends AppCompatActivity {
 
                         } else {
                             customDialogBox.dismiss();
-                            Toast.makeText(getApplicationContext(), "Some Error Occured", Toast.LENGTH_SHORT).show();
+                            SweetToast.error(getApplicationContext(), "Some Error Occured");
 
                         }
                     }

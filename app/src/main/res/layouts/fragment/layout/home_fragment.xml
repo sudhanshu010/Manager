@@ -19,7 +19,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="3.2"
+            android:layout_weight="4"
 
             >
 
@@ -32,7 +32,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:sliderAnimationDuration="600"
-                app:sliderAutoCycleDirection="back_and_forth"
+                app:sliderAutoCycleDirection="right"
                 app:sliderAutoCycleEnabled="true"
                 app:sliderIndicatorAnimationDuration="600"
                 app:sliderIndicatorGravity="center_horizontal|bottom"
