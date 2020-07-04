@@ -32,6 +32,7 @@ import com.otaliastudios.cameraview.CameraView;
 import java.util.List;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
+import xyz.hasnat.sweettoast.SweetToast;
 
 public class ScanQRActivity extends AppCompatActivity implements ZXingScannerView.ResultHandler {
 
@@ -72,6 +73,7 @@ public class ScanQRActivity extends AppCompatActivity implements ZXingScannerVie
                 if(dataSnapshot.child("Machines").child(scanResult).exists())
                 {
                     scannerView.stopCamera();
+                    SweetToast.success(getApplicationContext(),"Success");
                     Intent i = new Intent(ScanQRActivity.this, GetMachineDetailsActivity.class);
                     i.putExtra("generationCode",scanResult);
                     startActivity(i);
@@ -80,7 +82,7 @@ public class ScanQRActivity extends AppCompatActivity implements ZXingScannerVie
                 }
                 else
                 {
-                    Toast.makeText(ScanQRActivity.this, "This QR doesn't belong to AAI", Toast.LENGTH_SHORT).show();
+                    SweetToast.error(getApplicationContext(),"QR doesn't belong to AAI");
                     onResume();
                     customDialogBox.dismiss();
                 }

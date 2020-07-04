@@ -2,6 +2,7 @@ package com.example.manager.fragments;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -22,6 +23,9 @@ import com.example.manager.PendingRequestActivity;
 import com.example.manager.R;
 import com.example.manager.ScanQRActivity;
 import com.example.manager.adapters.ViewPagerAdapter;
+import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
+import com.smarteist.autoimageslider.SliderAnimations;
+import com.smarteist.autoimageslider.SliderView;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -47,65 +51,21 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.home_fragment, container, false);
+        //Image Slider
+        SliderView sliderView = view.findViewById(R.id.imageSlider);
 
-        viewPager= (ViewPager)view.findViewById(R.id.viewpager);
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getActivity());
 
-        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getActivity().getApplicationContext());
-        viewPager.setAdapter(viewPagerAdapter);
+        sliderView.setSliderAdapter(adapter);
 
+        sliderView.setIndicatorAnimation(IndicatorAnimationType.WORM); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
+        sliderView.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
+        sliderView.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_BACK_AND_FORTH);
+        sliderView.setIndicatorSelectedColor(Color.parseColor("#275F73"));
+        sliderView.setIndicatorUnselectedColor(Color.GRAY);
+        sliderView.setScrollTimeInSec(2); //set scroll delay in seconds :
+        sliderView.startAutoCycle();
 
-
-        //dots in viewpager
-        sliderdotspanel = (LinearLayout) view.findViewById(R.id.slider_dots);
-
-        dotscount=viewPagerAdapter.getCount();
-        dots = new ImageView[dotscount];
-
-        for(int i = 0; i < dotscount; i++){
-
-            dots[i] = new ImageView(getActivity().getApplicationContext());
-            dots[i].setImageDrawable(ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.active_dot));
-
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-
-            params.setMargins(8, 0, 8, 0);
-
-            sliderdotspanel.addView(dots[i], params);
-
-        }
-
-        dots[0].setImageDrawable(ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.nonactive_dot));
-
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-
-                for(int i = 0; i< dotscount; i++){
-
-                    Activity activity = getActivity();
-                    if(activity!=null)
-                        dots[i].setImageDrawable(ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.active_dot));
-                }
-
-                Activity activity = getActivity();
-                if(activity!=null)
-                    dots[position].setImageDrawable(ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.nonactive_dot));
-
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
-
-        //timer in viewpager
-        autoScroll();
 
         scan =(CardView) view.findViewById(R.id.scan);
         generate = (CardView) view.findViewById(R.id.generate);
@@ -155,40 +115,5 @@ public class HomeFragment extends Fragment {
     }
 
 
-    final long DELAY = 1000;//delay in milliseconds before auto sliding starts.
-    final long PERIOD = 4000; //time in milliseconds between sliding.
 
-
-    private void autoScroll(){
-        final Handler handler = new Handler();
-        final Runnable Update = new Runnable() {
-            public void run() {
-                if(viewPager.getCurrentItem()==0)
-                {
-                    viewPager.setCurrentItem(1);
-                }
-                else if(viewPager.getCurrentItem()==1)
-                {
-                    viewPager.setCurrentItem(0);
-                }
-            }
-        };
-
-        timer = new Timer(); // creating a new thread
-        timer .schedule(new TimerTask() { // task to be scheduled
-
-            @Override
-            public void run() {
-                handler.post(Update);
-            }
-        }, DELAY, PERIOD);
-    }
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        if(timer != null) {
-            timer.cancel();
-            timer = null;
-        }
-    }
 }
