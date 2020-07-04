@@ -2,6 +2,7 @@ package com.example.manager;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
@@ -26,18 +27,19 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GetTokenResult;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.google.zxing.client.android.Intents;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
+
+import javax.crypto.Cipher;
+import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
 
 public class LoginActivity extends AppCompatActivity {
 
+    Cipher cipher;
     EditText loginEmail, loginPassword;
     Button loginButton;
 
@@ -78,7 +80,7 @@ public class LoginActivity extends AppCompatActivity {
         ScanBC.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(LoginActivity.this, BarCodeLogin.class);
+                Intent i = new Intent(LoginActivity.this, BarCodeLoginActivity.class);
                 overridePendingTransition(R.anim.slide_in_left,R.anim.stay);
                 startActivityForResult(i, 32);
             }
@@ -92,8 +94,6 @@ public class LoginActivity extends AppCompatActivity {
 
                 String email = loginEmail.getText().toString();
                 String password = loginPassword.getText().toString();
-                customDialogBox.show();
-
                 login(email,password);
 
             }
@@ -102,6 +102,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void login(String email, String password) {
 
+        customDialogBox.show();
         mAuth.signInWithEmailAndPassword(email,password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
@@ -157,6 +158,7 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -165,11 +167,29 @@ public class LoginActivity extends AppCompatActivity {
         {
             if(resultCode == RESULT_OK)
             {
-                String Result = data.getStringExtra("Scan_result");
-                Toast.makeText(this, Result, Toast.LENGTH_SHORT).show();
-                Log.i("Result bhai", Result);
-//                customDialogBox.show();
-//                login(email,password);
+                String result = data.getStringExtra("Scan_result");
+                Toast.makeText(this, result, Toast.LENGTH_SHORT).show();
+
+                KeyGenerator keyGenerator = null;
+                try {
+//                    Log.i("Result",result);
+//                    keyGenerator = KeyGenerator.getInstance("AES");
+//                    keyGenerator.init(128);
+//                    SecretKey secretKey = keyGenerator.generateKey();
+//                    cipher = Cipher.getInstance("AES");
+//
+//                    String decryptedText = decrypt(result, secretKey);
+//                    Log.i("Decrypted Text After Decryption: " ,decryptedText);
+                    String[] emailAndPassword = result.split(" ",2);
+                    String email = emailAndPassword[0];
+                    String password = emailAndPassword[1];
+                    login(email,password);
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
             }
         }
     }
@@ -178,7 +198,28 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(new Intent(this,RegisterActivity.class));
         overridePendingTransition(R.anim.slide_in_right,R.anim.stay);
         finish();
+    }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public String encrypt(String plainText, SecretKey secretKey)
+            throws Exception {
+        byte[] plainTextByte = plainText.getBytes();
+        cipher.init(Cipher.ENCRYPT_MODE, secretKey);
+        byte[] encryptedByte = cipher.doFinal(plainTextByte);
+        Base64.Encoder encoder = Base64.getEncoder();
+        String encryptedText = encoder.encodeToString(encryptedByte);
+        return encryptedText;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public String decrypt(String encryptedText, SecretKey secretKey)
+            throws Exception {
+        Base64.Decoder decoder = Base64.getDecoder();
+        byte[] encryptedTextByte = decoder.decode(encryptedText);
+        cipher.init(Cipher.DECRYPT_MODE, secretKey);
+        byte[] decryptedByte = cipher.doFinal(encryptedTextByte);
+        String decryptedText = new String(decryptedByte);
+        return decryptedText;
     }
 
 

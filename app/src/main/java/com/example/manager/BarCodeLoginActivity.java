@@ -5,13 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,23 +16,13 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import com.example.manager.DialogBox.CustomDialogBox;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.GetTokenResult;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.zxing.Result;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 import static android.Manifest.permission.CAMERA;
 
-public class BarCodeLogin extends AppCompatActivity implements ZXingScannerView.ResultHandler{
+public class BarCodeLoginActivity extends AppCompatActivity implements ZXingScannerView.ResultHandler{
 
     boolean isDetected = false;
     private static final int REQUEST_CAMERA = 1;
@@ -58,7 +44,7 @@ public class BarCodeLogin extends AppCompatActivity implements ZXingScannerView.
     }
 
     private boolean checkPermission() {
-        return (ContextCompat.checkSelfPermission(BarCodeLogin.this, CAMERA)== PackageManager.PERMISSION_GRANTED);
+        return (ContextCompat.checkSelfPermission(BarCodeLoginActivity.this, CAMERA)== PackageManager.PERMISSION_GRANTED);
     }
 
     public void requestPermission() {
@@ -111,7 +97,7 @@ public class BarCodeLogin extends AppCompatActivity implements ZXingScannerView.
                     scannerView = new ZXingScannerView(this);
                     setContentView(scannerView);
                 }
-                scannerView.setResultHandler(BarCodeLogin.this);
+                scannerView.setResultHandler(BarCodeLoginActivity.this);
                 scannerView.startCamera();
             }
             else
@@ -136,8 +122,7 @@ public class BarCodeLogin extends AppCompatActivity implements ZXingScannerView.
     @Override
     public void handleResult(Result result) {
         String scanResult = result.getText();
-
-
+        Log.i("sudhanshu",scanResult);
         Intent data = new Intent();
         data.putExtra("Scan_result", scanResult);
         setResult(RESULT_OK, data);

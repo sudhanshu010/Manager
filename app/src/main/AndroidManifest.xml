@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:label">
-        <activity android:name=".BarCodeLogin"></activity>
+        <activity android:name=".BarCodeLoginActivity"></activity>
         <activity android:name=".ComplaintDetails"></activity>
         <activity
             android:name=".GetMachineDetailsActivity"
