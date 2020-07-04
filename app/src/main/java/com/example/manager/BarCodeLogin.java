@@ -1,14 +1,14 @@
 package com.example.manager;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import static android.Manifest.permission.CAMERA;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -21,20 +21,22 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.manager.DialogBox.CustomDialogBox;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GetTokenResult;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.zxing.Result;
-import com.otaliastudios.cameraview.CameraView;
-
-import java.util.List;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
-import xyz.hasnat.sweettoast.SweetToast;
 
-public class ScanQRActivity extends AppCompatActivity implements ZXingScannerView.ResultHandler {
+import static android.Manifest.permission.CAMERA;
+
+public class BarCodeLogin extends AppCompatActivity implements ZXingScannerView.ResultHandler{
 
     boolean isDetected = false;
     private static final int REQUEST_CAMERA = 1;
@@ -42,71 +44,24 @@ public class ScanQRActivity extends AppCompatActivity implements ZXingScannerVie
     private Button scanBtn;
     ImageButton flashlight1 ;
     int flash_ON;
-    DatabaseReference reference1;
-    CustomDialogBox customDialogBox;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_scan_qr);
+        setContentView(R.layout.activity_barcode_login);
+
         scannerView = findViewById(R.id.ScannerFrontend);
         flashlight1 = findViewById(R.id.flashlight1);
         flash_ON = 0;
 
-        customDialogBox = new CustomDialogBox(ScanQRActivity.this);
-        customDialogBox.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
-        reference1 = FirebaseDatabase.getInstance().getReference();
-    }
-
-    @Override
-    public void handleResult(Result result) {
-        final String scanResult = result.getText();
-
-        customDialogBox.show();
-
-        reference1.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot.child("Machines").child(scanResult).exists())
-                {
-                    scannerView.stopCamera();
-                    SweetToast.success(getApplicationContext(),"Success");
-                    Intent i = new Intent(ScanQRActivity.this, GetMachineDetailsActivity.class);
-                    i.putExtra("generationCode",scanResult);
-                    startActivity(i);
-                    customDialogBox.dismiss();
-                    finish();
-                }
-                else
-                {
-                    SweetToast.error(getApplicationContext(),"QR doesn't belong to AAI");
-                    onResume();
-                    customDialogBox.dismiss();
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-
 
     }
 
-
-
-    private boolean checkPermission()
-    {
-        return (ContextCompat.checkSelfPermission(ScanQRActivity.this, CAMERA)== PackageManager.PERMISSION_GRANTED);
+    private boolean checkPermission() {
+        return (ContextCompat.checkSelfPermission(BarCodeLogin.this, CAMERA)== PackageManager.PERMISSION_GRANTED);
     }
 
-    public void requestPermission()
-    {
+    public void requestPermission() {
         ActivityCompat.requestPermissions(this, new String[]{CAMERA},REQUEST_CAMERA);
     }
 
@@ -156,7 +111,7 @@ public class ScanQRActivity extends AppCompatActivity implements ZXingScannerVie
                     scannerView = new ZXingScannerView(this);
                     setContentView(scannerView);
                 }
-                scannerView.setResultHandler(ScanQRActivity.this);
+                scannerView.setResultHandler(BarCodeLogin.this);
                 scannerView.startCamera();
             }
             else
@@ -166,7 +121,11 @@ public class ScanQRActivity extends AppCompatActivity implements ZXingScannerVie
         }
     }
 
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        scannerView.stopCamera();
+    }
 
 
     public void displayAlertMessage(String message, DialogInterface.OnClickListener Listener)
@@ -174,7 +133,17 @@ public class ScanQRActivity extends AppCompatActivity implements ZXingScannerVie
 
     }
 
+    @Override
+    public void handleResult(Result result) {
+        String scanResult = result.getText();
 
+
+        Intent data = new Intent();
+        data.putExtra("Scan_result", scanResult);
+        setResult(RESULT_OK, data);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.stay);;
+        finish();
+    }
 
 
     public void FlashLight(View v)
@@ -193,4 +162,5 @@ public class ScanQRActivity extends AppCompatActivity implements ZXingScannerVie
             scannerView.setFlash(false);
         }
     }
+
 }

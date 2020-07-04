@@ -86,7 +86,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.0.0'
 
     // Facebook Shimmer Effect
-    implementation 'com.facebook.shimmer:shimmer:0.1.0@aar'
+    implementation 'com.facebook.shimmer:shimmer:0.5.0'
 
     //for Firebase messaging service and notifications
     implementation 'com.google.firebase:firebase-functions:19.0.1'
@@ -148,5 +148,19 @@ dependencies {
 
     // One New Scanner
     implementation 'me.dm7.barcodescanner:zxing:1.9'
+
+    //Barcode Scanner
+    implementation 'com.journeyapps:zxing-android-embedded:3.4.0'
+
+    //sweet toast
+    implementation 'com.github.TheHasnatBD:SweetToast:1.0.2'
+
+    //Image Slider
+    implementation 'com.github.smarteist:autoimageslider:1.3.9'
+
+    //Glide
+    implementation 'com.github.bumptech.glide:glide:4.9.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
+
 
 }
