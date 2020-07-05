@@ -1,5 +1,6 @@
 package com.example.manager;
 
+import com.badoualy.stepperindicator.StepperIndicator;
 import com.example.manager.DialogBox.BottomSheetDialog;
 import com.example.manager.fragments.FormFragment1;
 import com.example.manager.fragments.FormFragment2;
@@ -81,6 +82,7 @@ public class GenerateQRActivity extends AppCompatActivity {
     Button save;
     OutputStream outputStream;
     long generationCodeValue = 0;
+    StepperIndicator indicator;
 
     String[] descriptionData = {"Basic\nDetails", "Specific\nDetails", "Commercial\nDetails"};
     private int count = 1;
@@ -116,11 +118,14 @@ public class GenerateQRActivity extends AppCompatActivity {
         toolbar.setTitleTextAppearance(this,R.style.TitleTextAppearance);
         final FormFragment1 fragment1 = new FormFragment1();
         setOurFragment(fragment1);
-        final StateProgressBar stateProgressBar = (StateProgressBar) findViewById(R.id.your_stare_progress_id_bar);
-        stateProgressBar.setStateDescriptionData(descriptionData);
 
-        stateProgressBar.setStateDescriptionTypeface("fonts/imprima.ttf");
-        stateProgressBar.setStateNumberTypeface( "fonts/imprima.ttf");
+        indicator = findViewById(R.id.stepper_indicator);
+        indicator.setCurrentStep(0);
+//        final StateProgressBar stateProgressBar = (StateProgressBar) findViewById(R.id.your_stare_progress_id_bar);
+//        stateProgressBar.setStateDescriptionData(descriptionData);
+//
+//        stateProgressBar.setStateDescriptionTypeface("fonts/imprima.ttf");
+//        stateProgressBar.setStateNumberTypeface( "fonts/imprima.ttf");
 //        serialNumber = findViewById(R.id.serialNumber);
 //
 //        serviceTime = findViewById(R.id.serviceTime);
@@ -228,7 +233,9 @@ public class GenerateQRActivity extends AppCompatActivity {
                          count--;
                      }
                      else {
-                         stateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.TWO);
+                         indicator.setCurrentStep(1);
+                         indicator.animate();
+//                         stateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.TWO);
                          setOurFragment(new FormFragment2());
                          prevarrow.setVisibility(View.VISIBLE);
                      }
@@ -271,7 +278,8 @@ public class GenerateQRActivity extends AppCompatActivity {
                          count--;
                      }
                      else {
-                         stateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.THREE);
+//                         stateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.THREE);
+                         indicator.setCurrentStep(2);
                          setOurFragment(new FormFragment3());
                      }
 
@@ -395,13 +403,15 @@ public class GenerateQRActivity extends AppCompatActivity {
                     finish();
                 }
                 else if (count == 1) {
-                    stateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.ONE);
+//                    stateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.ONE);
+                    indicator.setCurrentStep(0);
                     setOurFragment(fragment1);
                     prevarrow.setVisibility(View.INVISIBLE);
 
                 } else if (count == 2) {
 
-                    stateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.TWO);
+//                    stateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.TWO);
+                    indicator.setCurrentStep(1);
                     setOurFragment(new FormFragment2());
                 } else {
 
