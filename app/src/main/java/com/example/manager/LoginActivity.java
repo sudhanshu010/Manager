@@ -37,6 +37,8 @@ import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 
+import xyz.hasnat.sweettoast.SweetToast;
+
 public class LoginActivity extends AppCompatActivity {
 
     Cipher cipher;
@@ -128,6 +130,7 @@ public class LoginActivity extends AppCompatActivity {
                                         if(isManager)
                                         {
                                             customDialogBox.dismiss();
+                                            SweetToast.success(LoginActivity.this,"Success");
                                             Intent i = new Intent(LoginActivity.this,BottomNavigationActivity.class);
                                             startActivity(i);
                                             finish();
@@ -135,13 +138,13 @@ public class LoginActivity extends AppCompatActivity {
                                         else
                                         {
                                             customDialogBox.dismiss();
-                                            Toast.makeText(LoginActivity.this, "error", Toast.LENGTH_SHORT).show();
+                                            SweetToast.error(LoginActivity.this, "error");
                                         }
                                     }
                                     catch (Exception e)
                                     {
                                         customDialogBox.dismiss();
-                                        Toast.makeText(LoginActivity.this, "Error Occured", Toast.LENGTH_SHORT).show();
+                                        SweetToast.error(LoginActivity.this, "Error Occured");
 
                                     }
 
@@ -151,7 +154,7 @@ public class LoginActivity extends AppCompatActivity {
 
                         } else {
                             customDialogBox.dismiss();
-                            Toast.makeText(getApplicationContext(), "Some Error Occured", Toast.LENGTH_SHORT).show();
+                            SweetToast.error(getApplicationContext(), "Some Error Occured");
 
                         }
                     }
