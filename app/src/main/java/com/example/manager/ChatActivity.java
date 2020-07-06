@@ -36,6 +36,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import xyz.hasnat.sweettoast.SweetToast;
 
 public class ChatActivity extends AppCompatActivity {
 
@@ -106,7 +107,7 @@ public class ChatActivity extends AppCompatActivity {
                 if (!msg.equals("")){
                     sendMessage(fuser.getUid(), userid, msg);
                 } else {
-                    Toast.makeText(ChatActivity.this, "You can't send empty message", Toast.LENGTH_SHORT).show();
+                    SweetToast.error(ChatActivity.this, "You can't send empty message");
                 }
                 text_send.setText("");
             }
