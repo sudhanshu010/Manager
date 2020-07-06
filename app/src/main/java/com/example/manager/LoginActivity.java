@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.manager.DialogBox.CustomDialogBox;
+import com.example.manager.utilityclass.CaesarCipherUtil;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -27,17 +28,17 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GetTokenResult;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
-import java.security.NoSuchAlgorithmException;
-import java.util.Base64;
+import com.google.firebase.database.ValueEventListener;
 
 import javax.crypto.Cipher;
-import javax.crypto.KeyGenerator;
-import javax.crypto.SecretKey;
 
 public class LoginActivity extends AppCompatActivity {
+
+    String privateKey;
 
     Cipher cipher;
     EditText loginEmail, loginPassword;
@@ -101,7 +102,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void login(String email, String password) {
-
         customDialogBox.show();
         mAuth.signInWithEmailAndPassword(email,password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -158,8 +158,6 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
@@ -167,28 +165,19 @@ public class LoginActivity extends AppCompatActivity {
         {
             if(resultCode == RESULT_OK)
             {
-                String result = data.getStringExtra("Scan_result");
+                assert data != null;
+                final String result = data.getStringExtra("Scan_result");
+                Log.i("sudhanshu result",result);
                 Toast.makeText(this, result, Toast.LENGTH_SHORT).show();
 
-                KeyGenerator keyGenerator = null;
-                try {
-//                    Log.i("Result",result);
-//                    keyGenerator = KeyGenerator.getInstance("AES");
-//                    keyGenerator.init(128);
-//                    SecretKey secretKey = keyGenerator.generateKey();
-//                    cipher = Cipher.getInstance("AES");
-//
-//                    String decryptedText = decrypt(result, secretKey);
-//                    Log.i("Decrypted Text After Decryption: " ,decryptedText);
-                    String[] emailAndPassword = result.split(" ",2);
-                    String email = emailAndPassword[0];
-                    String password = emailAndPassword[1];
-                    login(email,password);
+                assert result != null;
+                String decrypted = CaesarCipherUtil.decode(result);
+                Log.i("sudhanshu decrypt",decrypted);
+                String[] emailAndPassword = decrypted.split("-",2);
 
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                String email = emailAndPassword[0];
+                String password = emailAndPassword[1];
+                login(email,password);
 
             }
         }
@@ -198,28 +187,6 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(new Intent(this,RegisterActivity.class));
         overridePendingTransition(R.anim.slide_in_right,R.anim.stay);
         finish();
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public String encrypt(String plainText, SecretKey secretKey)
-            throws Exception {
-        byte[] plainTextByte = plainText.getBytes();
-        cipher.init(Cipher.ENCRYPT_MODE, secretKey);
-        byte[] encryptedByte = cipher.doFinal(plainTextByte);
-        Base64.Encoder encoder = Base64.getEncoder();
-        String encryptedText = encoder.encodeToString(encryptedByte);
-        return encryptedText;
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public String decrypt(String encryptedText, SecretKey secretKey)
-            throws Exception {
-        Base64.Decoder decoder = Base64.getDecoder();
-        byte[] encryptedTextByte = decoder.decode(encryptedText);
-        cipher.init(Cipher.DECRYPT_MODE, secretKey);
-        byte[] decryptedByte = cipher.doFinal(encryptedTextByte);
-        String decryptedText = new String(decryptedByte);
-        return decryptedText;
     }
 
 
