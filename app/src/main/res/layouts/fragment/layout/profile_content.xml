@@ -4,15 +4,199 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:layout_marginTop="250dp"
     tools:showIn="@layout/profile_fragment"
     >
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:textColor="@color/colorPrimary"
+            android:text="PERSONAL DETAILS :"
+            android:layout_marginLeft="20dp"
+            android:fontFamily="@font/imprima"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp"
+            />
+        <View style="@style/DetailsView"
+            android:background="#F0DBDB"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp"
+
+            >
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/ic_identity"
+                android:padding="6dp"
+                android:layout_marginLeft="10dp"
+                />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center_vertical"
+                >
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:layout_marginLeft="15dp"
+                    android:text="Staff No:"
+                    android:textColor="#777575"
+                    android:fontFamily="@font/imprima"
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="13sp"
+                    android:layout_marginTop="3dp"
+                    android:id="@+id/employee_id"
+                    android:text="144785496"
+                    android:layout_marginLeft="20dp"
+                    android:fontFamily="@font/imprima"
+                    />
+
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp"
+            >
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/ic_job_title"
+                android:padding="6dp"
+                android:layout_marginLeft="10dp"
+                />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center_vertical"
+                >
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:layout_marginLeft="15dp"
+                    android:text="Job Title:"
+                    android:textColor="#777575"
+                    android:fontFamily="@font/imprima"
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="13sp"
+                    android:id="@+id/employee_job_title"
+                    android:layout_marginTop="3dp"
+                    android:text="Custom Security"
+                    android:layout_marginLeft="20dp"
+                    android:fontFamily="@font/imprima"
+                    />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp"
+            >
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/ic_department"
+                android:padding="6dp"
+                android:layout_marginLeft="10dp"
+                />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center_vertical"
+                >
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:layout_marginLeft="15dp"
+                    android:text="Department:"
+                    android:textColor="#777575"
+                    android:fontFamily="@font/imprima"
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="13sp"
+                    android:id="@+id/employee_department"
+                    android:text="Custom Excise"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginLeft="20dp"
+                    android:fontFamily="@font/imprima"
+                    />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp"
+            >
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/ic_employee_address"
+                android:padding="6dp"
+                android:layout_marginLeft="10dp"
+                />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center_vertical"
+                >
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:layout_marginLeft="15dp"
+                    android:text="Work Address:"
+                    android:textColor="#777575"
+                    android:fontFamily="@font/imprima"
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="13sp"
+                    android:id="@+id/employee_address"
+                    android:layout_marginTop="3dp"
+                    android:text="Indira Gandhi International Airport, New Delhi"
+                    android:layout_marginLeft="20dp"
+                    android:fontFamily="@font/imprima"
+                    />
+
+            </LinearLayout>
+        </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -41,15 +225,16 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:text="MY MACHINES "
-                android:textSize="17dp"
+                android:textSize="15sp"
+                android:textColor="@color/colorPrimary"
                 android:fontFamily="@font/imprima"
-                android:textStyle="bold"
+
                 />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="View List"
-                android:textSize="15sp"
+                android:textSize="14sp"
                 android:fontFamily="@font/imprima"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="150dp"
@@ -65,6 +250,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/recyclerView_machine"
+            android:layout_marginLeft="8dp"
+            android:layout_marginBottom="50dp"
             />
     </LinearLayout>
 </ScrollView>
