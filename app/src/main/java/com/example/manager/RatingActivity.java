@@ -30,6 +30,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 
+import xyz.hasnat.sweettoast.SweetToast;
+
 public class RatingActivity extends AppCompatActivity {
 
     RatingBar ratingBar;
@@ -122,6 +124,7 @@ public class RatingActivity extends AppCompatActivity {
                         update.put("/Users/Mechanic/" + serviceManUid + "/Ratings/" + number, mechRatingValue);
 
                         FirebaseDatabase.getInstance().getReference().updateChildren(update);
+                        SweetToast.success(RatingActivity.this,"Review Submitted");
                         Intent intent = new Intent(getApplicationContext(), BottomNavigationActivity.class);
                         startActivity(intent);
                         finish();

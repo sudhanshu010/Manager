@@ -31,6 +31,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import xyz.hasnat.sweettoast.SweetToast;
+
 public class RegisterActivity extends AppCompatActivity {
 
     Button registerButton;
@@ -97,13 +99,14 @@ public class RegisterActivity extends AppCompatActivity {
                                                 manager.setUid(user.getUid());
 
                                                 userReference.child("Manager").child(user.getUid()).setValue(manager);
+                                                SweetToast.success(RegisterActivity.this,"SuccesFully Registered");
                                                 startActivity(new Intent(getApplicationContext(), BottomNavigationActivity.class));
                                                 finish();
                                             }
                                             else
                                             {
                                                 user.delete();
-                                                Toast.makeText(RegisterActivity.this, "Some Error Occured \n Please try again", Toast.LENGTH_SHORT).show();
+                                                SweetToast.error(RegisterActivity.this, "Some Error Occured \n Please try again");
                                             }
                                         }
                                     });
@@ -111,7 +114,7 @@ public class RegisterActivity extends AppCompatActivity {
                         }
                         else
                         {
-                            Toast.makeText(RegisterActivity.this, "Some Error Occured", Toast.LENGTH_SHORT).show();
+                            SweetToast.error(RegisterActivity.this, "Some Error Occured");
                         }
 
                     }
