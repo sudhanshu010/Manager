@@ -9,14 +9,7 @@
     tools:context=".BottomNavigationActivity"
     >
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        app:title="Home"
-        app:titleMarginStart="35dp"
-        app:menu="@menu/toolbar_menu">
-    </androidx.appcompat.widget.Toolbar>
+
 
     <com.etebarian.meowbottomnavigation.MeowBottomNavigation
         android:id="@+id/bottom_bar"
@@ -35,12 +28,7 @@
         tools:ignore="UnknownId" />
 
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="45dp"
-        android:layout_above="@+id/bottom_bar"
-       >
+
 
         <FrameLayout
             android:id="@+id/mainframe"
@@ -54,7 +42,7 @@
             android:layout_marginBottom="3dp">
 
         </FrameLayout>
-    </ScrollView>
+
 
 
 </RelativeLayout>

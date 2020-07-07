@@ -114,8 +114,13 @@ public class ProfileFragment extends Fragment {
         View view = inflater.inflate(R.layout.profile_fragment, container, false);
 
 
-
-
+        final Toolbar toolbar=view.findViewById(R.id.toolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayUseLogoEnabled(true);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setLogo(R.drawable.ic_account_tb);
+        setHasOptionsMenu(true);
 
         profilePicChange = view.findViewById(R.id.rm_change_profile);
         profilePic = view.findViewById(R.id.profilepic);
@@ -375,4 +380,25 @@ public class ProfileFragment extends Fragment {
 
     }
 
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        menu.clear();
+        inflater.inflate(R.menu.toolbar_menu,menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        // handle item selection
+        switch (item.getItemId()) {
+            case R.id.settings:
+                Intent intent= new Intent(getActivity().getApplicationContext(), SettingActivity.class);
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 }

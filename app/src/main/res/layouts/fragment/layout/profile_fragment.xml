@@ -5,17 +5,29 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="fragments.ProfileFragment">
-
-
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        app:title="Profile"
+        app:titleMarginStart="35dp"
+        app:menu="@menu/toolbar_menu">
+    </androidx.appcompat.widget.Toolbar>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="45dp"
+        >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="250dp"
-        android:visibility="gone"
         android:layout_marginHorizontal="10dp"
         android:layout_marginBottom="5dp"
         android:background="@drawable/edit_profile_layout_background"
-
-
+        android:visibility="gone"
         android:id="@+id/profile_edit_layout">
 
 
@@ -186,7 +198,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/rm_profile_phone"
-            android:drawableLeft="@drawable/ic_call_black_24dp"
+            android:drawableLeft="@drawable/ic_call_red"
             android:drawablePadding="5dp"
             android:fontFamily="@font/imprima"
             android:text="65465313312"
@@ -198,9 +210,9 @@
             app:layout_constraintTop_toBottomOf="@+id/rm_profile_email"
             app:layout_constraintVertical_bias="0.226" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+        <include layout="@layout/profile_content" />
+    </RelativeLayout>
 
-
-    <include layout="@layout/profile_content" />
-
+    </ScrollView>
 
 </FrameLayout>
