@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -37,6 +38,8 @@ import com.example.manager.models.Manager;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -202,11 +205,12 @@ public class GenerateQRActivity extends AppCompatActivity {
 //            public void onClick(View v) {
 //
 //
-        final Button nextarrow = (Button) findViewById(R.id.next_arrow);
-        final Button prevarrow = (Button) findViewById(R.id.prev_arrow);
+        final FloatingActionButton nextarrow =  findViewById(R.id.next_arrow);
+        final FloatingActionButton prevarrow =  findViewById(R.id.prev_arrow);
 
 
         nextarrow.setOnClickListener(new View.OnClickListener() {
+             @SuppressLint("RestrictedApi")
              @Override
              public void onClick(View v) {
                  count++;
@@ -222,13 +226,23 @@ public class GenerateQRActivity extends AppCompatActivity {
                      machine_type = typeOfMachine.getText().toString().trim();
                      if(department1.isEmpty())
                      {
-                         department.setError("Enter Department");
+                         Snackbar snackbar = Snackbar.make(v,"Enter Department", Snackbar.LENGTH_LONG);
+                         TextView tv = (TextView) (snackbar.getView()).findViewById(com.google.android.material.R.id.snackbar_text);
+                         Typeface font = Typeface.createFromAsset(getAssets(), "fonts/imprima.ttf");
+                         tv.setTypeface(font);
+                         snackbar.show();
+                         department.setError("Field can't be empty");
                          department.requestFocus();
                          count--;
                      }
                      else if(machine_type.isEmpty())
                      {
-                         typeOfMachine.setError("Enter Machine Type");
+                         Snackbar snackbar = Snackbar.make(v,"Enter Machine Type", Snackbar.LENGTH_LONG);
+                         TextView tv = (TextView) (snackbar.getView()).findViewById(com.google.android.material.R.id.snackbar_text);
+                         Typeface font = Typeface.createFromAsset(getAssets(), "fonts/imprima.ttf");
+                         tv.setTypeface(font);
+                         snackbar.show();
+                         typeOfMachine.setError("");
                          typeOfMachine.requestFocus();
                          count--;
                      }
@@ -255,25 +269,45 @@ public class GenerateQRActivity extends AppCompatActivity {
                      serviceTime1=serviceTime.getText().toString().trim();
                      if(serialNumber1.isEmpty())
                      {
-                         serialNumber.setError("Enter Department");
+                         Snackbar snackbar = Snackbar.make(v,"Enter Serial Number", Snackbar.LENGTH_LONG);
+                         TextView tv = (TextView) (snackbar.getView()).findViewById(com.google.android.material.R.id.snackbar_text);
+                         Typeface font = Typeface.createFromAsset(getAssets(), "fonts/imprima.ttf");
+                         tv.setTypeface(font);
+                         snackbar.show();
+                         serialNumber.setError("");
                          serialNumber.requestFocus();
                          count--;
                      }
                      else if(machineCompany1.isEmpty())
                      {
-                         machineCompany.setError("Enter Department");
+                         Snackbar snackbar = Snackbar.make(v,"Enter Company", Snackbar.LENGTH_LONG);
+                         TextView tv = (TextView) (snackbar.getView()).findViewById(com.google.android.material.R.id.snackbar_text);
+                         Typeface font = Typeface.createFromAsset(getAssets(), "fonts/imprima.ttf");
+                         tv.setTypeface(font);
+                         snackbar.show();
+                         machineCompany.setError("");
                          machineCompany.requestFocus();
                          count--;
                      }
                      else if(modelNumber1.isEmpty())
                      {
-                          modelNumber.setError("Enter Department");
+                         Snackbar snackbar = Snackbar.make(v,"Enter Model Number", Snackbar.LENGTH_LONG);
+                         TextView tv = (TextView) (snackbar.getView()).findViewById(com.google.android.material.R.id.snackbar_text);
+                         Typeface font = Typeface.createFromAsset(getAssets(), "fonts/imprima.ttf");
+                         tv.setTypeface(font);
+                         snackbar.show();
+                         modelNumber.setError("");
                          modelNumber.requestFocus();
                          count--;
                      }
                      else if(serviceTime1.isEmpty())
                      {
-                         serviceTime.setError("Enter Department");
+                         Snackbar snackbar = Snackbar.make(v,"Enter Service Time", Snackbar.LENGTH_LONG);
+                         TextView tv = (TextView) (snackbar.getView()).findViewById(com.google.android.material.R.id.snackbar_text);
+                         Typeface font = Typeface.createFromAsset(getAssets(), "fonts/imprima.ttf");
+                         tv.setTypeface(font);
+                         snackbar.show();
+                         serviceTime.setError("");
                          serviceTime.requestFocus();
                          count--;
                      }
@@ -297,28 +331,48 @@ public class GenerateQRActivity extends AppCompatActivity {
                      installationDate1=installationDate.getText().toString().trim();
                      scrapValue1=scrapValue.getText().toString().trim();
                      life1=life.getText().toString().trim();
-                     if(machinePrice1.isEmpty())
+                     if(installationDate1.isEmpty())
                      {
-                         machinePrice.setError("Enter Department");
-                         machinePrice.requestFocus();
-                         count--;
-                     }
-                     else if(installationDate1.isEmpty())
-                     {
-                         installationDate.setError("Enter Department");
+                         Snackbar snackbar = Snackbar.make(v,"Enter Installation Date", Snackbar.LENGTH_LONG);
+                         TextView tv = (TextView) (snackbar.getView()).findViewById(com.google.android.material.R.id.snackbar_text);
+                         Typeface font = Typeface.createFromAsset(getAssets(), "fonts/imprima.ttf");
+                         tv.setTypeface(font);
+                         snackbar.show();
+                         installationDate.setError("");
                          installationDate.requestFocus();
                          count--;
                      }
-                     else if(scrapValue1.isEmpty())
+                     else if(machinePrice1.isEmpty())
                      {
-                         scrapValue.setError("Enter Department");
-                         scrapValue.requestFocus();
+                         Snackbar snackbar = Snackbar.make(v,"Enter Machine Price", Snackbar.LENGTH_LONG);
+                         TextView tv = (TextView) (snackbar.getView()).findViewById(com.google.android.material.R.id.snackbar_text);
+                         Typeface font = Typeface.createFromAsset(getAssets(), "fonts/imprima.ttf");
+                         tv.setTypeface(font);
+                         snackbar.show();
+                         machinePrice.setError("");
+                         machinePrice.requestFocus();
                          count--;
                      }
                      else if(life1.isEmpty())
                      {
-                         life.setError("Enter Department");
+                         Snackbar snackbar = Snackbar.make(v,"Enter Expected Life", Snackbar.LENGTH_LONG);
+                         TextView tv = (TextView) (snackbar.getView()).findViewById(com.google.android.material.R.id.snackbar_text);
+                         Typeface font = Typeface.createFromAsset(getAssets(), "fonts/imprima.ttf");
+                         tv.setTypeface(font);
+                         snackbar.show();
+                         life.setError("");
                          life.requestFocus();
+                         count--;
+                     }
+                     else if(scrapValue1.isEmpty())
+                     {
+                         Snackbar snackbar = Snackbar.make(v,"Enter Scrap Value", Snackbar.LENGTH_LONG);
+                         TextView tv = (TextView) (snackbar.getView()).findViewById(com.google.android.material.R.id.snackbar_text);
+                         Typeface font = Typeface.createFromAsset(getAssets(), "fonts/imprima.ttf");
+                         tv.setTypeface(font);
+                         snackbar.show();
+                         scrapValue.setError("");
+                         scrapValue.requestFocus();
                          count--;
                      }
                      else {
@@ -395,6 +449,7 @@ public class GenerateQRActivity extends AppCompatActivity {
 
 
         prevarrow.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("RestrictedApi")
             @Override
             public void onClick(View v) {
                 count--;

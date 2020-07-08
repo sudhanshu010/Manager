@@ -7,103 +7,96 @@
     tools:context=".GenerateQRActivity"
     android:orientation="vertical"
 
-
     >
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         app:title="Generate QR Code"
-        android:background="#77ABEDC6"
+        android:background="#fff"
         app:titleTextColor="#3A3A3A"
         />
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="100dp"
-    android:background="@drawable/indicator_bg"
-    android:orientation="vertical">
-    <com.badoualy.stepperindicator.StepperIndicator
-        android:layout_width="270dp"
-        android:layout_marginTop="25dp"
-        android:layout_gravity="center"
-        android:id="@+id/stepper_indicator"
-        android:layout_height="wrap_content"
-        app:stpi_stepCount="3"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@mipmap/background1"
 
-        app:stpi_animDuration="250"
-        app:stpi_circleRadius="10dp"
-        app:stpi_circleColor="#6B6D6E"
-        app:stpi_circleStrokeWidth="4dp"
-        app:stpi_indicatorColor="#00b47c"
-        app:stpi_lineColor="#b3bdc2"
-        app:stpi_lineDoneColor="#00b47c"
-        app:stpi_lineStrokeWidth="6dp"
-        app:stpi_lineMargin="5dp"
-        app:stpi_showDoneIcon="true"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:orientation="vertical">
+            <com.badoualy.stepperindicator.StepperIndicator
+                android:layout_width="270dp"
+                android:layout_marginTop="25dp"
+                android:layout_gravity="center"
+                android:id="@+id/stepper_indicator"
+                android:layout_height="wrap_content"
+                app:stpi_stepCount="3"
 
-        />
-</LinearLayout>
+                app:stpi_animDuration="250"
+                app:stpi_circleRadius="10dp"
+                app:stpi_circleColor="#6B6D6E"
+                app:stpi_circleStrokeWidth="4dp"
+                app:stpi_indicatorColor="#00b47c"
+                app:stpi_lineColor="#b3bdc2"
+                app:stpi_lineDoneColor="#00b47c"
+                app:stpi_lineStrokeWidth="6dp"
+                app:stpi_lineMargin="5dp"
+                app:stpi_showDoneIcon="true"
 
-
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="400dp"
-                    android:layout_marginStart="0dp"
-                    android:layout_marginTop="40dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:id="@+id/mainframe">
-
-                </FrameLayout>
+                />
+        </LinearLayout>
 
 
+        <FrameLayout
+            android:id="@+id/mainframe"
+            android:layout_width="match_parent"
 
-     <RelativeLayout
-         android:layout_width="match_parent"
-         android:layout_height="50dp"
+            android:layout_height="420dp"
+            android:paddingTop="10dp"
+            android:layout_marginStart="0dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp">
 
-         android:layout_margin="15dp"
-         android:layout_marginTop="25dp"
-         >
+        </FrameLayout>
 
-         <Button
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:text="Prev"
-             android:id="@+id/prev_arrow"
-             android:visibility="invisible"
-            android:drawableLeft="@drawable/ic_arrow_back_white_24dp"
-             android:drawableTint="#000"
-             android:layout_alignParentLeft="true"
-             android:fontFamily="@font/autour_one"
-             android:textSize="15sp"
-             android:paddingLeft="10dp"
-             android:paddingRight="10dp"
-             android:background="@drawable/btn_round_corner"
-             android:backgroundTint="#B1DCF3"
-             android:layout_marginStart="20dp" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            >
 
-         <Button
-             android:id="@+id/next_arrow"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:layout_alignParentRight="true"
-             android:layout_marginEnd="20dp"
-             android:background="@drawable/btn_round_corner"
-             android:backgroundTint="#A1E8A8"
-             android:drawableRight="@drawable/ic_arrow_forward_black_24dp"
-             android:drawableTint="#000"
-             android:fontFamily="@font/autour_one"
-             android:paddingLeft="10dp"
-             android:paddingRight="10dp"
-             android:text="next"
-             android:textColor="#000"
-             android:textSize="15sp" />
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#B1DCF3"
+                android:src="@drawable/ic_arrow_forward_black_24dp"
+                android:id="@+id/prev_arrow"
+                android:rotation="180"
+                android:visibility="invisible"
+                android:layout_marginLeft="20dp"
+                app:rippleColor="#0866B1"
+                />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/next_arrow"
+                android:layout_alignParentEnd="true"
+                android:backgroundTint="#A1E8A8"
+                android:tint="#000"
+                android:src="@drawable/ic_baseline_done_24"
+                android:layout_marginRight="20dp"
+                app:rippleColor="#4CAF50" />
 
 
-     </RelativeLayout>
 
 
+        </RelativeLayout>
+
+    </LinearLayout>
 
 </LinearLayout>
 
@@ -113,454 +106,3 @@
 
 
 
-
-<!--<?xml version="1.0" encoding="utf-8"?>-->
-<!--<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"-->
-<!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
-<!--    xmlns:tools="http://schemas.android.com/tools"-->
-<!--    android:layout_width="match_parent"-->
-<!--    android:layout_height="match_parent"-->
-<!--    tools:context=".GenerateQRActivity"-->
-<!--    >-->
-<!--    <RelativeLayout-->
-<!--        android:layout_width = "match_parent"-->
-<!--        android:layout_height = "wrap_content">-->
-<!--        <LinearLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginTop="60dp"-->
-<!--            android:id="@+id/Enter_details"-->
-<!--            android:orientation="vertical">-->
-
-<!--            <LinearLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:orientation="horizontal"-->
-<!--                >-->
-<!--                <ImageView-->
-<!--                    android:layout_width="30dp"-->
-<!--                    android:layout_height="30dp"-->
-<!--                    android:id="@+id/imageviewqr"-->
-<!--                    android:src="@drawable/ic_input"-->
-<!--                    android:layout_gravity="center_vertical"-->
-<!--                    android:layout_marginRight="15dp"-->
-<!--                    android:layout_marginLeft="25dp"-->
-<!--                    ></ImageView>-->
-
-<!--                <TextView-->
-
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:id="@+id/enter_details_text"-->
-<!--                    android:text="Enter Machine Details"-->
-<!--                    android:textSize="25sp"-->
-<!--                    android:textStyle="bold" />-->
-<!--            </LinearLayout>-->
-<!--            <View style="@style/DetailsView"-->
-<!--                android:background="#979696"-->
-<!--                android:layout_marginLeft="20dp"-->
-<!--                android:layout_marginRight="20dp"/>-->
-<!--        </LinearLayout>-->
-
-
-<!--        <LinearLayout-->
-<!--            android:id="@+id/linearlayoutimage"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_below="@+id/Enter_details"-->
-<!--            android:layout_alignBottom="@+id/linearlayout1"-->
-<!--            android:layout_marginTop="10dp"-->
-<!--            android:layout_marginBottom="44dp">-->
-
-<!--            <ImageView-->
-<!--                android:id="@+id/qrcode"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="260dp"-->
-<!--                android:layout_centerInParent="true" />-->
-<!--        </LinearLayout>-->
-
-
-<!--        <LinearLayout-->
-<!--            android:id="@+id/aqwesd"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_below="@+id/Enter_details"-->
-
-<!--            android:layout_marginStart="15dp"-->
-<!--            android:layout_marginTop="35dp"-->
-<!--            android:layout_marginEnd="15dp"-->
-<!--            android:orientation="vertical"-->
-<!--            tools:ignore="UnknownId">-->
-
-<!--            <LinearLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:id="@+id/serialNumberll"-->
-<!--                android:orientation="horizontal"-->
-<!--                >-->
-
-<!--                <ImageView-->
-<!--                    android:layout_width="30dp"-->
-<!--                    android:layout_height="30dp"-->
-<!--                    android:layout_marginLeft="15dp"-->
-<!--                    android:layout_marginRight="15dp"-->
-<!--                    android:src="@drawable/ic_serial_number"-->
-<!--                    android:layout_gravity="center_vertical">-->
-
-<!--                </ImageView>-->
-<!--                <LinearLayout-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:orientation="vertical"-->
-<!--                    >-->
-<!--                    <TextView-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:text="Enter Serial Number"-->
-<!--                        android:textStyle="bold"-->
-<!--                        android:textSize="18sp"-->
-<!--                        >-->
-
-<!--                    </TextView>-->
-
-<!--                    <EditText-->
-<!--                        android:id="@+id/serialNumber"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:hint="Type here..."-->
-<!--                        />-->
-<!--                </LinearLayout>-->
-
-<!--            </LinearLayout>-->
-<!--            <LinearLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:id="@+id/departmentll"-->
-<!--                android:orientation="horizontal"-->
-<!--                android:layout_marginTop="15dp"-->
-<!--                >-->
-
-<!--                <ImageView-->
-<!--                    android:layout_width="30dp"-->
-<!--                    android:layout_height="30dp"-->
-<!--                    android:layout_marginLeft="15dp"-->
-<!--                    android:layout_marginRight="15dp"-->
-<!--                    android:src="@drawable/ic_department"-->
-<!--                    android:layout_gravity="center_vertical">-->
-
-<!--                </ImageView>-->
-<!--                <LinearLayout-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:orientation="vertical"-->
-<!--                    >-->
-<!--                    <TextView-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:text="Enter Department"-->
-<!--                        android:textStyle="bold"-->
-<!--                        android:textSize="18sp"-->
-<!--                        >-->
-
-<!--                    </TextView>-->
-<!--                    <EditText-->
-<!--                        android:id="@+id/department"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-
-<!--                        android:hint="Type here..." />-->
-<!--                </LinearLayout>-->
-
-<!--            </LinearLayout>-->
-<!--            <LinearLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:id="@+id/serviceTimell"-->
-<!--                android:orientation="horizontal"-->
-<!--                android:layout_marginTop="15dp"-->
-<!--                >-->
-
-<!--                <ImageView-->
-<!--                    android:layout_width="30dp"-->
-<!--                    android:layout_height="30dp"-->
-<!--                    android:layout_marginLeft="15dp"-->
-<!--                    android:layout_marginRight="15dp"-->
-<!--                    android:src="@drawable/ic_servicetime"-->
-<!--                    android:layout_gravity="center_vertical">-->
-
-<!--                </ImageView>-->
-<!--                <LinearLayout-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:orientation="vertical"-->
-<!--                    >-->
-<!--                    <TextView-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:text="Enter Service Time"-->
-<!--                        android:textStyle="bold"-->
-<!--                        android:textSize="18sp"-->
-<!--                        >-->
-
-<!--                    </TextView>-->
-<!--                    <EditText-->
-<!--                        android:id="@+id/serviceTime"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-
-<!--                        android:hint="Type here..." />-->
-<!--                </LinearLayout>-->
-
-<!--            </LinearLayout>-->
-
-<!--            <LinearLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:orientation="horizontal"-->
-<!--                android:layout_marginTop="15dp"-->
-<!--                >-->
-
-<!--                <ImageView-->
-<!--                    android:layout_width="30dp"-->
-<!--                    android:layout_height="30dp"-->
-<!--                    android:layout_marginLeft="15dp"-->
-<!--                    android:layout_marginRight="15dp"-->
-<!--                    android:src="@drawable/ic_servicetime"-->
-<!--                    android:layout_gravity="center_vertical">-->
-
-<!--                </ImageView>-->
-<!--                <LinearLayout-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:orientation="vertical"-->
-<!--                    >-->
-<!--                    <TextView-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:text="Enter Type of Machine"-->
-<!--                        android:textStyle="bold"-->
-<!--                        android:textSize="18sp"-->
-<!--                        >-->
-
-<!--                    </TextView>-->
-<!--                    <EditText-->
-<!--                        android:id="@+id/type_of_machine"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-
-<!--                        android:hint="Type here..." />-->
-<!--                </LinearLayout>-->
-
-<!--            </LinearLayout>-->
-
-<!--            <LinearLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-
-<!--                android:orientation="horizontal"-->
-<!--                android:layout_marginTop="15dp"-->
-<!--                >-->
-
-<!--                <ImageView-->
-<!--                    android:layout_width="30dp"-->
-<!--                    android:layout_height="30dp"-->
-<!--                    android:layout_marginLeft="15dp"-->
-<!--                    android:layout_marginRight="15dp"-->
-<!--                    android:src="@drawable/ic_servicetime"-->
-<!--                    android:layout_gravity="center_vertical">-->
-
-<!--                </ImageView>-->
-<!--                <LinearLayout-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:orientation="vertical"-->
-<!--                    >-->
-<!--                    <TextView-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:text="Enter Company"-->
-<!--                        android:textStyle="bold"-->
-<!--                        android:textSize="18sp"-->
-<!--                        >-->
-
-<!--                    </TextView>-->
-<!--                    <EditText-->
-<!--                        android:id="@+id/company"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-
-<!--                        android:hint="Type here..." />-->
-<!--                </LinearLayout>-->
-
-<!--            </LinearLayout>-->
-
-<!--            <LinearLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:orientation="horizontal"-->
-<!--                android:layout_marginTop="15dp"-->
-<!--                >-->
-
-<!--                <ImageView-->
-<!--                    android:layout_width="30dp"-->
-<!--                    android:layout_height="30dp"-->
-<!--                    android:layout_marginLeft="15dp"-->
-<!--                    android:layout_marginRight="15dp"-->
-<!--                    android:src="@drawable/ic_servicetime"-->
-<!--                    android:layout_gravity="center_vertical">-->
-
-<!--                </ImageView>-->
-<!--                <LinearLayout-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:orientation="vertical"-->
-<!--                    >-->
-<!--                    <TextView-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:text="Enter Model Number"-->
-<!--                        android:textStyle="bold"-->
-<!--                        android:textSize="18sp"-->
-<!--                        >-->
-
-<!--                    </TextView>-->
-<!--                    <EditText-->
-<!--                        android:id="@+id/model_number"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-
-<!--                        android:hint="Type here..." />-->
-<!--                </LinearLayout>-->
-
-<!--            </LinearLayout>-->
-
-<!--            <LinearLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:orientation="horizontal"-->
-<!--                android:layout_marginTop="15dp"-->
-<!--                >-->
-
-<!--                <ImageView-->
-<!--                    android:layout_width="30dp"-->
-<!--                    android:layout_height="30dp"-->
-<!--                    android:layout_marginLeft="15dp"-->
-<!--                    android:layout_marginRight="15dp"-->
-<!--                    android:src="@drawable/ic_servicetime"-->
-<!--                    android:layout_gravity="center_vertical">-->
-
-<!--                </ImageView>-->
-<!--                <LinearLayout-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:orientation="vertical"-->
-<!--                    >-->
-<!--                    <TextView-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:text="Enter Price of Machine"-->
-<!--                        android:textStyle="bold"-->
-<!--                        android:textSize="18sp"-->
-<!--                        >-->
-
-<!--                    </TextView>-->
-<!--                    <EditText-->
-<!--                        android:id="@+id/price"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-
-<!--                        android:hint="Type here..." />-->
-<!--                </LinearLayout>-->
-
-<!--            </LinearLayout>-->
-
-
-
-
-
-
-
-<!--            <LinearLayout-->
-<!--                android:id="@+id/linearlayout"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_margin="10dp"-->
-<!--                android:layout_marginTop="20dp"-->
-<!--                android:orientation="horizontal">-->
-<!--                <ImageView-->
-<!--                    android:layout_width="30dp"-->
-<!--                    android:layout_height="30dp"-->
-<!--                    android:layout_marginLeft="5dp"-->
-<!--                    android:layout_marginRight="15dp"-->
-<!--                    android:layout_gravity="center_vertical"-->
-<!--                    android:src="@drawable/ic_date_of_installation">-->
-
-<!--                </ImageView>-->
-
-<!--                <LinearLayout-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:orientation="vertical"-->
-<!--                    >-->
-<!--                    <TextView-->
-<!--                        android:id="@+id/installation"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:text="Date of Installation"-->
-<!--                        android:textSize="18sp"-->
-<!--                        android:textStyle="bold"/>-->
-
-<!--                    <TextView-->
-<!--                        android:id="@+id/installationdate123"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:text="Select"-->
-<!--                        android:textColor="#F52323"-->
-<!--                        android:layout_marginLeft="15dp"-->
-<!--                        android:layout_marginTop="3dp"-->
-<!--                        android:textSize="18sp" />-->
-
-<!--                </LinearLayout>-->
-
-<!--            </LinearLayout>-->
-<!--        </LinearLayout>-->
-
-
-
-
-<!--        <LinearLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_below="@+id/aqwesd"-->
-<!--            android:layout_marginTop="20dp"-->
-<!--            android:gravity="center">-->
-
-<!--            <Button-->
-<!--                android:id="@+id/save"-->
-<!--                android:layout_width="150dp"-->
-<!--                android:layout_height="50dp"-->
-<!--                android:gravity="center"-->
-<!--                style="@style/loginButton"-->
-<!--                android:paddingRight="10dp"-->
-<!--                android:text="save" />-->
-
-<!--        </LinearLayout>-->
-
-
-<!--        <LinearLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_below="@+id/aqwesd"-->
-<!--            android:layout_marginTop="20dp"-->
-<!--            android:id="@+id/linearlayout1"-->
-<!--            android:gravity="center">-->
-
-<!--            <Button-->
-<!--                android:id="@+id/generateQRButton"-->
-<!--                android:layout_alignParentEnd="true"-->
-<!--                android:text="Generate"-->
-<!--                style="@style/loginButton"/>-->
-<!--        </LinearLayout>-->
-<!--    </RelativeLayout>-->
-
-<!--</ScrollView>-->
