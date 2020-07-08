@@ -33,6 +33,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 
 import javax.crypto.Cipher;
 
@@ -50,7 +52,7 @@ public class LoginActivity extends AppCompatActivity {
     FirebaseUser mUser;
 
     FirebaseDatabase firebaseDatabase;
-    DatabaseReference serviceManReference;
+
 
     CustomDialogBox customDialogBox;
     TextView ScanBC;
@@ -62,6 +64,8 @@ public class LoginActivity extends AppCompatActivity {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
         setContentView(R.layout.activity_login);
+
+
 
         mAuth = FirebaseAuth.getInstance();
         if(mAuth.getCurrentUser()!=null)
@@ -78,7 +82,6 @@ public class LoginActivity extends AppCompatActivity {
         loginButton = findViewById(R.id.loginButton);
 
         firebaseDatabase = FirebaseDatabase.getInstance();
-        serviceManReference = firebaseDatabase.getReference("Users").child("Mechanic");
 
         ScanBC.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,13 +113,17 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
 
-
                         if (task.isSuccessful()) {
 
-                            SharedPreferences sharedPref = getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
-                            String token = sharedPref.getString("token", "null");
-                            FirebaseDatabase.getInstance().getReference("tokens/" +
-                                    mAuth.getCurrentUser().getUid()).setValue(token);
+                            FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(new OnSuccessListener<InstanceIdResult>() {
+                                @Override
+                                public void onSuccess(InstanceIdResult instanceIdResult) {
+                                    String newToken = instanceIdResult.getToken();
+                                    FirebaseDatabase.getInstance().getReference("tokens/" +
+                                            mAuth.getCurrentUser().getUid()).setValue(newToken);
+
+                                }
+                            });
 
                             FirebaseUser user = mAuth.getCurrentUser();
 
@@ -170,12 +177,12 @@ public class LoginActivity extends AppCompatActivity {
             {
                 assert data != null;
                 final String result = data.getStringExtra("Scan_result");
-                Log.i("sudhanshu result",result);
+
                 Toast.makeText(this, result, Toast.LENGTH_SHORT).show();
 
                 assert result != null;
                 String decrypted = CaesarCipherUtil.decode(result);
-                Log.i("sudhanshu decrypt",decrypted);
+
                 String[] emailAndPassword = decrypted.split("-",2);
 
                 String email = emailAndPassword[0];
