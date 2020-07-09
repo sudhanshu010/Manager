@@ -1,10 +1,6 @@
 package com.example.manager.DialogBox;
 
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.ColorFilter;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.LayoutInflater;
@@ -12,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,8 +21,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Objects;
 
-import static com.example.manager.R.drawable.bottom_sheet_shape;
-
 public class BottomSheetDialog extends BottomSheetDialogFragment {
 
     Button cancel,save;
@@ -40,7 +33,7 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
 
         final View view = inflater.inflate(R.layout.bottom_sheet,container,false);
         cancel = view.findViewById(R.id.cancel);
-        save = view.findViewById(R.id.save);
+        save = view.findViewById(R.id.save_button);
         qrCode = view.findViewById(R.id.qr_code);
         qrCode.setImageBitmap(bitmap);
 
