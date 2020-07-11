@@ -7,14 +7,22 @@
     android:orientation="vertical"
     tools:context=".MyMachinesActivity">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        app:title="My Machines"
-        android:background="#fff"
-        app:titleTextColor="#3A3A3A"
-       />
+
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:title="My Machines"
+            android:background="#fff"
+            app:titleTextColor="#3A3A3A"
+            >
+        </androidx.appcompat.widget.Toolbar>
+
+
+
+
+
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
