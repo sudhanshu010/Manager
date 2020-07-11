@@ -2,6 +2,7 @@ package com.example.manager.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +35,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import pl.droidsonroids.gif.GifImageView;
 
 public class RecentChatAdapter extends FirebaseRecyclerPagingAdapter<Complaint, RecentChatAdapter.MyHolder> {
 
@@ -103,9 +105,6 @@ public class RecentChatAdapter extends FirebaseRecyclerPagingAdapter<Complaint, 
 
         public void bind(final Complaint model) {
 
-            if (getItemCount() == 0) {
-                // do empty view thing.
-            } else {
                 complaintid = String.valueOf(model.getComplaintId());
                 complaintId.setText(complaintid);
                 senderName.setText(model.getMechanic().getUserName());
@@ -172,6 +171,5 @@ public class RecentChatAdapter extends FirebaseRecyclerPagingAdapter<Complaint, 
 
 
             }
-        }
     }
 }

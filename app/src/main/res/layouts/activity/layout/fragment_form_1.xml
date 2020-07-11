@@ -5,32 +5,38 @@
     android:layout_height="match_parent"
     android:id="@+id/frame1"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-
     tools:context=".fragments.FormFragment1">
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
         android:padding="20dp">
+
 
         <com.google.android.material.textfield.TextInputLayout
 
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:layout_marginTop="10dp"
+
+            android:textColorHint="#757474"
             app:boxStrokeColor="@color/colorPrimary">
 
             <EditText
                 android:id="@+id/department"
-                style="@style/modifiedEditText"
+                style="@style/modifiedEditText1"
                 android:hint="Enter Department"
                 android:fontFamily="@font/imprima"
-                android:textColorHint="#000"
+                android:background="@android:color/transparent"
                 android:maxLines="1"
+                android:drawableTint="#a3a3a3"
+                android:textStyle="bold"
                 android:drawableLeft="@drawable/ic_department1"
-                android:textColor="#232323"
+                android:textColor="#757474"
                 android:drawablePadding="20dp"/>
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -38,17 +44,22 @@
 
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_marginTop="@dimen/loginViewsMargin"
-            app:boxStrokeColor="@color/colorPrimary">
+            android:layout_marginTop="10dp"
+            android:textColorHint="#757474"
+
+            >
 
             <EditText
                 android:id="@+id/machine_type"
-                style="@style/modifiedEditText"
+                style="@style/modifiedEditText1"
                 android:hint="Enter Machine Type"
+                android:drawableTint="#a3a3a3"
+                android:textStyle="bold"
+                android:background="@android:color/transparent"
+                android:fontFamily="@font/imprima"
                 android:drawableLeft="@drawable/ic_machine_type"
                 android:drawablePadding="20dp"
-                android:textColor="#232323"
+                android:textColor="#757474"
                 android:maxLines="1" />
         </com.google.android.material.textfield.TextInputLayout>
 

@@ -2,6 +2,7 @@ package com.example.manager;
 
 import com.badoualy.stepperindicator.StepperIndicator;
 import com.example.manager.DialogBox.BottomSheetDialog;
+import com.example.manager.DialogBox.GenerateQRDialogBox;
 import com.example.manager.fragments.FormFragment1;
 import com.example.manager.fragments.FormFragment2;
 import com.example.manager.fragments.FormFragment3;
@@ -13,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -37,6 +39,8 @@ import com.example.manager.models.Manager;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -73,7 +77,7 @@ import xyz.hasnat.sweettoast.SweetToast;
 
 public class GenerateQRActivity extends AppCompatActivity {
 
-    EditText price, serviceTime, serialNumber, typeOfMachine, machineCompany, modelNumber, machinePrice,department, scrapValue, life;// Serial Number mentioned on Machine
+    EditText price, serviceTime, serialNumber, typeOfMachine, machineCompany, modelNumber, machinePrice, department, scrapValue, life;// Serial Number mentioned on Machine
     TextView installationDate;
     ImageView qrcode;
     ImageView qrtext;
@@ -111,11 +115,11 @@ public class GenerateQRActivity extends AppCompatActivity {
         setContentView(R.layout.activity_generate_qr);
 
 
-        Toolbar toolbar=findViewById(R.id.toolbar);
+        final Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        toolbar.setTitleTextAppearance(this,R.style.TitleTextAppearance);
+        toolbar.setTitleTextAppearance(this, R.style.TitleTextAppearance);
         final FormFragment1 fragment1 = new FormFragment1();
         setOurFragment(fragment1);
 
@@ -144,7 +148,7 @@ public class GenerateQRActivity extends AppCompatActivity {
 //        aqwesd = findViewById(R.id.aqwesd);
 //        enter_details = findViewById(R.id.enter_details_text);
 
-        firebaseDatabase  = FirebaseDatabase.getInstance();
+        firebaseDatabase = FirebaseDatabase.getInstance();
         generationCodeReference = firebaseDatabase.getReference("GenerationCode");
         machineReference = firebaseDatabase.getReference("Machines");
         user = FirebaseAuth.getInstance().getCurrentUser();
@@ -188,13 +192,11 @@ public class GenerateQRActivity extends AppCompatActivity {
         });
 //
         //Permission
-        if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
-        {
-            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
+        if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
         }
-        if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
-        {
-            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},1);
+        if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
         }
 //
 //        GenerateQR.setOnClickListener(new View.OnClickListener() {
@@ -202,140 +204,170 @@ public class GenerateQRActivity extends AppCompatActivity {
 //            public void onClick(View v) {
 //
 //
-        final Button nextarrow = (Button) findViewById(R.id.next_arrow);
-        final Button prevarrow = (Button) findViewById(R.id.prev_arrow);
+        final FloatingActionButton nextarrow = findViewById(R.id.next_arrow);
+        final FloatingActionButton prevarrow = findViewById(R.id.prev_arrow);
 
 
         nextarrow.setOnClickListener(new View.OnClickListener() {
-             @Override
-             public void onClick(View v) {
-                 count++;
-                 if (count == 2) {
+            @SuppressLint("RestrictedApi")
+            @Override
+            public void onClick(View v) {
+                count++;
+                if (count == 2) {
 
-                     FormFragment1 formFragment1 = (FormFragment1) getSupportFragmentManager().findFragmentById(R.id.mainframe);
-                     if (formFragment1 != null) {
-                         department = formFragment1.getView().findViewById(R.id.department);
-                         typeOfMachine = formFragment1.getView().findViewById(R.id.machine_type);
-                     }
-                     final String department1,machine_type;
-                     department1 = department.getText().toString().trim();
-                     machine_type = typeOfMachine.getText().toString().trim();
-                     if(department1.isEmpty())
-                     {
-                         department.setError("Enter Department");
-                         department.requestFocus();
-                         count--;
-                     }
-                     else if(machine_type.isEmpty())
-                     {
-                         typeOfMachine.setError("Enter Machine Type");
-                         typeOfMachine.requestFocus();
-                         count--;
-                     }
-                     else {
-                         indicator.setCurrentStep(1);
-                         indicator.animate();
+                    FormFragment1 formFragment1 = (FormFragment1) getSupportFragmentManager().findFragmentById(R.id.mainframe);
+                    if (formFragment1 != null) {
+                        department = formFragment1.getView().findViewById(R.id.department);
+                        typeOfMachine = formFragment1.getView().findViewById(R.id.machine_type);
+                    }
+                    final String department1, machine_type;
+                    department1 = department.getText().toString().trim();
+                    machine_type = typeOfMachine.getText().toString().trim();
+                    if (department1.isEmpty()) {
+                        Snackbar snackbar = Snackbar.make(v, "Enter Department", Snackbar.LENGTH_LONG);
+                        TextView tv = (snackbar.getView()).findViewById(com.google.android.material.R.id.snackbar_text);
+                        Typeface font = Typeface.createFromAsset(getAssets(), "fonts/imprima.ttf");
+                        tv.setTypeface(font);
+                        snackbar.show();
+                        department.setError("Field can't be empty");
+                        department.requestFocus();
+                        count--;
+                    } else if (machine_type.isEmpty()) {
+                        Snackbar snackbar = Snackbar.make(v, "Enter Machine Type", Snackbar.LENGTH_LONG);
+                        TextView tv = (snackbar.getView()).findViewById(com.google.android.material.R.id.snackbar_text);
+                        Typeface font = Typeface.createFromAsset(getAssets(), "fonts/imprima.ttf");
+                        tv.setTypeface(font);
+                        snackbar.show();
+                        typeOfMachine.setError("");
+                        typeOfMachine.requestFocus();
+                        count--;
+                    } else {
+                        indicator.setCurrentStep(1);
+                        indicator.animate();
 //                         stateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.TWO);
-                         setOurFragment(new FormFragment2());
-                         prevarrow.setVisibility(View.VISIBLE);
-                     }
+                        setOurFragment(new FormFragment2());
+                        prevarrow.setVisibility(View.VISIBLE);
+                    }
 
-                 } else if (count == 3) {
-                     FormFragment2 formFragment2 = (FormFragment2) getSupportFragmentManager().findFragmentById(R.id.mainframe);
-                     if (formFragment2 != null) {
-                         serialNumber = formFragment2.getView().findViewById(R.id.serialNumber);
-                         machineCompany = formFragment2.getView().findViewById(R.id.company);
-                         modelNumber = formFragment2.getView().findViewById(R.id.model_number);
-                         serviceTime = formFragment2.getView().findViewById(R.id.serviceTime);
-                     }
-                     final String serialNumber1,machineCompany1,modelNumber1,serviceTime1;
-                        serialNumber1=serialNumber.getText().toString().trim();
-                       machineCompany1=machineCompany.getText().toString().trim();
-                     modelNumber1=modelNumber.getText().toString().trim();
-                     serviceTime1=serviceTime.getText().toString().trim();
-                     if(serialNumber1.isEmpty())
-                     {
-                         serialNumber.setError("Enter Department");
-                         serialNumber.requestFocus();
-                         count--;
-                     }
-                     else if(machineCompany1.isEmpty())
-                     {
-                         machineCompany.setError("Enter Department");
-                         machineCompany.requestFocus();
-                         count--;
-                     }
-                     else if(modelNumber1.isEmpty())
-                     {
-                          modelNumber.setError("Enter Department");
-                         modelNumber.requestFocus();
-                         count--;
-                     }
-                     else if(serviceTime1.isEmpty())
-                     {
-                         serviceTime.setError("Enter Department");
-                         serviceTime.requestFocus();
-                         count--;
-                     }
-                     else {
+                } else if (count == 3) {
+                    FormFragment2 formFragment2 = (FormFragment2) getSupportFragmentManager().findFragmentById(R.id.mainframe);
+                    if (formFragment2 != null) {
+                        serialNumber = formFragment2.getView().findViewById(R.id.serialNumber);
+                        machineCompany = formFragment2.getView().findViewById(R.id.company);
+                        modelNumber = formFragment2.getView().findViewById(R.id.model_number);
+                        serviceTime = formFragment2.getView().findViewById(R.id.serviceTime);
+                    }
+                    final String serialNumber1, machineCompany1, modelNumber1, serviceTime1;
+                    serialNumber1 = serialNumber.getText().toString().trim();
+                    machineCompany1 = machineCompany.getText().toString().trim();
+                    modelNumber1 = modelNumber.getText().toString().trim();
+                    serviceTime1 = serviceTime.getText().toString().trim();
+                    if (serialNumber1.isEmpty()) {
+                        Snackbar snackbar = Snackbar.make(v, "Enter Serial Number", Snackbar.LENGTH_LONG);
+                        TextView tv = (snackbar.getView()).findViewById(com.google.android.material.R.id.snackbar_text);
+                        Typeface font = Typeface.createFromAsset(getAssets(), "fonts/imprima.ttf");
+                        tv.setTypeface(font);
+                        snackbar.show();
+                        serialNumber.setError("");
+                        serialNumber.requestFocus();
+                        count--;
+                    } else if (machineCompany1.isEmpty()) {
+                        Snackbar snackbar = Snackbar.make(v, "Enter Company", Snackbar.LENGTH_LONG);
+                        TextView tv = (snackbar.getView()).findViewById(com.google.android.material.R.id.snackbar_text);
+                        Typeface font = Typeface.createFromAsset(getAssets(), "fonts/imprima.ttf");
+                        tv.setTypeface(font);
+                        snackbar.show();
+                        machineCompany.setError("");
+                        machineCompany.requestFocus();
+                        count--;
+                    } else if (modelNumber1.isEmpty()) {
+                        Snackbar snackbar = Snackbar.make(v, "Enter Model Number", Snackbar.LENGTH_LONG);
+                        TextView tv = (snackbar.getView()).findViewById(com.google.android.material.R.id.snackbar_text);
+                        Typeface font = Typeface.createFromAsset(getAssets(), "fonts/imprima.ttf");
+                        tv.setTypeface(font);
+                        snackbar.show();
+                        modelNumber.setError("");
+                        modelNumber.requestFocus();
+                        count--;
+                    } else if (serviceTime1.isEmpty()) {
+                        Snackbar snackbar = Snackbar.make(v, "Enter Service Time", Snackbar.LENGTH_LONG);
+                        TextView tv = (snackbar.getView()).findViewById(com.google.android.material.R.id.snackbar_text);
+                        Typeface font = Typeface.createFromAsset(getAssets(), "fonts/imprima.ttf");
+                        tv.setTypeface(font);
+                        snackbar.show();
+                        serviceTime.setError("");
+                        serviceTime.requestFocus();
+                        count--;
+                    } else {
 //                         stateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.THREE);
-                         indicator.setCurrentStep(2);
-                         setOurFragment(new FormFragment3());
-                     }
+                        indicator.setCurrentStep(2);
+                        setOurFragment(new FormFragment3());
+                    }
 
-                 } else {
+                } else {
 
-                     FormFragment3 formFragment3 = (FormFragment3) getSupportFragmentManager().findFragmentById(R.id.mainframe);
-                     if (formFragment3 != null) {
-                         machinePrice = Objects.requireNonNull(formFragment3.getView()).findViewById(R.id.price);
-                         installationDate = formFragment3.getView().findViewById(R.id.installation_date);
-                         scrapValue = Objects.requireNonNull(formFragment3.getView()).findViewById(R.id.scrap_value);
-                         life = Objects.requireNonNull(formFragment3.getView()).findViewById(R.id.life);
-                     }
-                     final String machinePrice1,installationDate1,scrapValue1,life1;
-                     machinePrice1 = machinePrice.getText().toString().trim();
-                     installationDate1=installationDate.getText().toString().trim();
-                     scrapValue1=scrapValue.getText().toString().trim();
-                     life1=life.getText().toString().trim();
-                     if(machinePrice1.isEmpty())
-                     {
-                         machinePrice.setError("Enter Department");
-                         machinePrice.requestFocus();
-                         count--;
-                     }
-                     else if(installationDate1.isEmpty())
-                     {
-                         installationDate.setError("Enter Department");
-                         installationDate.requestFocus();
-                         count--;
-                     }
-                     else if(scrapValue1.isEmpty())
-                     {
-                         scrapValue.setError("Enter Department");
-                         scrapValue.requestFocus();
-                         count--;
-                     }
-                     else if(life1.isEmpty())
-                     {
-                         life.setError("Enter Department");
-                         life.requestFocus();
-                         count--;
-                     }
-                     else {
-                         if (generationCodeValue != 0) {
+                    FormFragment3 formFragment3 = (FormFragment3) getSupportFragmentManager().findFragmentById(R.id.mainframe);
+                    if (formFragment3 != null) {
+                        machinePrice = Objects.requireNonNull(formFragment3.getView()).findViewById(R.id.price);
+                        installationDate = formFragment3.getView().findViewById(R.id.installation_date);
+                        scrapValue = Objects.requireNonNull(formFragment3.getView()).findViewById(R.id.scrap_value);
+                        life = Objects.requireNonNull(formFragment3.getView()).findViewById(R.id.life);
+                    }
+                    final String machinePrice1, installationDate1, scrapValue1, life1;
+                    machinePrice1 = machinePrice.getText().toString().trim();
+                    installationDate1 = installationDate.getText().toString().trim();
+                    scrapValue1 = scrapValue.getText().toString().trim();
+                    life1 = life.getText().toString().trim();
+                    if (installationDate1.isEmpty()) {
+                        Snackbar snackbar = Snackbar.make(v, "Enter Installation Date", Snackbar.LENGTH_LONG);
+                        TextView tv = (snackbar.getView()).findViewById(com.google.android.material.R.id.snackbar_text);
+                        Typeface font = Typeface.createFromAsset(getAssets(), "fonts/imprima.ttf");
+                        tv.setTypeface(font);
+                        snackbar.show();
+                        installationDate.setError("");
+                        installationDate.requestFocus();
+                        count--;
+                    } else if (machinePrice1.isEmpty()) {
+                        Snackbar snackbar = Snackbar.make(v, "Enter Machine Price", Snackbar.LENGTH_LONG);
+                        TextView tv = (snackbar.getView()).findViewById(com.google.android.material.R.id.snackbar_text);
+                        Typeface font = Typeface.createFromAsset(getAssets(), "fonts/imprima.ttf");
+                        tv.setTypeface(font);
+                        snackbar.show();
+                        machinePrice.setError("");
+                        machinePrice.requestFocus();
+                        count--;
+                    } else if (life1.isEmpty()) {
+                        Snackbar snackbar = Snackbar.make(v, "Enter Expected Life", Snackbar.LENGTH_LONG);
+                        TextView tv = (snackbar.getView()).findViewById(com.google.android.material.R.id.snackbar_text);
+                        Typeface font = Typeface.createFromAsset(getAssets(), "fonts/imprima.ttf");
+                        tv.setTypeface(font);
+                        snackbar.show();
+                        life.setError("");
+                        life.requestFocus();
+                        count--;
+                    } else if (scrapValue1.isEmpty()) {
+                        Snackbar snackbar = Snackbar.make(v, "Enter Scrap Value", Snackbar.LENGTH_LONG);
+                        TextView tv = (snackbar.getView()).findViewById(com.google.android.material.R.id.snackbar_text);
+                        Typeface font = Typeface.createFromAsset(getAssets(), "fonts/imprima.ttf");
+                        tv.setTypeface(font);
+                        snackbar.show();
+                        scrapValue.setError("");
+                        scrapValue.requestFocus();
+                        count--;
+                    } else {
+                        if (generationCodeValue != 0) {
 
-                             // update value to database.
-                             MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
-                             try {
-                                 BitMatrix bitMatrix = multiFormatWriter.encode(String.valueOf(generationCodeValue), BarcodeFormat.QR_CODE, 200, 200);
-                                 BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
-                                 Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);// bitmap contains QRCode image.
-                                 final BottomSheetDialog bottomSheet = new BottomSheetDialog(generationCodeValue, bitmap);
-                                 bottomSheet.show(getSupportFragmentManager(), bottomSheet.getTag());
+                            // update value to database.
+                            MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
+                            try {
+                                BitMatrix bitMatrix = multiFormatWriter.encode(String.valueOf(generationCodeValue), BarcodeFormat.QR_CODE, 200, 200);
+                                BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
+                                Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);// bitmap contains QRCode image.
+                                GenerateQRDialogBox generateQRDialogBox = new GenerateQRDialogBox(GenerateQRActivity.this,generationCodeValue,bitmap);
+                                generateQRDialogBox.show();
+                                //qrcode.setImageBitmap(bitmap);
 
-                                 //qrcode.setImageBitmap(bitmap);
-
-                                 uploadQR(bitmap); // upload QRcode image to FirebaseStorage
+                                uploadQR(bitmap); // upload QRcode image to FirebaseStorage
 //                             save.setVisibility(View.VISIBLE);
 //                             GenerateQR.setVisibility(View.INVISIBLE);
 //                             aqwesd.setVisibility(View.INVISIBLE);
@@ -344,40 +376,40 @@ public class GenerateQRActivity extends AppCompatActivity {
 //                             qrtext.setImageResource(R.drawable.ic_qr_code);
 //                             linearLayout.setVisibility(View.INVISIBLE);
 
-                             } catch (WriterException e) {
-                                 e.printStackTrace();
-                             }
-                         } else {
-                             SweetToast.error(GenerateQRActivity.this, "failed");
-                         }
+                            } catch (WriterException e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            SweetToast.error(GenerateQRActivity.this, "failed");
+                        }
 
 
-                         installationDate.setOnClickListener(new View.OnClickListener() {
-                             @Override
-                             public void onClick(View view) {
-                                 Calendar cal = Calendar.getInstance();
-                                 int year = cal.get(Calendar.YEAR);
-                                 int month = cal.get(Calendar.MONTH);
-                                 int day = cal.get(Calendar.DAY_OF_MONTH);
+                        installationDate.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Calendar cal = Calendar.getInstance();
+                                int year = cal.get(Calendar.YEAR);
+                                int month = cal.get(Calendar.MONTH);
+                                int day = cal.get(Calendar.DAY_OF_MONTH);
 
-                                 DatePickerDialog dialog = new DatePickerDialog(
-                                         GenerateQRActivity.this,
-                                         //android.R.style.Theme_Holo_Light_Dialog_MinWidth,
-                                         mDateSetListener,
-                                         year, month, day);
-                                 // dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                                 dialog.show();
-                             }
-                         });
+                                DatePickerDialog dialog = new DatePickerDialog(
+                                        GenerateQRActivity.this,
+                                        //android.R.style.Theme_Holo_Light_Dialog_MinWidth,
+                                        mDateSetListener,
+                                        year, month, day);
+                                // dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                                dialog.show();
+                            }
+                        });
 
-                         mDateSetListener = new DatePickerDialog.OnDateSetListener() {
-                             @Override
-                             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                                 month = month + 1;
-                                 String date = day + "/" + month + "/" + year;
-                                 installationDate.setText(date);
-                             }
-                         };
+                        mDateSetListener = new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                                month = month + 1;
+                                String date = day + "/" + month + "/" + year;
+                                installationDate.setText(date);
+                            }
+                        };
 
 //                     save.setOnClickListener(new View.OnClickListener() {
 //                         @Override
@@ -387,22 +419,20 @@ public class GenerateQRActivity extends AppCompatActivity {
 //                         }
 //                     });
 
-                     }
-                 }
-             }
-         });
-
+                    }
+                }
+            }
+        });
 
 
         prevarrow.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("RestrictedApi")
             @Override
             public void onClick(View v) {
                 count--;
-                if(count<=0)
-                {
+                if (count <= 0) {
                     finish();
-                }
-                else if (count == 1) {
+                } else if (count == 1) {
 //                    stateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.ONE);
                     indicator.setCurrentStep(0);
                     setOurFragment(fragment1);
@@ -427,13 +457,13 @@ public class GenerateQRActivity extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
-    private void uploadQR(Bitmap bitmap){
+    private void uploadQR(Bitmap bitmap) {
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] data = baos.toByteArray();
 
-        machineQRCodeRefernce = storageReference.child(generationCodeValue+".jpg");
+        machineQRCodeRefernce = storageReference.child(generationCodeValue + ".jpg");
 
         UploadTask uploadTask = machineQRCodeRefernce.putBytes(data); // QRCode image has been uploaded to Storage at this line.
 
@@ -441,16 +471,15 @@ public class GenerateQRActivity extends AppCompatActivity {
 
 
     }
+
+    //
 //
-//
-    public void addMachineToDatabase(UploadTask uploadTask)
-    {
+    public void addMachineToDatabase(UploadTask uploadTask) {
 
         final String serialNo, dept, type, model, company;
         final float price, scrap, machineLife;
         final int servicetime;
         final String installationdate;
-
 
 
         // Retrieve Data of Machine to be saved.
@@ -501,20 +530,20 @@ public class GenerateQRActivity extends AppCompatActivity {
                     // [ ReplacementAlgo   starts -->]
 
                     String[] arrOfStr = installationdate.split("/", 4);
-                    int  date = Integer.parseInt(arrOfStr[0]);
+                    int date = Integer.parseInt(arrOfStr[0]);
                     int month = Integer.parseInt(arrOfStr[1]);
                     int year = Integer.parseInt(arrOfStr[2]);
 
                     int serviceTime = servicetime;
                     month += serviceTime;
-                    month = (month+11)%12;
-                    year += month/12;
+                    month = (month + 11) % 12;
+                    year += month / 12;
                     month %= 12;
-                    float Tavg = 2*price;
+                    float Tavg = 2 * price;
 
 
-                    String nextServiceDate = String.valueOf(date)+'/'+String.valueOf(month)+'/'+String.valueOf(year);
-                    ComparisonMachine comparisonMachine = new ComparisonMachine(dept, type,0,nextServiceDate,manager.getUid(),Tavg,0,0,(int)price,serviceTime,machineId);
+                    String nextServiceDate = String.valueOf(date) + '/' + month + '/' + year;
+                    ComparisonMachine comparisonMachine = new ComparisonMachine(dept, type, 0, nextServiceDate, user.getUid(), Tavg, 0, 0, (int) price, serviceTime, machineId);
 
                     DatabaseReference reference1 = firebaseDatabase.getReference();
                     reference1.child("comparisonMachine").child(dept).child(type).child(machineId).setValue(comparisonMachine);
@@ -523,13 +552,10 @@ public class GenerateQRActivity extends AppCompatActivity {
                     // [ ReplacementAlgo   end -->]
 
 
-
-
-
                     HashMap<String, Object> hashMap = new HashMap<>();
                     hashMap.put("/Machines/" + machineId, machine);
 
-                    Machine tempMachine=null;
+                    Machine tempMachine = null;
                     try {
                         tempMachine = (Machine) machine.clone();
                     } catch (Exception ignored) {
@@ -538,15 +564,14 @@ public class GenerateQRActivity extends AppCompatActivity {
                     if (tempMachine != null) {
                         tempMachine.setManager(null);
                     }
-                    hashMap.put("/Users/Manager/"+user.getUid()+"/myMachines/"+machineId,tempMachine);
+                    hashMap.put("/Users/Manager/" + user.getUid() + "/myMachines/" + machineId, tempMachine);
 
                     firebaseDatabase.getReference().updateChildren(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
-                            if(task.isSuccessful())
-                            {
+                            if (task.isSuccessful()) {
                                 SweetToast.success(GenerateQRActivity.this, "File Updated");
-                                generationCodeValue = generationCodeValue+1; // increase Value of generationCode Everytime a new machine is entered.
+                                generationCodeValue = generationCodeValue + 1; // increase Value of generationCode Everytime a new machine is entered.
                                 generationCodeReference.setValue(generationCodeValue);
                             }
                         }
@@ -557,54 +582,14 @@ public class GenerateQRActivity extends AppCompatActivity {
         });
 
     }
-//
-@Override
-public boolean onSupportNavigateUp() {
-    onBackPressed();
-    return true;
+
+    //
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
 }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 // Some extra code to use further

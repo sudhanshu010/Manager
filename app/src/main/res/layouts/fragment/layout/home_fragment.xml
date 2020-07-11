@@ -7,20 +7,34 @@
     tools:context="com.example.manager.fragments.HomeFragment"
     android:background="#fff"
     >
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        app:title="Home"
+        app:titleMarginStart="35dp"
+        >
+    </androidx.appcompat.widget.Toolbar>
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="45dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:weightSum="10"
         android:orientation="vertical">
 
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="4"
-
+            android:layout_height="250dp"
             >
 
             <com.smarteist.autoimageslider.SliderView
@@ -50,8 +64,7 @@
         <GridLayout
             android:id="@+id/grid_layout"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="6"
+            android:layout_height="wrap_content"
             android:alignmentMode="alignMargins"
             android:columnCount="2"
             android:columnOrderPreserved="false"
@@ -247,5 +260,6 @@
     </LinearLayout>
 
 
-
+</LinearLayout>
+</ScrollView>
 </FrameLayout>

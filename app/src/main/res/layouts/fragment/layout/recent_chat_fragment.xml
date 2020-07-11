@@ -6,12 +6,30 @@
     android:layout_height="658dp"
     android:background="#fff"
     tools:context=".fragments.RecentChatFragment">
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        app:title="Recent Chats"
+        app:titleMarginStart="35dp"
+        >
+    </androidx.appcompat.widget.Toolbar>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="45dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+
 
   <androidx.constraintlayout.widget.ConstraintLayout
       android:layout_width="match_parent"
       android:layout_height="match_parent"
-      android:id="@+id/empty_view_mesg"
-      android:visibility="gone"
+      android:id="@+id/empty_view_msg"
+        android:visibility="gone"
       >
 
       <pl.droidsonroids.gif.GifImageView
@@ -37,10 +55,10 @@
           android:textStyle="bold"
           app:layout_constraintBottom_toBottomOf="parent"
           app:layout_constraintEnd_toEndOf="parent"
-          app:layout_constraintHorizontal_bias="0.497"
+          app:layout_constraintHorizontal_bias="0.5"
           app:layout_constraintStart_toStartOf="parent"
           app:layout_constraintTop_toTopOf="@+id/gifImageView"
-          app:layout_constraintVertical_bias="0.595" />
+          app:layout_constraintVertical_bias="0.7" />
 
   </androidx.constraintlayout.widget.ConstraintLayout>
     <com.facebook.shimmer.ShimmerFrameLayout
@@ -70,9 +88,14 @@
         </LinearLayout>
     </com.facebook.shimmer.ShimmerFrameLayout>
 
+
+
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/recent_chat_rv"
         />
+
+    </LinearLayout>
+    </ScrollView>
 </FrameLayout>
