@@ -3,13 +3,13 @@ package com.example.manager.models;
 public class NotificationModel {
 
     String message;
-    int type;
+    String type;
     String subject;
 
     public NotificationModel() {
     }
 
-    public NotificationModel(String message, int type, String subject) {
+    public NotificationModel(String type, String subject, String message) {
         this.message = message;
         this.type = type;
         this.subject = subject;
@@ -23,11 +23,11 @@ public class NotificationModel {
         this.message = message;
     }
 
-    public int getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(int type) {
+    public void setType(String type) {
         this.type = type;
     }
 

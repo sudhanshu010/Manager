@@ -6,7 +6,9 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.graphics.Color;
 import android.media.AudioAttributes;
+import android.provider.ContactsContract;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
@@ -18,6 +20,7 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
 import java.util.Map;
+
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
     @Override
@@ -38,14 +41,22 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 });
     }
 
+
+
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
         Map<String, String> data = remoteMessage.getData();
 
         String subject,message;
+        int type;
+
+
         subject = data.get("subject").toString();
         message = data.get("message").toString();
+
+
+        saveInDB(subject,message);
 
         Intent intent = new Intent(getApplicationContext(), BottomNavigationActivity.class);
         PendingIntent pi = PendingIntent.getActivity(getApplicationContext(), 101, intent, 0);
@@ -84,4 +95,16 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         nm.notify(101, builder.build());
 
     }
+
+    public void saveInDB(String subject, String message)
+    {
+        DatabaseHelper db = new DatabaseHelper(this);
+        String type="1";
+        Log.i("NCheck ", "Yaha aa gya");
+        boolean isInserted = db.insertData(type, subject, message);
+
+        Log.i("NCheck", "dekh hua kya");
+
+    }
+
 }

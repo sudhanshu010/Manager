@@ -7,6 +7,7 @@
     android:background="#fff"
     tools:context=".fragments.NotificationFragment"
     android:orientation="vertical">
+
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -15,6 +16,7 @@
         app:titleMarginStart="35dp"
         >
     </androidx.appcompat.widget.Toolbar>
+
     <ScrollView
         android:id="@+id/empty_scrolView"
         android:visibility="gone"
@@ -22,11 +24,11 @@
         android:layout_height="match_parent"
         android:layout_marginTop="45dp"
         >
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -36,7 +38,7 @@
         <pl.droidsonroids.gif.GifImageView
             android:id="@+id/gifImageView"
             android:layout_width="match_parent"
-            android:layout_height="500dp"
+            android:layout_height="wrap_content"
             android:src="@drawable/no_notfication"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -64,16 +66,14 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
     </ScrollView>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/notification_recyclerview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone"
+        android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_marginStart="5dp"
         android:layout_marginEnd="5dp"
         />
-
-
 
 </LinearLayout>
