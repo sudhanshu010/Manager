@@ -24,3 +24,21 @@ a QR code.
 * Rating and Review System 
 * Generate New QR code for adding a machine to Database.
 * Check Complaint Status in Vertical stepper.
+
+# ScreenShots
+
+[Approve]:https://github.com/sudhanshu010/Manager/blob/master/Screenshots/approve_request.png
+[ComplaintStatus]:https://github.com/sudhanshu010/Manager/blob/master/Screenshots/complaint_status.png
+[GenerateQR]:https://github.com/sudhanshu010/Manager/blob/master/Screenshots/generate_qr.png
+[MachineDetails]:https://github.com/sudhanshu010/Manager/blob/master/Screenshots/machine_details.png
+[ManagerHome]:https://github.com/sudhanshu010/Manager/blob/master/Screenshots/manager_home.png
+[ManagerProfile]:https://github.com/sudhanshu010/Manager/blob/master/Screenshots/manager_profile.png
+[PendingComplaints]:https://github.com/sudhanshu010/Manager/blob/master/Screenshots/pending_complaints.png
+[Review]:https://github.com/sudhanshu010/Manager/blob/master/Screenshots/review.png
+
+
+|![alt][ManagerHome]|![alt][ManagerProfile]|![alt][GenerateQR]|![alt][MachineDetails]|
+|----------|----------|-------------|------------|
+
+|![alt][PendingComplaints]|![alt][ComplaintStatus]|![alt][Approve]|![alt][Review]|
+|----------|----------|-------------|------------|
