@@ -13,6 +13,12 @@
     <style name="MenuStyle" parent="Theme.AppCompat.Light">
         <item name="android:background">@android:color/white</item>
     </style>
+
+    <style name="RatingBar" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorControlActivated">#FC3768</item>
+        <item name="colorControlNormal">#a3a3a3</item>
+        <item name="colorAccent">#FC3768</item>
+    </style>
     <style name="profileStyledBackButton">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
