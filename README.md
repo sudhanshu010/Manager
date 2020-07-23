@@ -27,8 +27,8 @@ a QR code.
 
 # ScreenShots
 
-[Approve]:https://github.com/sudhanshu010/Manager/blob/master/Screenshots/approve_request.png
-[ComplaintStatus]:https://github.com/sudhanshu010/Manager/blob/master/Screenshots/complaint_status.png
+[Chat]:https://github.com/sudhanshu010/Manager/blob/master/Screenshots/chat.png
+[Settings]:https://github.com/sudhanshu010/Manager/blob/master/Screenshots/settings.png
 [GenerateQR]:https://github.com/sudhanshu010/Manager/blob/master/Screenshots/generate_qr.png
 [MachineDetails]:https://github.com/sudhanshu010/Manager/blob/master/Screenshots/machine_details.png
 [ManagerHome]:https://github.com/sudhanshu010/Manager/blob/master/Screenshots/manager_home.png
@@ -37,8 +37,8 @@ a QR code.
 [Review]:https://github.com/sudhanshu010/Manager/blob/master/Screenshots/review.png
 
 
-|![alt][ManagerHome]|![alt][ManagerProfile]|![alt][GenerateQR]|![alt][MachineDetails]|
+|![alt][ManagerHome]|![alt][MachineDetails]|![alt][GenerateQR]|![alt][ManagerProfile]|
 |----------|----------|-------------|------------|
 
-|![alt][PendingComplaints]|![alt][ComplaintStatus]|![alt][Approve]|![alt][Review]|
+|![alt][PendingComplaints]|![alt][Chat]|![alt][Settings]|![alt][Review]|
 |----------|----------|-------------|------------|
