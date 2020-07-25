@@ -5,7 +5,10 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.media.AudioAttributes;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.provider.ContactsContract;
 import android.util.Log;
 import android.widget.Toast;
@@ -15,6 +18,8 @@ import androidx.core.app.NotificationCompat;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
@@ -52,6 +57,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         int type;
 
 
+
         subject = data.get("subject").toString();
         message = data.get("message").toString();
 
@@ -78,14 +84,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 new NotificationCompat.Builder(getApplicationContext(), "222")
                         .setContentTitle(subject)
                         .setAutoCancel(true)
-//                        .setLargeIcon(((BitmapDrawable)getDrawable(R.drawable.lmis_logo)).getBitmap())
+
                         .setSmallIcon(R.mipmap.ic_launcher)
                         .setStyle(new NotificationCompat.BigTextStyle()
                                 .setSummaryText("Manager")
                                 .setBigContentTitle(subject)
                                 .bigText(message))
 
-                        //.setSound(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.electro))
+        .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
                         .setContentText(message)
                         //.setColor(Color.BLUE)
                         .setCategory(NotificationCompat.CATEGORY_MESSAGE)
@@ -98,10 +104,13 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     public void saveInDB(String subject, String message)
     {
-        DatabaseHelper db = new DatabaseHelper(this);
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        DatabaseHelper db = new DatabaseHelper(this, user.getUid());
         String type="1";
         Log.i("NCheck ", "Yaha aa gya");
-        boolean isInserted = db.insertData(type, subject, message);
+        boolean isInserted = db.insertData(type, subject, message,user.getUid());
 
         Log.i("NCheck", "dekh hua kya");
 
