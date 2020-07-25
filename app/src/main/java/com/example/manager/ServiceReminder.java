@@ -121,10 +121,56 @@ public class ServiceReminder extends BroadcastReceiver {
 
     }
 
-    public void showNotification(int count)
-    {
+    public void showNotification(int count) {
         //TODO : Show notification here with text as "These {count} machine needs service."
+
+        String subject,message;
+        int type;
+
+
+
+        subject = "service";
+        message =  Integer.toString(count);  // "count will be here";
+
+
+        //saveInDB(subject,message);
+
+        Intent intent = new Intent( MyApplication.getAppContext(), BottomNavigationActivity.class);
+        PendingIntent pi = PendingIntent.getActivity(MyApplication.getAppContext(), 101, intent, 0);
+
+        NotificationManager nm = (NotificationManager) MyApplication.getAppContext().getSystemService(NOTIFICATION_SERVICE);
+
+        NotificationChannel channel = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            AudioAttributes att = new AudioAttributes.Builder()
+                    .setUsage(AudioAttributes.USAGE_NOTIFICATION)
+                    .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
+                    .build();
+
+            channel = new NotificationChannel("222", "my_channel", NotificationManager.IMPORTANCE_HIGH);
+            nm.createNotificationChannel(channel);
+        }
+
+        NotificationCompat.Builder builder =
+                new NotificationCompat.Builder(MyApplication.getAppContext(), "222")
+                        .setContentTitle(subject)
+                        .setAutoCancel(true)
+
+                        .setSmallIcon(R.mipmap.ic_launcher)
+                        .setStyle(new NotificationCompat.BigTextStyle()
+                                .setSummaryText("Reminder")
+                                .setBigContentTitle(subject)
+                                .bigText(message))
+
+                        .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+                        .setContentText(message)
+                        //.setColor(Color.BLUE)
+                        .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                        .setContentIntent(pi);
+
+        builder.setPriority(NotificationCompat.PRIORITY_HIGH);
+        nm.notify(101, builder.build());
     }
 
-
 }
+
