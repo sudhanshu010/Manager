@@ -25,6 +25,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.messaging.FirebaseMessagingService;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
@@ -47,9 +48,9 @@ public class ServiceReminder extends BroadcastReceiver {
 
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
 
-            List<String>dept;
-            List<String>type;
-            List<String>UID;
+            List<String>dept=new ArrayList<String>();
+            List<String>type = new ArrayList<String>();
+            List<String>UID= new ArrayList<String>();
 
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -75,7 +76,7 @@ public class ServiceReminder extends BroadcastReceiver {
 
 
                         Calendar calender = Calendar.getInstance();
-                        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/mm/yyyy");
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
                         String date = dateFormat.format(calender.getTime());
                         String[] todayDate = date.split("/",4);
 
@@ -83,10 +84,10 @@ public class ServiceReminder extends BroadcastReceiver {
 
                         for(int i=0;i<n;i++)
                         {
-                            datesQ= dataSnapshot1.child(dept.get(i)).child(type.get(i)).child(UID.get(i)).child("nextServiceDate").getValue().toString();
+                            datesQ= dataSnapshot1.child(dept.get(i)).child(type.get(i)).child(UID.get(i)).child("nextServiceTime").getValue().toString();
                             String[] arrOfStr = datesQ.split("/",4);
-
-                            int time = Integer.parseInt(todayDate[0])-Integer.parseInt(arrOfStr[0]) + 30*(Integer.parseInt(todayDate[1])-Integer.parseInt(arrOfStr[1])) + 365*(Integer.parseInt(todayDate[2])-Integer.parseInt(arrOfStr[2]));
+                            int time = Integer.parseInt(arrOfStr[0])-Integer.parseInt(todayDate[0]) + 30*(Integer.parseInt(arrOfStr[1])-Integer.parseInt(todayDate[1])) + 365*(Integer.parseInt(arrOfStr[2])-Integer.parseInt(todayDate[2]) );
+                            Log.i("AndroidQ", String.valueOf(time));
                             if(time<=5)
                             {
                                 count++;
@@ -94,7 +95,12 @@ public class ServiceReminder extends BroadcastReceiver {
                         }
 
                         if(count>0){
+                            Log.i("AndroidQ", "kuch h yaha jo nhi aa taha");
                             showNotification(count);
+                        }
+                        else
+                        {
+                            Log.i("AndroidQ", "Kuch h hi nhi yaha");
                         }
 
 

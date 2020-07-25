@@ -21,7 +21,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:label">
-        <activity android:name=".ServiceReminderActivity"></activity>
         <activity android:name=".BarCodeLoginActivity" />
         <activity android:name=".ComplaintDetails" />
         <activity
@@ -53,6 +52,7 @@
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" /> <!-- [START firebase_service] -->
+
         <service
             android:name=".MyFirebaseMessagingService"
             android:exported="false">
@@ -61,10 +61,12 @@
             </intent-filter>
         </service>
 
+
         <receiver
             android:name=".ServiceReminder"
             android:enabled="true"
-            android:exported="true"></receiver>
+            />
+
     </application>
 
 </manifest>
