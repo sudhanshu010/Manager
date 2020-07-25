@@ -100,7 +100,7 @@ public class NotificationFragment extends Fragment {
                 example.add(new NotificationModel(res.getString(1), res.getString(2), res.getString(3)));
             }
 
-            NotificationAdapter adapter = new NotificationAdapter(example);
+            NotificationAdapter adapter = new NotificationAdapter(example,this.getActivity().getApplicationContext());
             recyclerView.setAdapter(adapter);
         }
 

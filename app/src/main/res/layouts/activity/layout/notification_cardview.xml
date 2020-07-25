@@ -4,38 +4,87 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/notificationCard_cardview"
     android:layout_margin="5dp"
-    android:paddingBottom="5dp"
-    android:paddingTop="5dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="0dp"
     >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        >
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/notification_img"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/ic_plane"
+            android:elevation="3dp"
+            />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
         android:orientation="vertical"
+
         >
         <TextView
             android:id="@+id/notificationCard_subject"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="djsfbvd"
+            android:textSize="14sp"
+           android:paddingLeft="5dp"
+            android:textColor="#000"
+            android:fontFamily="@font/imprima"
+            android:textStyle="bold"
+            android:text="Pending Request"
             />
 
         <TextView
             android:id="@+id/notificationCard_message"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="nfjfbsd"
+            android:textSize="15sp"
+            android:paddingLeft="5dp"
+            android:textColor="#292727"
+            android:fontFamily="@font/imprima"
+            android:text="You Have 1 New Pending Request Click Here"
             />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="4dp"
+            >
         <TextView
             android:id="@+id/notificationCard_timeAgo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="fnvdjkv f"
+            android:textSize="13sp"
+            android:drawableLeft="@drawable/ic_clock1"
+
+            android:fontFamily="@font/imprima"
+            android:layout_gravity="center_vertical"
+            android:drawablePadding="7dp"
+            android:paddingLeft="20dp"
+            android:text="20 Hours Ago"
             />
-
+        </LinearLayout>
     </LinearLayout>
-
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginRight="@dimen/padding_10"
+        android:layout_marginLeft="70dp"
+        android:layout_gravity="bottom"
+        android:background="#A19F9F"/>
 </androidx.cardview.widget.CardView>
