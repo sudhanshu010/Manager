@@ -66,6 +66,8 @@ public class NotificationFragment extends Fragment {
         View view = inflater.inflate(R.layout.notification_fragment, container, false);
         final Toolbar toolbar=view.findViewById(R.id.toolbar);
 
+        user = FirebaseAuth.getInstance().getCurrentUser();
+
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -84,8 +86,8 @@ public class NotificationFragment extends Fragment {
 
 
 
-        DatabaseHelper mydb = new DatabaseHelper(getActivity());
-        Cursor res = mydb.getAllData();
+        DatabaseHelper mydb = new DatabaseHelper(getActivity(),user.getUid());
+        Cursor res = mydb.getAllData(user.getUid());
 
         if(res.getCount()==0)
         {

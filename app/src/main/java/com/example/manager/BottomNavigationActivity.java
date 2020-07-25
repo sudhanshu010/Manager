@@ -22,13 +22,14 @@ import com.example.manager.fragments.ProfileFragment;
 public class BottomNavigationActivity extends AppCompatActivity {
 
     int old_id = 1;
-    DatabaseHelper mydb;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setOurFragment(new HomeFragment(),1,1);
         setContentView(R.layout.activity_bottom_navigation);
+
 
         final MeowBottomNavigation bottomNavigation = findViewById(R.id.bottom_bar);
 
