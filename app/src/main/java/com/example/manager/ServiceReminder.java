@@ -96,7 +96,9 @@ public class ServiceReminder extends BroadcastReceiver {
 
                         if(count>0){
                             Log.i("AndroidQ", "kuch h yaha jo nhi aa taha");
+                            saveinDB("Service Reminder", "Service needed for the "+count+" machine(s)");
                             showNotification(count);
+
                         }
                         else
                         {
@@ -176,6 +178,20 @@ public class ServiceReminder extends BroadcastReceiver {
 
         builder.setPriority(NotificationCompat.PRIORITY_HIGH);
         nm.notify(101, builder.build());
+    }
+
+    public void saveinDB(String subject, String message)
+    {
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        DatabaseHelper db = new DatabaseHelper(MyApplication.getAppContext(), user.getUid());
+        String type="4";
+        Log.i("NCheck ", "Yaha aa gya");
+        boolean isInserted = db.insertData(type, subject, message,user.getUid());
+
+        Log.i("NCheck", "dekh hua kya");
+
     }
 
 }
