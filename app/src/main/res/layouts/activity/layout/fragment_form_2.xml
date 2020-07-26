@@ -37,6 +37,12 @@
                 android:drawableLeft="@drawable/ic_serial_number1"
                 android:background="@android:color/transparent"
                 android:drawablePadding="20dp"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#a3a3a3"
+                android:layout_marginTop="10dp"
+                />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -60,6 +66,12 @@
                 android:drawablePadding="20dp"
                 android:background="@android:color/transparent"
                 android:maxLines="1" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#a3a3a3"
+                android:layout_marginTop="10dp"
+                />
         </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -83,6 +95,12 @@
                 android:background="@android:color/transparent"
                 android:drawablePadding="20dp"
                 android:maxLines="1" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#a3a3a3"
+                android:layout_marginTop="10dp"
+                />
         </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -107,6 +125,12 @@
                 android:fontFamily="@font/imprima"
                 android:background="@android:color/transparent"
                 android:maxLines="1" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#a3a3a3"
+                android:layout_marginTop="10dp"
+                />
         </com.google.android.material.textfield.TextInputLayout>
 
     </LinearLayout>

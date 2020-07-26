@@ -3,6 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.manager">
 
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
+    <uses-permission android:name="android.permission.USE_FINGERPRINT" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -11,13 +20,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:label">
-        <activity android:name=".BarCodeLoginActivity"></activity>
-        <activity android:name=".ComplaintDetails"></activity>
+        <activity android:name=".EditProfileActivity"></activity>
+        <activity android:name=".BarCodeLoginActivity" />
+        <activity android:name=".ComplaintDetails" />
         <activity
             android:name=".GetMachineDetailsActivity"
             android:windowSoftInputMode="adjustResize" />
         <activity android:name=".SettingActivity" />
-        <activity android:name=".BottomNavigationActivity"></activity>
+        <activity android:name=".BottomNavigationActivity" />
         <activity android:name=".ChatActivity" />
         <activity android:name=".FaqActivity" />
         <activity android:name=".FeedbackActivity" />
@@ -50,14 +60,5 @@
             </intent-filter>
         </service>
     </application>
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.FLASHLIGHT" />
-    <uses-permission android:name="android.permission.USE_FINGERPRINT" />
-
-    <uses-permission android:name="android.permission.CAMERA" />
 
 </manifest>
