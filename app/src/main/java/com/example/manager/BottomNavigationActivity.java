@@ -1,7 +1,12 @@
 package com.example.manager;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -19,15 +24,55 @@ import com.example.manager.fragments.HomeFragment;
 import com.example.manager.fragments.NotificationFragment;
 import com.example.manager.fragments.ProfileFragment;
 
+import java.util.Calendar;
+
 public class BottomNavigationActivity extends AppCompatActivity {
 
     int old_id = 1;
+    public static final String PREFS = "service_reminder";
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setOurFragment(new HomeFragment(),1,1);
         setContentView(R.layout.activity_bottom_navigation);
+
+        SharedPreferences settings = getSharedPreferences(PREFS, MODE_PRIVATE);
+
+        sharedPreferences = getSharedPreferences(PREFS, Context.MODE_PRIVATE);
+        String s1 = sharedPreferences.getString("service_reminder","");
+
+        if(!s1.equals("Initiated")) {
+            Log.i("bhai", "nhi jaanta");
+
+            // Set alarm here
+
+            AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
+            Calendar c = Calendar.getInstance();
+            c.set(Calendar.SECOND,0);
+            c.set(Calendar.MINUTE, 0);
+            c.set(Calendar.HOUR_OF_DAY, 14);
+
+            Intent intent = new Intent(this, ServiceReminder.class);
+            PendingIntent pd = PendingIntent.getBroadcast(this, 0, intent, 0);
+            alarmManager.setRepeating(AlarmManager.RTC, c.getTimeInMillis(),24*60*60*1000, pd);
+            Log.i("alarm is set","bhai");
+
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("service_reminder", "Initiated");
+            editor.apply();
+
+
+        }
+        else
+        {
+            Log.i("ha bhai", "jaanta h");
+            Log.i("bhai", s1);
+        }
+
+
+
         final MeowBottomNavigation bottomNavigation = findViewById(R.id.bottom_bar);
 
 

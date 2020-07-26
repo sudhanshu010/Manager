@@ -177,7 +177,7 @@ public class ProfileFragment extends Fragment {
 
                 Intent intent = new Intent(getActivity().getApplicationContext(), MyMachinesActivity.class);
                 startActivity(intent);
-                getActivity().finish();
+
             }
         });
 

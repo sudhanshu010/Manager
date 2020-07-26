@@ -7,11 +7,16 @@ import androidx.paging.PagedList;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
+import android.widget.Toast;
 
 import com.example.manager.adapters.MachineAdapter;
 import com.example.manager.models.Machine;
@@ -27,6 +32,8 @@ import com.google.firebase.database.Query;
 import java.util.ArrayList;
 import java.util.List;
 
+import xyz.hasnat.sweettoast.SweetToast;
+
 public class MyMachinesActivity extends AppCompatActivity {
 
     RecyclerView recyclerView_machine;
@@ -35,6 +42,7 @@ public class MyMachinesActivity extends AppCompatActivity {
     FirebaseAuth auth;
     FirebaseUser user;
 
+
     FirebaseDatabase firebaseDatabase;
 
     @Override
@@ -42,10 +50,28 @@ public class MyMachinesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_machine);
 
+
+        ConnectivityManager mgr = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = mgr.getActiveNetworkInfo();
+        if (netInfo != null) {
+            if (!netInfo.isConnected())
+            {
+                SweetToast.error(MyMachinesActivity.this, "No Internet Connection");
+            }
+        }
+        else
+        {
+            SweetToast.error(MyMachinesActivity.this, "No Internet Connection");
+        }
+
+
         Toolbar toolbar=findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+
+
 
         recyclerView_machine=findViewById(R.id.recyclerView_machine);
         recyclerView_machine.setLayoutManager(new LinearLayoutManager(this));
@@ -72,8 +98,8 @@ public class MyMachinesActivity extends AppCompatActivity {
         recyclerView_machine.setAdapter(machineAdapter);
         machineAdapter.startListening();
 
-//
     }
+
 
     @Override
     public boolean onSupportNavigateUp() {

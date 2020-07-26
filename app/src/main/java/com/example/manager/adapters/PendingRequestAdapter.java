@@ -274,6 +274,7 @@ public class PendingRequestAdapter extends FirebaseRecyclerPagingAdapter<Request
                                                         fault1 = x;
                                                     }
                                                 }
+
                                                 Log.i("Replacement machine is working bad,change with ", best);
                                             };
 
