@@ -38,6 +38,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.example.manager.DialogBox.CustomDialogBox;
+import com.example.manager.EditProfileActivity;
 import com.example.manager.MainActivity;
 import com.example.manager.MyMachinesActivity;
 import com.example.manager.R;
@@ -138,34 +139,36 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                Context context = getActivity().getApplicationContext();
-                AnimatorSet flipOut = (AnimatorSet) AnimatorInflater.loadAnimator(context,R.animator.card_flip_out);
-                AnimatorSet flipIn = (AnimatorSet) AnimatorInflater.loadAnimator(context,R.animator.card_flip_in);
-                flipIn.addListener(new Animator.AnimatorListener() {
-                    @Override
-                    public void onAnimationStart(Animator animation) {
-                        profileEditLayout.setVisibility(View.VISIBLE);
-                    }
-
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        profileLayout.setVisibility(View.GONE);
-                    }
-
-                    @Override
-                    public void onAnimationCancel(Animator animation) {
-
-                    }
-
-                    @Override
-                    public void onAnimationRepeat(Animator animation) {
-
-                    }
-                });
-                flipOut.setTarget(profileLayout);
-                flipIn.setTarget(profileEditLayout);
-                flipOut.start();
-                flipIn.start();
+                Intent intent = new Intent(getActivity().getApplicationContext(), EditProfileActivity.class);
+                startActivity(intent);
+//                Context context = getActivity().getApplicationContext();
+//                AnimatorSet flipOut = (AnimatorSet) AnimatorInflater.loadAnimator(context,R.animator.card_flip_out);
+//                AnimatorSet flipIn = (AnimatorSet) AnimatorInflater.loadAnimator(context,R.animator.card_flip_in);
+//                flipIn.addListener(new Animator.AnimatorListener() {
+//                    @Override
+//                    public void onAnimationStart(Animator animation) {
+//                        profileEditLayout.setVisibility(View.VISIBLE);
+//                    }
+//
+//                    @Override
+//                    public void onAnimationEnd(Animator animation) {
+//                        profileLayout.setVisibility(View.GONE);
+//                    }
+//
+//                    @Override
+//                    public void onAnimationCancel(Animator animation) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onAnimationRepeat(Animator animation) {
+//
+//                    }
+//                });
+//                flipOut.setTarget(profileLayout);
+//                flipIn.setTarget(profileEditLayout);
+//                flipOut.start();
+//                flipIn.start();
 
 
             }
