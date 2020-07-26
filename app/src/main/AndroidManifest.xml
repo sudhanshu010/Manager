@@ -40,6 +40,7 @@
         <activity android:name=".ComplaintsTabActivity" />
         <activity android:name=".GenerateQRActivity" />
         <activity android:name=".RegisterActivity" />
+        <activity android:name=".EditProfileActivity" />
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

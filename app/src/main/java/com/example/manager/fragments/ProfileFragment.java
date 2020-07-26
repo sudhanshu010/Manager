@@ -50,6 +50,7 @@ import com.example.manager.utilityclass.CircleTransform;
 import com.firebase.ui.database.paging.DatabasePagingOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -81,7 +82,7 @@ public class ProfileFragment extends Fragment {
 
     ImageView profilePicChange, profilePic;
     LinearLayout myMachine;
-
+    FloatingActionButton fab;
     StorageReference storageReference;
     DatabaseReference databaseReference;
     FirebaseUser user;
@@ -134,8 +135,8 @@ public class ProfileFragment extends Fragment {
         save = view.findViewById(R.id.save_edit_profile);
         cancel = view.findViewById(R.id.cancel_edit_profile);
 
-
-        editButton.setOnClickListener(new View.OnClickListener() {
+        fab = view.findViewById(R.id.edit_button_fab);
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 

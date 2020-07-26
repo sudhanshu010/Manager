@@ -66,12 +66,34 @@
         android:orientation="vertical"
         android:gravity="center_horizontal"
         >
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/profilepic"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:src="@drawable/profilepicdemo1"
-            />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            >
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profilepic"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:src="@drawable/profilepicdemo1"
+                app:civ_border_color="#000"
+                app:civ_circle_background_color="#000"
+                app:civ_fill_color="#a3a3a3"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_baseline_camera_alt_24"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/profilepic"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -108,35 +130,7 @@
             />
     </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
 
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:layout_marginTop="@dimen/loginViewsMargin"
-            android:textColorHint="#757474"
-            app:boxStrokeColor="@color/colorPrimary">
-            <EditText
-                android:id="@+id/edit_profile_email"
-                style="@style/modifiedEditText"
-                android:hint="Email"
-                android:fontFamily="@font/imprima"
-                android:background="@android:color/transparent"
-                android:textColorHint="#000"
-                android:maxLines="1"
-                android:textSize="16sp"
-                android:drawableTint="#a3a3a3"
-                android:textStyle="bold"
-                android:drawableLeft="@drawable/ic_baseline_email_24"
-                android:textColor="#757474"
-                android:drawablePadding="20dp"/>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:background="#a3a3a3"
-                android:layout_marginTop="10dp"
-                />
-        </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
 

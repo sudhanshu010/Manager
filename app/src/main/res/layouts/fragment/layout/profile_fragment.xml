@@ -114,6 +114,7 @@
 
         <Button
             android:id="@+id/edit_button"
+            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="35dp"
             android:background="@drawable/btn_round_corner"
@@ -131,6 +132,23 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.069" />
+
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/edit_button_fab"
+            android:backgroundTint="@color/colorRed"
+            android:src="@drawable/ic_pencil"
+            android:tint="#fff"
+            android:outlineAmbientShadowColor="@color/colorRed"
+            android:outlineSpotShadowColor="@color/colorRed"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.881"
+            app:layout_constraintStart_toEndOf="@+id/rm_profile_phone"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.938" />
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/profilepic"
