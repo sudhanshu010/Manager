@@ -164,4 +164,10 @@ dependencies {
 
     //Stepper
     implementation 'com.github.badoualy:stepper-indicator:1.0.7'
+
+    //horizontal fixed progress bar
+    implementation 'com.sasank.roundedhorizontalprogress:roundedhorizontalprogress:1.0.1'
+
+    //Arc View
+    implementation 'com.github.lzyzsd:circleprogress:1.2.1'
 }
