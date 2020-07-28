@@ -12,12 +12,32 @@
 
     </item>
 
-    <item android:width="200dp" android:height="50dp"
-        android:top="50dp"
+    <item android:width="250dp" android:height="50dp"
+        android:top="75dp"
         android:gravity="center">
         <bitmap
             android:src="@drawable/logo_text"
             >
+
+        </bitmap>
+
+    </item>
+
+    <item android:width="40dp" android:height="20dp"
+        android:bottom="80dp"
+        android:gravity="bottom|center_horizontal">
+        <bitmap
+            android:src="@drawable/logo_from">
+
+        </bitmap>
+
+    </item>
+
+    <item android:width="200dp" android:height="30dp"
+        android:bottom="50dp"
+        android:gravity="bottom|center_horizontal">
+        <bitmap
+            android:src="@drawable/logo_team">
 
         </bitmap>
 
