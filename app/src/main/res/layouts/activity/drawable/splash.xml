@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@color/whiteTextColor"
+        ></item>
+
+    <item android:width="100dp" android:height="100dp"
+        android:bottom="100dp"
+        android:gravity="center">
+        <bitmap
+            android:src="@drawable/scan_logo">
+        </bitmap>
+
+    </item>
+
+    <item android:width="200dp" android:height="50dp"
+        android:top="50dp"
+        android:gravity="center">
+        <bitmap
+            android:src="@drawable/logo_text"
+            >
+
+        </bitmap>
+
+    </item>
+
+</layer-list>
