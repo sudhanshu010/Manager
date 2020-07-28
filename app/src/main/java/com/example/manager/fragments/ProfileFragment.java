@@ -38,6 +38,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.example.manager.DialogBox.CustomDialogBox;
+import com.example.manager.EditProfileActivity;
 import com.example.manager.MainActivity;
 import com.example.manager.MyMachinesActivity;
 import com.example.manager.R;
@@ -49,6 +50,7 @@ import com.example.manager.utilityclass.CircleTransform;
 import com.firebase.ui.database.paging.DatabasePagingOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -80,7 +82,7 @@ public class ProfileFragment extends Fragment {
 
     ImageView profilePicChange, profilePic;
     LinearLayout myMachine;
-
+    FloatingActionButton fab;
     StorageReference storageReference;
     DatabaseReference databaseReference;
     FirebaseUser user;
@@ -133,39 +135,41 @@ public class ProfileFragment extends Fragment {
         save = view.findViewById(R.id.save_edit_profile);
         cancel = view.findViewById(R.id.cancel_edit_profile);
 
-
-        editButton.setOnClickListener(new View.OnClickListener() {
+        fab = view.findViewById(R.id.edit_button_fab);
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Context context = getActivity().getApplicationContext();
-                AnimatorSet flipOut = (AnimatorSet) AnimatorInflater.loadAnimator(context,R.animator.card_flip_out);
-                AnimatorSet flipIn = (AnimatorSet) AnimatorInflater.loadAnimator(context,R.animator.card_flip_in);
-                flipIn.addListener(new Animator.AnimatorListener() {
-                    @Override
-                    public void onAnimationStart(Animator animation) {
-                        profileEditLayout.setVisibility(View.VISIBLE);
-                    }
-
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        profileLayout.setVisibility(View.GONE);
-                    }
-
-                    @Override
-                    public void onAnimationCancel(Animator animation) {
-
-                    }
-
-                    @Override
-                    public void onAnimationRepeat(Animator animation) {
-
-                    }
-                });
-                flipOut.setTarget(profileLayout);
-                flipIn.setTarget(profileEditLayout);
-                flipOut.start();
-                flipIn.start();
+                Intent intent = new Intent(getActivity().getApplicationContext(), EditProfileActivity.class);
+                startActivity(intent);
+//                Context context = getActivity().getApplicationContext();
+//                AnimatorSet flipOut = (AnimatorSet) AnimatorInflater.loadAnimator(context,R.animator.card_flip_out);
+//                AnimatorSet flipIn = (AnimatorSet) AnimatorInflater.loadAnimator(context,R.animator.card_flip_in);
+//                flipIn.addListener(new Animator.AnimatorListener() {
+//                    @Override
+//                    public void onAnimationStart(Animator animation) {
+//                        profileEditLayout.setVisibility(View.VISIBLE);
+//                    }
+//
+//                    @Override
+//                    public void onAnimationEnd(Animator animation) {
+//                        profileLayout.setVisibility(View.GONE);
+//                    }
+//
+//                    @Override
+//                    public void onAnimationCancel(Animator animation) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onAnimationRepeat(Animator animation) {
+//
+//                    }
+//                });
+//                flipOut.setTarget(profileLayout);
+//                flipIn.setTarget(profileEditLayout);
+//                flipOut.start();
+//                flipIn.start();
 
 
             }

@@ -35,6 +35,13 @@
                 android:maxLines="1"
                 android:textColor="#757474"
                 android:textColorHint="#000" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#a3a3a3"
+                android:layout_marginTop="10dp"
+                />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -52,12 +59,19 @@
                 android:drawablePadding="20dp"
                 android:drawableTint="#a3a3a3"
                 android:textStyle="bold"
+                android:inputType="number"
                 android:background="@android:color/transparent"
                 android:fontFamily="@font/imprima"
                 android:hint="Enter Machine Price"
                 android:maxLines="1"
                 android:textColor="#757474"
                 android:textColorHint="#000" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#a3a3a3"
+                android:layout_marginTop="10dp"
+                />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -76,11 +90,18 @@
                 android:drawablePadding="20dp"
                 android:textStyle="bold"
                 android:fontFamily="@font/imprima"
+                android:inputType="number"
                 android:hint="Enter Expected Life of Machine"
                 android:background="@android:color/transparent"
                 android:maxLines="1"
                 android:textColor="#757474"
                 android:textColorHint="#000" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#a3a3a3"
+                android:layout_marginTop="10dp"
+                />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -99,11 +120,18 @@
                 android:drawableTint="#a3a3a3"
                 android:fontFamily="@font/imprima"
                 android:textStyle="bold"
+                android:inputType="number"
                 android:background="@android:color/transparent"
                 android:hint="Enter Expected Scrap Value"
                 android:maxLines="1"
                 android:textColor="#757474"
                 android:textColorHint="#000" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#a3a3a3"
+                android:layout_marginTop="10dp"
+                />
         </com.google.android.material.textfield.TextInputLayout>
 
     </LinearLayout>

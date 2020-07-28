@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -37,6 +38,8 @@ public class PendingComplaintAdapter extends FirebaseRecyclerPagingAdapter<Compl
      */
     private final int[] mColors = {R.color.list_color_1,R.color.list_color_2,R.color.list_color_3,R.color.list_color_4,R.color.list_color_5,
             R.color.list_color_6,R.color.list_color_7,R.color.list_color_8,R.color.list_color_9,R.color.list_color_10,R.color.list_color_11};
+    private final int[] mgrad = {R.drawable.list_gradient1,R.drawable.list_gradient3,R.drawable.list_gradient2,R.drawable.list_gradient4
+            ,R.drawable.list_gradient5};
 
     Context c;
 
@@ -52,6 +55,7 @@ public class PendingComplaintAdapter extends FirebaseRecyclerPagingAdapter<Compl
     protected void onBindViewHolder(@NonNull PendingComplaintAdapter.PendingComplaintHolder myholder1, int position,@NonNull Complaint model) {
         int bgColor = ContextCompat.getColor(c, mColors[position % 12]);
         myholder1.cardView.setCardBackgroundColor(bgColor);
+        myholder1.linearLayout.setBackgroundResource(mgrad[position % 5]);
         myholder1.bind(model);
     }
 
@@ -75,6 +79,7 @@ public class PendingComplaintAdapter extends FirebaseRecyclerPagingAdapter<Compl
         TextView pendingComplaintDate, pendingComplaintId, pendingComplaintServicemanName, pendingComplaintDescription, pendingComplaintMachineId;
         Button chatButton, statusButton;
         CardView cardView;
+        LinearLayout linearLayout;
 
         public PendingComplaintHolder(@NonNull View itemView) {
             super(itemView);
@@ -84,6 +89,7 @@ public class PendingComplaintAdapter extends FirebaseRecyclerPagingAdapter<Compl
             pendingComplaintDescription = itemView.findViewById(R.id.rm_pending_complaint_desc);
             pendingComplaintServicemanName = itemView.findViewById(R.id.rm_pending_complaint_serviceman);
             pendingComplaintMachineId = itemView.findViewById(R.id.rm_pending_complaint_machine_id);
+            linearLayout = itemView.findViewById(R.id.linearLayout);
 //            chatButton = itemView.findViewById(R.id.rm_chat_button);
 //            statusButton = itemView.findViewById(R.id.show_status);
             cardView = itemView.findViewById(R.id.complaint_card);

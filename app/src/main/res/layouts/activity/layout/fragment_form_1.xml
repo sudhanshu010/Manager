@@ -38,6 +38,12 @@
                 android:drawableLeft="@drawable/ic_department1"
                 android:textColor="#757474"
                 android:drawablePadding="20dp"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#a3a3a3"
+                android:layout_marginTop="10dp"
+                />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -61,6 +67,12 @@
                 android:drawablePadding="20dp"
                 android:textColor="#757474"
                 android:maxLines="1" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#a3a3a3"
+                android:layout_marginTop="10dp"
+                />
         </com.google.android.material.textfield.TextInputLayout>
 
     </LinearLayout>
