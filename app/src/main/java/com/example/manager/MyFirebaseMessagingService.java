@@ -44,6 +44,19 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                         Log.d("firebaseInstance", "Registered to manager");
                     }
                 });
+
+        FirebaseMessaging.getInstance().subscribeToTopic("all")
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+
+                        if (!task.isSuccessful()) {
+                            Log.d("firebaseInstance","Can't register to all");
+                        }
+
+                        Log.d("firebaseInstance", "Registered to all");
+                    }
+                });
     }
 
 
