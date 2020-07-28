@@ -13,6 +13,7 @@ public class MechRating implements Cloneable{
     private float stars;
     private String reviews, revDate;
     private Manager manager;
+    private long ratingId;
 
     public Object clone() throws
             CloneNotSupportedException
@@ -25,11 +26,12 @@ public class MechRating implements Cloneable{
 
     }
 
-    public MechRating(float stars, String reviews, String revDate, Manager manager) {
+    public MechRating(float stars, String reviews, String revDate, Manager manager, long ratingId) {
         this.stars = stars;
         this.reviews = reviews;
         this.revDate = revDate;
         this.manager = manager;
+        this.ratingId = ratingId;
     }
 
     public float getStars() {
@@ -64,6 +66,14 @@ public class MechRating implements Cloneable{
         this.manager = manager;
     }
 
+    public long getRatingId() {
+        return ratingId;
+    }
+
+    public void setRatingId(long ratingId) {
+        this.ratingId = ratingId;
+    }
+
     @Exclude
     public Map<String, Object> toMap() {
         HashMap<String , Object> result = new HashMap<>();
@@ -71,6 +81,7 @@ public class MechRating implements Cloneable{
         result.put("reviews", reviews);
         result.put("date", revDate);
         result.put("manager", manager);
+        result.put("ratingId", ratingId);
 
         return result;
     }

@@ -104,6 +104,7 @@ public class RatingActivity extends AppCompatActivity {
                         MechRating mechRating = new MechRating();
                         mechRating.setStars(ratingBar.getProgress()/2);
                         mechRating.setReviews(reviews.getText().toString());
+                        mechRating.setRatingId(number);
 
                         Calendar cal = Calendar.getInstance();
                         int year = cal.get(Calendar.YEAR);
