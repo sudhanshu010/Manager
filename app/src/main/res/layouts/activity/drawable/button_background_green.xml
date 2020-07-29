@@ -25,7 +25,8 @@
             <corners
                 android:radius="26dp" />
 
-            <gradient android:startColor="#07ECFF" android:endColor="#4EAAFA"></gradient>
+            <solid
+                android:color="#00ADC1"/>
 
             <padding
                 android:left="10dp"

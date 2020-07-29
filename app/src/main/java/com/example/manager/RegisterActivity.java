@@ -4,17 +4,21 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.manager.models.Manager;
+import com.github.aakira.expandablelayout.ExpandableWeightLayout;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -46,15 +50,61 @@ public class RegisterActivity extends AppCompatActivity {
 
     FirebaseFunctions firebaseFunctions;
 
+    ImageView image,image1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        registerButton  = findViewById(R.id.registerButton);
+        registerButton  = findViewById(R.id.registerButton1);
         registerName = findViewById(R.id.editTextName);
         registerEmail = findViewById(R.id.editTextEmail);
         registerPassword = findViewById(R.id.editTextPassword);
+        image = findViewById(R.id.image);
+        image1 = findViewById(R.id.image1);
+
+        final ExpandableWeightLayout expandableLayout = (ExpandableWeightLayout) findViewById(R.id.expandableLayout);
+        final ExpandableWeightLayout expandableLayout1 = (ExpandableWeightLayout) findViewById(R.id.expandableLayout1);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if(!expandableLayout.isExpanded())
+                {
+                    image.animate().rotationBy(180).setDuration(200).start();
+                    expandableLayout.toggle();
+                    if(expandableLayout1.isExpanded()) {
+                        expandableLayout1.collapse();
+                        image1.animate().rotationBy(180).start();
+                    }
+                }
+            }
+        },1000);
+
+        image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                image.animate().rotationBy(180).setDuration(200).start();
+                expandableLayout.toggle();
+                if(expandableLayout1.isExpanded()) {
+                    expandableLayout1.collapse();
+                    image1.animate().rotationBy(180).start();
+                }
+            }
+        });
+
+        image1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                image1.animate().rotationBy(180).start();
+                expandableLayout1.toggle();
+                if(expandableLayout.isExpanded()) {
+                    expandableLayout.collapse();
+                    image.animate().rotationBy(180).setDuration(200).start();
+                }
+            }
+        });
 
         auth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();
