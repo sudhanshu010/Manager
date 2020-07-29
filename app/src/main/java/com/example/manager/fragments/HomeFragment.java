@@ -36,8 +36,8 @@ import java.util.TimerTask;
 
 public class HomeFragment extends Fragment {
 
-    CardView scan;
-    CardView generate, pendingComplaints,pending_approval_request;
+    LinearLayout pendingComplaints;
+    LinearLayout generate,scan,pending_approval_request;
     ViewPager viewPager;
     LinearLayout sliderdotspanel;
     private int dotscount;
@@ -80,8 +80,8 @@ public class HomeFragment extends Fragment {
         sliderView.startAutoCycle();
 
 
-        scan =(CardView) view.findViewById(R.id.scan);
-        generate = (CardView) view.findViewById(R.id.generate);
+        scan = view.findViewById(R.id.scan);
+        generate =  view.findViewById(R.id.generate);
         pendingComplaints = view.findViewById(R.id.pendingComplaints);
         pending_approval_request = view.findViewById(R.id.pending_approval_request);
 

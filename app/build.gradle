@@ -167,4 +167,10 @@ dependencies {
 
 
     implementation 'com.github.aakira:expandable-layout:1.6.0@aar'
+
+    //horizontal fixed progress bar
+    implementation 'com.sasank.roundedhorizontalprogress:roundedhorizontalprogress:1.0.1'
+
+    //Arc View
+    implementation 'com.github.lzyzsd:circleprogress:1.2.1'
 }
