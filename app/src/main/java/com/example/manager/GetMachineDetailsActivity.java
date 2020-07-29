@@ -28,6 +28,13 @@ import com.example.manager.models.Machine;
 import com.example.manager.models.Manager;
 import com.example.manager.models.PastRecord;
 import com.firebase.ui.database.paging.DatabasePagingOptions;
+import com.github.mikephil.charting.animation.Easing;
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -38,8 +45,10 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.lang.reflect.Array;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -54,6 +63,9 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
 
     FirebaseDatabase firebaseDatabase;
     DatabaseReference machineReference, complaintIdReference, serviceManListReference, responsibleReference,complaintReference;
+    BarChart barChart;
+    TextView AdvanceAge,AdvanceLifeCompleted,AdvanceCostIncurred,AdvanceNextServiceDate,AdvanceServiceCount;
+    TextView more_details;
 
     public static int[] MONTHS_SHORT = {0,
             R.string.january_short,R.string.february_short,R.string.march_short, R.string.april_short, R.string.may_short, R.string.june_short, R.string.july_short, R.string.august_short, R.string.september_short, R.string.october_short, R.string.november_short, R.string.december_short
@@ -91,6 +103,13 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
+        AdvanceAge = findViewById(R.id.AdvanceAge);
+        AdvanceLifeCompleted = findViewById(R.id.AdvanceLifeCompleted);
+        AdvanceCostIncurred = findViewById(R.id.AdvanceCostIncurred);
+        AdvanceNextServiceDate = findViewById(R.id.AdvanceNextServiceDate);
+        AdvanceServiceCount = findViewById(R.id.AdvanceServiceCount);
+
         generateComplaint = findViewById(R.id.generateComplaint);
        show_history = findViewById(R.id.show_history);
        NoMachineHistory = findViewById(R.id.xyz);
@@ -109,6 +128,16 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
         dateOfInstallation = findViewById(R.id.machineDetailsInstallationDate);
         generator = findViewById(R.id.generator_name);
 
+        barChart = findViewById(R.id.barChart);
+        barChart.setDrawBarShadow(false);
+        barChart.setDrawValueAboveBar(true);
+        barChart.setMaxVisibleValueCount(50);
+        barChart.setPinchZoom(false);
+        barChart.setDoubleTapToZoomEnabled(false);
+        barChart.setDrawGridBackground(false);
+        barChart.animateY(3000, Easing.EaseOutBack);
+        Description description = barChart.getDescription();
+        description.setEnabled(false);
 
 
         generationCode = getIntent().getStringExtra("generationCode");
@@ -126,7 +155,19 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
 
                 machine = dataSnapshot.getValue(Machine.class);
 
-                //Toast.makeText(GetMachineDetailsActivity.this, machine.getDepartment(), Toast.LENGTH_SHORT).show();
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                String today = simpleDateFormat.format(new Date());
+                String[] arrT = today.split("/",4);
+                String[] arrS = machine.getDateOfInstallation().split("/",4);
+
+                int age = Integer.parseInt(arrT[1])-Integer.parseInt(arrS[1]) + 12*(Integer.parseInt(arrT[2])-Integer.parseInt(arrS[2]));
+                AdvanceAge.setText(String.valueOf(age)+" months");
+
+                final double LifeC = (double)(age)/(double)(machine.getLife()*12);
+                AdvanceLifeCompleted.setText(String.valueOf(LifeC));
+
+
+
 
                 serialNo.setText(machine.getSerialNumber());
                 department.setText(machine.getDepartment());
@@ -227,6 +268,7 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
 
 
 
+
         generateComplaint.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -285,20 +327,6 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
 
         final Handler handler = new Handler();
 
-
-
-        // sets a custom array of text
-
-//        Handler delay = new Handler();
-//        delay.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                cd1.startAnim();
-//            }
-//        },5000);
-
-
-
         final CircleDisplay cd2 = (CircleDisplay)findViewById(R.id.circle_display2);
         cd2.setAnimDuration(1500);
         cd2.setValueWidthPercent(5f);
@@ -320,30 +348,55 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
                 // code for checking component is on screen or not.
                 Rect rect = new Rect();
                 if(cd1.getGlobalVisibleRect(rect)
-                        && cd1.getHeight()/2 <= rect.height()) {
-
-
-                    //Checking the life of machine
-                    //TODO:Uncomment this when finalise
-                    /*
-
+                        && cd1.getHeight()/2 <= rect.height())
+                {
                     DatabaseReference reference2 = firebaseDatabase.getReference().child("comparisonMachine").child(machine.getDepartment()).child(machine.getType()).child(machine.getMachineId());
                     reference2.addListenerForSingleValueEvent(new ValueEventListener() {
+                        ArrayList<BarEntry>barEntries = new ArrayList<>();
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                            AdvanceCostIncurred.setText(dataSnapshot.child("sum").getValue().toString());
+                            AdvanceNextServiceDate.setText(dataSnapshot.child("nextServiceTime").getValue().toString());
+                            AdvanceServiceCount.setText(dataSnapshot.child("serviceCount").getValue().toString());
+
+                            //Pie graph
+                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                            String today = simpleDateFormat.format(new Date());
+                            String[] arrT = today.split("/",4);
+                            String[] arrS = machine.getDateOfInstallation().split("/",4);
+
+                            int age = Integer.parseInt(arrT[1])-Integer.parseInt(arrS[1]) + 12*(Integer.parseInt(arrT[2])-Integer.parseInt(arrS[2]));
+                            float LifeC = (float)(age)/(float)(machine.getLife()*12);
+                            LifeC *= 100;
 
                             int a = Integer.valueOf(dataSnapshot.child("sum").getValue().toString());
                             int serviceCount = Integer.valueOf(dataSnapshot.child("serviceCount").getValue().toString());
                             Float ExpectedLife = machine.getLife();
                             int serviceTime = machine.getServiceTime();
-                            Float ans1 = (serviceCount*serviceTime)/(ExpectedLife*12);
-                            ans1*=100;
+                            Float ans1 = LifeC;
+
 
                             Float buyCost = machine.getPrice();
                             Float ans2 = (a*100f)/buyCost;
 
                             cd1.showValue(ans1, 100f,false);
                             cd2.showValue(ans2, 100f, false);
+
+                            //Bar graph
+                            int x = serviceCount;
+                            for(int i =0 ;i<=x;i++)
+                            {
+                                barEntries.add(new BarEntry(i+1,Integer.valueOf(dataSnapshot.child("OverallCost").child(String.valueOf(i)).getValue().toString())));
+                            }
+                            BarDataSet barDataSet = new BarDataSet(barEntries,"");
+                            barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+
+                            BarData data = new BarData(barDataSet);
+                            data.setBarWidth(0.9f);
+                            barChart.setData(data);
+
+
                         }
 
                         @Override
@@ -351,10 +404,6 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
 
                         }
                     });
-
-                    */
-
-
 
                     cd1.showValue(75f, 100f,false);
                     cd2.showValue(30f, 100f, false);
@@ -365,80 +414,16 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
                 {
                     handler.postDelayed(this, 1000);
                 }
-
             }
         };
 
         handler.postDelayed(runnable, 1);
 
-        //Histogram
-
-
-
-
-
-        final ColumnChartView chart = findViewById(R.id.chart);
-        ColumnChartData columnChartData;
-        List<Column> columns;
-        columns = new ArrayList<>();
-        List<SubcolumnValue> subcolumnValues;
-
-
-        int numColumns = 12;
-        for (int i = 0; i < numColumns; i++) {
-            subcolumnValues = new ArrayList<>();
-            Random rand = new Random();
-            int r= rand.nextInt(50);
-            SubcolumnValue  value = new SubcolumnValue(
-                    r,
-                    GetRandomColor());
-            subcolumnValues.add(value);
-            Column column = new Column(subcolumnValues);
-            column.setHasLabels(false);
-            column.setHasLabelsOnlyForSelected(false);
-            columns.add(column);
-        }
-
-        columnChartData = new ColumnChartData(columns);
-
-        Axis axisX = new Axis();
-        List<AxisValue> axisValueList = new ArrayList<>();
-        for (int i = 0; i < numColumns; i++) {
-            axisValueList.add(new AxisValue(i)
-                    .setLabel(GetMonthShort(i + 1)));
-        }
-        axisX.setValues(axisValueList);
-        Axis axisY = new Axis().setHasLines(false);
-        columnChartData.setAxisXBottom(axisX);
-        columnChartData.setAxisYLeft(axisY);
-        columnChartData.setStacked(true);
-        chart.setColumnChartData(columnChartData);
-        chart.setZoomEnabled(false);
-        for (Column column : columnChartData.getColumns()) {
-            for (SubcolumnValue value : column.getValues()) {
-                value.setTarget((float) Math.random() * 100);//some random target value
-            }
-        }
-
-        final Runnable runnable1 = new Runnable() {
-            public void run() {
-                // code for checking component is on screen or not.
-                Rect rect = new Rect();
-                if(chart.getGlobalVisibleRect(rect)
-                        && chart.getHeight()/2 <= rect.height()) {
-                     chart.startDataAnimation(1500);
-                }
-                else
-                {
-                    handler.postDelayed(this, 1000);
-                }
-
-            }
-        };
-        handler.postDelayed(runnable1, 1);
 
 
     }
+
+
     private static String lastColor0, lastColor1, lastColor2;
     public static int GetRandomColor() {
         Random random = new Random();
