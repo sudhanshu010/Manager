@@ -67,7 +67,7 @@
                     android:orientation="vertical"
                     android:background="@color/list_color_6"
                     >
-                <com.google.android.material.card.MaterialCardView
+                <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="130dp"
                     android:layout_row="0"
@@ -79,7 +79,7 @@
                     android:layout_marginBottom="12dp"
                     app:cardCornerRadius="10dp"
                     app:cardElevation="2dp"
-                    app:strokeWidth="1dp"
+
 
                     >
 
@@ -189,17 +189,14 @@
                         </LinearLayout>
                     </LinearLayout>
 
-                </com.google.android.material.card.MaterialCardView>
+                </androidx.cardview.widget.CardView>
 
 
 
-                <com.google.android.material.card.MaterialCardView
+                <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_columnWeight="1"
-
-                    app:strokeWidth="1dp"
-
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
                     android:layout_marginBottom="16dp"
@@ -390,7 +387,7 @@
                         </LinearLayout>
 
                     </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
+                </androidx.cardview.widget.CardView>
 
 
 
