@@ -41,6 +41,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -125,35 +126,13 @@ public class GenerateQRActivity extends AppCompatActivity {
 
         indicator = findViewById(R.id.stepper_indicator);
         indicator.setCurrentStep(0);
-//        final StateProgressBar stateProgressBar = (StateProgressBar) findViewById(R.id.your_stare_progress_id_bar);
-//        stateProgressBar.setStateDescriptionData(descriptionData);
-//
-//        stateProgressBar.setStateDescriptionTypeface("fonts/imprima.ttf");
-//        stateProgressBar.setStateNumberTypeface( "fonts/imprima.ttf");
-//        serialNumber = findViewById(R.id.serialNumber);
-//
-//        serviceTime = findViewById(R.id.serviceTime);
-//        installationDate = findViewById(R.id.installation_date);
-//        typeOfMachine = findViewById(R.id.machine_type);
-//        machineCompany = findViewById(R.id.company);
-//        modelNumber = findViewById(R.id.model_number);
-//        machinePrice = findViewById(R.id.price);
-
-
-//        qrcode = findViewById(R.id.qrcode);
-//        save = findViewById(R.id.save);
-//        GenerateQR = findViewById(R.id.generateQRButton);
-//        linearLayout = findViewById(R.id.linearlayout);
-//        linearLayoutimage = findViewById(R.id.linearlayoutimage);
-//        aqwesd = findViewById(R.id.aqwesd);
-//        enter_details = findViewById(R.id.enter_details_text);
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         generationCodeReference = firebaseDatabase.getReference("GenerationCode");
         machineReference = firebaseDatabase.getReference("Machines");
         user = FirebaseAuth.getInstance().getCurrentUser();
         managerReference = firebaseDatabase.getReference("Users").child("Manager").child(user.getUid());
-//
+
         managerReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -166,9 +145,6 @@ public class GenerateQRActivity extends AppCompatActivity {
 
             }
         });
-
-        //qrtext= findViewById(R.id.imageviewqr);
-
 
         firebaseStorage = FirebaseStorage.getInstance();
         storageReference = firebaseStorage.getReference();
@@ -308,10 +284,12 @@ public class GenerateQRActivity extends AppCompatActivity {
 
                     FormFragment3 formFragment3 = (FormFragment3) getSupportFragmentManager().findFragmentById(R.id.mainframe);
                     if (formFragment3 != null) {
+
                         machinePrice = Objects.requireNonNull(formFragment3.getView()).findViewById(R.id.price);
                         installationDate = formFragment3.getView().findViewById(R.id.installation_date);
                         scrapValue = Objects.requireNonNull(formFragment3.getView()).findViewById(R.id.scrap_value);
                         life = Objects.requireNonNull(formFragment3.getView()).findViewById(R.id.life);
+
                     }
                     final String machinePrice1, installationDate1, scrapValue1, life1;
                     machinePrice1 = machinePrice.getText().toString().trim();
@@ -384,32 +362,7 @@ public class GenerateQRActivity extends AppCompatActivity {
                         }
 
 
-                        installationDate.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                Calendar cal = Calendar.getInstance();
-                                int year = cal.get(Calendar.YEAR);
-                                int month = cal.get(Calendar.MONTH);
-                                int day = cal.get(Calendar.DAY_OF_MONTH);
 
-                                DatePickerDialog dialog = new DatePickerDialog(
-                                        GenerateQRActivity.this,
-                                        //android.R.style.Theme_Holo_Light_Dialog_MinWidth,
-                                        mDateSetListener,
-                                        year, month, day);
-                                // dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                                dialog.show();
-                            }
-                        });
-
-                        mDateSetListener = new DatePickerDialog.OnDateSetListener() {
-                            @Override
-                            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                                month = month + 1;
-                                String date = day + "/" + month + "/" + year;
-                                installationDate.setText(date);
-                            }
-                        };
 
 //                     save.setOnClickListener(new View.OnClickListener() {
 //                         @Override

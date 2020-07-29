@@ -16,9 +16,11 @@
 
         <com.google.android.material.textfield.TextInputLayout
 
+            android:id="@+id/text_input_installation_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/loginViewsMargin"
+            android:clickable="true"
             android:textColorHint="#757474"
             app:boxStrokeColor="@color/colorPrimary">
 
@@ -27,6 +29,8 @@
                 style="@style/modifiedEditText1"
                 android:drawableLeft="@drawable/ic_calendar"
                 android:drawableTint="#a3a3a3"
+                android:clickable="true"
+                android:focusableInTouchMode="false"
                 android:drawablePadding="20dp"
                 android:textStyle="bold"
                 android:fontFamily="@font/imprima"
