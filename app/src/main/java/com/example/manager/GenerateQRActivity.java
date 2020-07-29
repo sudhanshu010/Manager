@@ -87,6 +87,7 @@ public class GenerateQRActivity extends AppCompatActivity {
     Button save;
     OutputStream outputStream;
     long generationCodeValue = 0;
+    long totalMachines;
     StepperIndicator indicator;
 
     String[] descriptionData = {"Basic\nDetails", "Specific\nDetails", "Commercial\nDetails"};
@@ -94,7 +95,7 @@ public class GenerateQRActivity extends AppCompatActivity {
     private DatePickerDialog.OnDateSetListener mDateSetListener;
 
     FirebaseDatabase firebaseDatabase;
-    DatabaseReference generationCodeReference, machineReference, managerReference;
+    DatabaseReference generationCodeReference, machineReference, managerReference, totalMachineReference;
     FirebaseUser user;
 
     String generatorName;
@@ -133,11 +134,24 @@ public class GenerateQRActivity extends AppCompatActivity {
         user = FirebaseAuth.getInstance().getCurrentUser();
         managerReference = firebaseDatabase.getReference("Users").child("Manager").child(user.getUid());
 
+        totalMachineReference = firebaseDatabase.getReference("TotalMachines");
+//
         managerReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 manager = dataSnapshot.getValue(Manager.class);
                 myMachines = manager != null ? manager.getMyMachines() : null;
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        totalMachineReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                totalMachines = (long) dataSnapshot.getValue();
             }
 
             @Override
@@ -526,6 +540,8 @@ public class GenerateQRActivity extends AppCompatActivity {
                                 SweetToast.success(GenerateQRActivity.this, "File Updated");
                                 generationCodeValue = generationCodeValue + 1; // increase Value of generationCode Everytime a new machine is entered.
                                 generationCodeReference.setValue(generationCodeValue);
+                                totalMachines = totalMachines+1;
+                                totalMachineReference.setValue(totalMachines);
                             }
                         }
                     });

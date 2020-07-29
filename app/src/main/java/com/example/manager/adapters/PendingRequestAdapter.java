@@ -86,10 +86,11 @@ public class PendingRequestAdapter extends FirebaseRecyclerPagingAdapter<Request
 
         String load;
         FirebaseDatabase firebaseDatabase;
-        DatabaseReference complaintReference,loadValue, mechComplaint, mechRequest,machineReference;
+        DatabaseReference complaintReference,loadValue, mechComplaint, mechRequest,machineReference, faultMachineReference;
         CardView cardView;
         FirebaseAuth auth;
         FirebaseUser user;
+        long faultMachine;
 
         Complaint complaint = null;
         Request request = null;
@@ -124,6 +125,19 @@ public class PendingRequestAdapter extends FirebaseRecyclerPagingAdapter<Request
             loadValue = FirebaseDatabase.getInstance().getReference("Users").child("Mechanic").child(model.getComplaint().getMechanic().getUid()).child("load");
             mechComplaint = FirebaseDatabase.getInstance().getReference("Users").child("Mechanic").child(model.getComplaint().getMechanic().getUid()).child("pendingComplaints").child(String.valueOf(model.getComplaint().getComplaintId()));
             mechRequest = FirebaseDatabase.getInstance().getReference("Users").child("Mechanic").child(model.getComplaint().getMechanic().getUid()).child("pendingRequests").child(String.valueOf(model.getRequestId()));
+            faultMachineReference = FirebaseDatabase.getInstance().getReference("FaultMachines");
+
+            faultMachineReference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    faultMachine = (long) dataSnapshot.getValue();
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
             loadValue.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -347,6 +361,7 @@ public class PendingRequestAdapter extends FirebaseRecyclerPagingAdapter<Request
 
                 updateDatabaseValue.put("/Complaints/"+model.getComplaint().getComplaintId()+"/completedDate",day+"/"+month+"/"+year);
                 updateDatabaseValue.put("/Complaints/"+model.getComplaint().getComplaintId()+"/status",5);
+                updateDatabaseValue.put("/FaultMachines", faultMachine-1);
 
                 updateDatabaseValue.put("/Users/Manager/"+user.getUid()+"/completedComplaints/"+model.getComplaint().getComplaintId(),model.getComplaint());
 

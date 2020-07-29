@@ -56,7 +56,7 @@ public class ComplaintDescriptionDialog extends Dialog implements
     String serviceType;
 
     private FirebaseDatabase firebaseDatabase;
-    private DatabaseReference machineReference, complaintIdReference, mechanicListReference, managerReference,complaintReference,serviceManReference;
+    private DatabaseReference machineReference, complaintIdReference, mechanicListReference, managerReference,complaintReference,serviceManReference, FaultMachineReference;
 
     FirebaseAuth auth;
     FirebaseUser user;
@@ -65,6 +65,7 @@ public class ComplaintDescriptionDialog extends Dialog implements
 
     Complaint complaint;
     long complaintId;
+    long faultMachine;
 
     List<Mechanic> serviceManListObjects;
 
@@ -105,6 +106,7 @@ public class ComplaintDescriptionDialog extends Dialog implements
         mechanicListReference = firebaseDatabase.getReference("Users").child("Mechanic");
         managerReference = firebaseDatabase.getReference("Users").child("Manager").child(user.getUid());
         serviceManReference = firebaseDatabase.getReference("Users").child("ServiceMan");
+        FaultMachineReference = firebaseDatabase.getReference("FaultMachines");
 
         serviceManListObjects = new ArrayList<>();
 
@@ -112,6 +114,17 @@ public class ComplaintDescriptionDialog extends Dialog implements
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 complaintId = (long) dataSnapshot.getValue();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        FaultMachineReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                faultMachine = (long) dataSnapshot.getValue();
             }
 
             @Override
@@ -210,6 +223,7 @@ public class ComplaintDescriptionDialog extends Dialog implements
                         updateDatabaseValue.put("/Users/Mechanic/"+uid+"/load",mechanic.getLoad()+1);
 
                         updateDatabaseValue.put("/ComplaintId",complaintId+1);
+                        updateDatabaseValue.put("/FaultMachines", faultMachine+1);
                         updateDatabaseValue.put("/Complaints/"+complaintId,complaint);
                         //updateDatabaseValue.put("/Complaints/"+complaintId+"/mechanic/load",mechanic.getLoad()+1);
                         updateDatabaseValue.put("/Users/Manager/"+user.getUid()+"/pendingComplaints/"+complaintId,tempComplaint);
