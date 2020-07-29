@@ -51,8 +51,12 @@ import xyz.hasnat.sweettoast.SweetToast;
 public class RegisterActivity extends AppCompatActivity {
 
     Button registerButton;
-    EditText registerName, registerEmail, registerPassword;
+    EditText registerName, registerEmail, registerPassword, registerPhone, registerEmpId, registerDepartment, registerDesignation;
     TextView textAddress;
+
+    double latitude;
+    double longitude;
+    String address;
 
     FirebaseAuth auth;
     FirebaseUser user;
@@ -69,8 +73,12 @@ public class RegisterActivity extends AppCompatActivity {
 
         registerButton  = findViewById(R.id.registerButton1);
         registerName = findViewById(R.id.editTextName);
+        registerPhone = findViewById(R.id.editTextPhone);
         registerEmail = findViewById(R.id.editTextEmail);
         registerPassword = findViewById(R.id.editTextPassword);
+        registerEmpId = findViewById(R.id.editTextName1);
+        registerDepartment = findViewById(R.id.editTextEmail1);
+        registerDesignation = findViewById(R.id.editTextPassword1);
         textAddress = findViewById(R.id.editTextAddress);
         image = findViewById(R.id.image);
         image1 = findViewById(R.id.image1);
@@ -152,59 +160,74 @@ public class RegisterActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 final String userName = registerName.getText().toString();
+                final String phone = registerPhone.getText().toString();
                 final String email = registerEmail.getText().toString();
-                String password = registerPassword.getText().toString();
+                final String password = registerPassword.getText().toString();
+                final String empId = registerEmpId.getText().toString();
+                final String department = registerDepartment.getText().toString();
+                final String designation = registerDesignation.getText().toString();
 
-                auth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
+                Manager manager = new Manager(email, userName, null, phone, address, null, null, null, null, null, password, empId, department, designation, String.valueOf(longitude), String.valueOf(latitude));
 
-                        if(task.isSuccessful())
-                        {
-                            user = auth.getCurrentUser();
-                            userReference = firebaseDatabase.getReference("Users");
+                userReference = firebaseDatabase.getReference("UnverifiedAccounts");
+//                HashMap<String, Object> hashMap = new HashMap<>();
+//                hashMap.put("/UnverifiedAccounts/Manager/" + email, manager);
+//                FirebaseDatabase.getInstance().getReference().updateChildren(hashMap);
 
-                            HashMap<String,String> data = new HashMap<>();
+                userReference.child("Manager").child(empId).setValue(manager);
+                SweetToast.success(RegisterActivity.this,"wait for verification");
 
-                            data.put("claim","manager");
-                            data.put("email",user.getEmail());
 
-                            firebaseFunctions.getHttpsCallable("setCustomClaim")
-                                    .call(data)
-                                    .addOnSuccessListener(new OnSuccessListener<HttpsCallableResult>() {
-                                        @Override
-                                        public void onSuccess(HttpsCallableResult httpsCallableResult) {
-
-                                            user = auth.getCurrentUser();
-                                            HashMap<String,String> hashMap = (HashMap<String, String>) httpsCallableResult.getData();
-                                            if(hashMap.get("status").equals("Successful"))
-                                            {
-                                                Manager manager = new Manager();
-                                                manager.setEmail(email);
-                                                manager.setUserName(userName);
-                                                manager.setUid(user.getUid());
-
-                                                userReference.child("Manager").child(user.getUid()).setValue(manager);
-                                                SweetToast.success(RegisterActivity.this,"SuccesFully Registered");
-                                                startActivity(new Intent(getApplicationContext(), BottomNavigationActivity.class));
-                                                finish();
-                                            }
-                                            else
-                                            {
-                                                user.delete();
-                                                SweetToast.error(RegisterActivity.this, "Some Error Occured \n Please try again");
-                                            }
-                                        }
-                                    });
-
-                        }
-                        else
-                        {
-                            SweetToast.error(RegisterActivity.this, "Some Error Occured");
-                        }
-
-                    }
-                });
+//                auth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<AuthResult> task) {
+//
+//                        if(task.isSuccessful())
+//                        {
+//                            user = auth.getCurrentUser();
+//                            userReference = firebaseDatabase.getReference("Users");
+//
+//                            HashMap<String,String> data = new HashMap<>();
+//
+//                            data.put("claim","manager");
+//                            data.put("email",user.getEmail());
+//
+//                            firebaseFunctions.getHttpsCallable("setCustomClaim")
+//                                    .call(data)
+//                                    .addOnSuccessListener(new OnSuccessListener<HttpsCallableResult>() {
+//                                        @Override
+//                                        public void onSuccess(HttpsCallableResult httpsCallableResult) {
+//
+//                                            user = auth.getCurrentUser();
+//                                            HashMap<String,String> hashMap = (HashMap<String, String>) httpsCallableResult.getData();
+//                                            if(hashMap.get("status").equals("Successful"))
+//                                            {
+//                                                Manager manager = new Manager();
+//                                                manager.setEmail(email);
+//                                                manager.setUserName(userName);
+//                                                manager.setUid(user.getUid());
+//
+//                                                userReference.child("Manager").child(user.getUid()).setValue(manager);
+//                                                SweetToast.success(RegisterActivity.this,"SuccesFully Registered");
+//                                                startActivity(new Intent(getApplicationContext(), BottomNavigationActivity.class));
+//                                                finish();
+//                                            }
+//                                            else
+//                                            {
+//                                                user.delete();
+//                                                SweetToast.error(RegisterActivity.this, "Some Error Occured \n Please try again");
+//                                            }
+//                                        }
+//                                    });
+//
+//                        }
+//                        else
+//                        {
+//                            SweetToast.error(RegisterActivity.this, "Some Error Occured");
+//                        }
+//
+//                    }
+//                });
 
 
 
@@ -233,9 +256,7 @@ public class RegisterActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && data != null) {
             Log.i("RESULT****", "OK");
-            double latitude;
-            double longitude;
-            String address;
+
             StringBuilder stringBuilder = new StringBuilder();
             if (requestCode == 1) {
                 latitude = data.getDoubleExtra("latitude", 0.0D);
