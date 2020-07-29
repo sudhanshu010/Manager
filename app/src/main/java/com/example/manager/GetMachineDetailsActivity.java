@@ -53,10 +53,10 @@ import lecho.lib.hellocharts.view.ColumnChartView;
 public class GetMachineDetailsActivity extends AppCompatActivity {
 
     FirebaseDatabase firebaseDatabase;
-    DatabaseReference machineReference, complaintIdReference, serviceManListReference, responsibleReference,complaintReference;
+    DatabaseReference machineReference, complaintIdReference, serviceManListReference, responsibleReference, complaintReference;
 
     public static int[] MONTHS_SHORT = {0,
-            R.string.january_short,R.string.february_short,R.string.march_short, R.string.april_short, R.string.may_short, R.string.june_short, R.string.july_short, R.string.august_short, R.string.september_short, R.string.october_short, R.string.november_short, R.string.december_short
+            R.string.january_short, R.string.february_short, R.string.march_short, R.string.april_short, R.string.may_short, R.string.june_short, R.string.july_short, R.string.august_short, R.string.september_short, R.string.october_short, R.string.november_short, R.string.december_short
     };
     private static String[] Colors = {"#F44336", "#E91E63", "#9C27B0", "#673AB7", "#3F51B5", "#2196F3", "#03A9F4", "#00BCD4", "#009688", "#4CAF50", "#8BC34A", "#CDDC39", "#FFEB3B", "#FFC107", "#FF9800", "#FF5722", "#795548", "#9E9E9E", "#607D8B"};
     FirebaseAuth auth;
@@ -72,8 +72,8 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
     TextView show_history;
     ScrollView ScrollViewHistory;
     Button generateComplaint;
-    TextView companyName,machineType,modelNumber,price;
-    TextView serialNo,department,serviceTime,dateOfInstallation, generator;
+    TextView companyName, machineType, modelNumber, price;
+    TextView serialNo, department, serviceTime, dateOfInstallation, generator;
 
     Complaint complaint;
 
@@ -90,25 +90,23 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_get_machine_details);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         generateComplaint = findViewById(R.id.generateComplaint);
-       show_history = findViewById(R.id.show_history);
-       NoMachineHistory = findViewById(R.id.xyz);
-       ScrollViewHistory = (ScrollView) findViewById(R.id.scrollViewHistory);
+        show_history = findViewById(R.id.show_history);
+        NoMachineHistory = findViewById(R.id.xyz);
+        ScrollViewHistory = (ScrollView) findViewById(R.id.scrollViewHistory);
 
         description = new String("");
         modelNumber = findViewById(R.id.machineModelNumber);
         price = findViewById(R.id.price);
 
 
-        machineType= findViewById(R.id.machine_type);
+        machineType = findViewById(R.id.machine_type);
         companyName = findViewById(R.id.company_name);
         serialNo = findViewById(R.id.machineDetailsSerialNo);
         department = findViewById(R.id.machineDetailsDepartment);
         serviceTime = findViewById(R.id.machineDetailsServiceTime);
         dateOfInstallation = findViewById(R.id.machineDetailsInstallationDate);
         generator = findViewById(R.id.generator_name);
-
 
 
         generationCode = getIntent().getStringExtra("generationCode");
@@ -130,7 +128,7 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
 
                 serialNo.setText(machine.getSerialNumber());
                 department.setText(machine.getDepartment());
-                serviceTime.setText(machine.getServiceTime()+" months");
+                serviceTime.setText(machine.getServiceTime() + " months");
                 dateOfInstallation.setText(machine.getDateOfInstallation());
                 generator.setText(machine.getManager().getUserName());
                 companyName.setText(machine.getCompany());
@@ -146,8 +144,7 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         String realManager = dataSnapshot.child("userName").getValue().toString();
-                        if(!realManager.equals(manager1))
-                        {
+                        if (!realManager.equals(manager1)) {
                             generateComplaint.setVisibility(View.GONE);
                         }
                     }
@@ -167,9 +164,7 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
         });
 
 
-
-
-        recyclerView=findViewById(R.id.machine_history_rv);
+        recyclerView = findViewById(R.id.machine_history_rv);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         HorizontalLayout
                 = new LinearLayoutManager(
@@ -179,52 +174,49 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(HorizontalLayout);
 
         firebaseDatabase = FirebaseDatabase.getInstance();
-             Query baseQuery1 = firebaseDatabase.getReference("Machines").child(generationCode).child("pastRecords");
+        Query baseQuery1 = firebaseDatabase.getReference("Machines").child(generationCode).child("pastRecords");
 
-             DatabaseReference reference1 = firebaseDatabase.getReference().child("Machines").child(generationCode).child("pastRecords");
-             reference1.addListenerForSingleValueEvent(new ValueEventListener() {
-                 @Override
-                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                     if(!dataSnapshot.exists())
-                     {
-                         show_history.setVisibility(View.GONE);
-                         ScrollViewHistory.setVisibility(View.GONE);
-                         recyclerView.setVisibility(View.GONE);
-                         NoMachineHistory.setVisibility(View.VISIBLE);
-                     }
-                 }
+        DatabaseReference reference1 = firebaseDatabase.getReference().child("Machines").child(generationCode).child("pastRecords");
+        reference1.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (!dataSnapshot.exists()) {
+                    show_history.setVisibility(View.GONE);
+                    ScrollViewHistory.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.GONE);
+                    NoMachineHistory.setVisibility(View.VISIBLE);
+                }
+            }
 
-                 @Override
-                 public void onCancelled(@NonNull DatabaseError databaseError) {
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                 }
-             });
+            }
+        });
 
-             PagedList.Config config = new PagedList.Config.Builder()
-                     .setEnablePlaceholders(false)
-                     .setPrefetchDistance(10)
-                     .setPageSize(20)
-                     .build();
+        PagedList.Config config = new PagedList.Config.Builder()
+                .setEnablePlaceholders(false)
+                .setPrefetchDistance(10)
+                .setPageSize(20)
+                .build();
 
-             DatabasePagingOptions<PastRecord> options = new DatabasePagingOptions.Builder<PastRecord>()
-                     .setLifecycleOwner(this)
-                     .setQuery(baseQuery1, config, PastRecord.class)
-                     .build();
+        DatabasePagingOptions<PastRecord> options = new DatabasePagingOptions.Builder<PastRecord>()
+                .setLifecycleOwner(this)
+                .setQuery(baseQuery1, config, PastRecord.class)
+                .build();
 
-             showDetailsAdapter = new ShowDetailsAdapter(options, GetMachineDetailsActivity.this);
-             recyclerView.setAdapter(showDetailsAdapter);
-             showDetailsAdapter.startListening();
+        showDetailsAdapter = new ShowDetailsAdapter(options, GetMachineDetailsActivity.this);
+        recyclerView.setAdapter(showDetailsAdapter);
+        showDetailsAdapter.startListening();
 
         show_history.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(GetMachineDetailsActivity.this, ShowDetailsActivity.class);
-                i.putExtra("machine_id",machineId);
+                i.putExtra("machine_id", machineId);
                 startActivity(i);
             }
         });
-
-
 
 
         generateComplaint.setOnClickListener(new View.OnClickListener() {
@@ -255,13 +247,13 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
                 Calendar cal = Calendar.getInstance();
                 int year = cal.get(Calendar.YEAR);
                 int month = cal.get(Calendar.MONTH);
-                month = month+1;
+                month = month + 1;
                 int day = cal.get(Calendar.DAY_OF_MONTH);
 
-                complaint.setGeneratedDate(day+"/"+month+"/"+year);
+                complaint.setGeneratedDate(day + "/" + month + "/" + year);
                 complaint.setStatus(Complaint.generatedOnly);
 
-                ComplaintDescriptionDialog complaintDescriptionDialog = new ComplaintDescriptionDialog(GetMachineDetailsActivity.this,complaint);
+                ComplaintDescriptionDialog complaintDescriptionDialog = new ComplaintDescriptionDialog(GetMachineDetailsActivity.this, complaint);
                 complaintDescriptionDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 complaintDescriptionDialog.show();
 
@@ -270,7 +262,7 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
 
 
         //Circle Display
-        final CircleDisplay cd1 = (CircleDisplay)findViewById(R.id.circle_display1);
+        final CircleDisplay cd1 = (CircleDisplay) findViewById(R.id.circle_display1);
         cd1.setAnimDuration(1500);
         cd1.setValueWidthPercent(5f);
         cd1.setTextSize(18f);
@@ -286,7 +278,6 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
         final Handler handler = new Handler();
 
 
-
         // sets a custom array of text
 
 //        Handler delay = new Handler();
@@ -298,8 +289,7 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
 //        },5000);
 
 
-
-        final CircleDisplay cd2 = (CircleDisplay)findViewById(R.id.circle_display2);
+        final CircleDisplay cd2 = (CircleDisplay) findViewById(R.id.circle_display2);
         cd2.setAnimDuration(1500);
         cd2.setValueWidthPercent(5f);
         cd2.setTextSize(18f);
@@ -313,14 +303,13 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
         // sets a custom array of text
 
 
-
         // continuously check its circle is completely on screen or not. If yes, start the animation.
         final Runnable runnable = new Runnable() {
             public void run() {
                 // code for checking component is on screen or not.
                 Rect rect = new Rect();
-                if(cd1.getGlobalVisibleRect(rect)
-                        && cd1.getHeight()/2 <= rect.height()) {
+                if (cd1.getGlobalVisibleRect(rect)
+                        && cd1.getHeight() / 2 <= rect.height()) {
 
 
                     //Checking the life of machine
@@ -355,14 +344,11 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
                     */
 
 
-
-                    cd1.showValue(75f, 100f,false);
+                    cd1.showValue(75f, 100f, false);
                     cd2.showValue(30f, 100f, false);
                     cd1.startAnim();
                     cd2.startAnim();
-                }
-                else
-                {
+                } else {
                     handler.postDelayed(this, 1000);
                 }
 
@@ -372,9 +358,6 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
         handler.postDelayed(runnable, 1);
 
         //Histogram
-
-
-
 
 
         final ColumnChartView chart = findViewById(R.id.chart);
@@ -388,8 +371,8 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
         for (int i = 0; i < numColumns; i++) {
             subcolumnValues = new ArrayList<>();
             Random rand = new Random();
-            int r= rand.nextInt(50);
-            SubcolumnValue  value = new SubcolumnValue(
+            int r = rand.nextInt(50);
+            SubcolumnValue value = new SubcolumnValue(
                     r,
                     GetRandomColor());
             subcolumnValues.add(value);
@@ -424,12 +407,10 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
             public void run() {
                 // code for checking component is on screen or not.
                 Rect rect = new Rect();
-                if(chart.getGlobalVisibleRect(rect)
-                        && chart.getHeight()/2 <= rect.height()) {
-                     chart.startDataAnimation(1500);
-                }
-                else
-                {
+                if (chart.getGlobalVisibleRect(rect)
+                        && chart.getHeight() / 2 <= rect.height()) {
+                    chart.startDataAnimation(1500);
+                } else {
                     handler.postDelayed(this, 1000);
                 }
 
@@ -439,7 +420,9 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
 
 
     }
+
     private static String lastColor0, lastColor1, lastColor2;
+
     public static int GetRandomColor() {
         Random random = new Random();
         int p = random.nextInt(Colors.length);
@@ -453,6 +436,7 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
         lastColor2 = Colors[p];
         return Color.parseColor(Colors[p]);
     }
+
     public String GetMonthShort(int i) {
         return this.getResources().getString(MONTHS_SHORT[i]);
     }
