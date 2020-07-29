@@ -232,7 +232,7 @@
                         android:drawablePadding="@dimen/padding_10"
                         android:drawableTint="#a3a3a3"
                         android:hint="Designation"
-                        android:inputType="textPassword"
+                        android:inputType="text"
                         android:maxLines="1" />
                 </com.google.android.material.textfield.TextInputLayout>
 
