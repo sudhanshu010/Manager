@@ -21,6 +21,7 @@ import com.example.manager.R;
 import com.example.manager.models.Complaint;
 import com.example.manager.models.Manager;
 import com.example.manager.models.Mechanic;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -28,6 +29,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.functions.FirebaseFunctions;
+import com.google.firebase.functions.HttpsCallableResult;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -60,6 +63,8 @@ public class ComplaintDescriptionDialog extends Dialog implements
 
     FirebaseAuth auth;
     FirebaseUser user;
+
+    FirebaseFunctions firebaseFunctions;
 
     Manager manager;
 
@@ -238,6 +243,21 @@ public class ComplaintDescriptionDialog extends Dialog implements
 
                         FirebaseDatabase.getInstance().getReference().updateChildren(updateDatabaseValue1);
 
+                        // sending notification to mechanic
+                        Log.i("ankit token","here");
+                        FirebaseDatabase.getInstance().getReference("tokens").child(uid).addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                String token = (String) dataSnapshot.getValue();
+                                Log.i("ankit token fetch checking",token);
+                                sendNotification(complaint,token);
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
                     }
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -260,6 +280,36 @@ public class ComplaintDescriptionDialog extends Dialog implements
                 dismiss();
             }
         });
+    }
+
+    private void sendNotification(Complaint complaint, String token) {
+        Log.i("ankit complaint checking", String.valueOf(complaint));
+        final HashMap<String,String> data = new HashMap<>();
+        data.put("serviceType",complaint.getServiceType());
+        data.put("description",complaint.getDescription());
+        data.put("instruction",complaint.getInstruction());
+        data.put("token",token);
+        Log.i("ankit complaint ", "before function call");
+
+        firebaseFunctions = FirebaseFunctions.getInstance();
+        firebaseFunctions.getHttpsCallable("sendMessage")
+                .call(data)
+                .addOnSuccessListener(new OnSuccessListener<HttpsCallableResult>() {
+                    @Override
+                    public void onSuccess(HttpsCallableResult httpsCallableResult) {
+                        HashMap<String,String> hashMap;
+                        hashMap = (HashMap<String, String>) httpsCallableResult.getData();
+                        if(hashMap.get("status").equals("successful")){
+                            Log.i("ankit successful","successfully sent");
+
+                        }
+                        else{
+                            Log.i("ankit error occured","error");
+
+                        }
+                    }
+                });
+
     }
 
     public static HashMap<String, Mechanic> sortByValue(HashMap<String, Mechanic> hm)
