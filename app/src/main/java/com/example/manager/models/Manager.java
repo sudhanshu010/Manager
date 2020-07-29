@@ -12,6 +12,7 @@ public class Manager implements Cloneable{
     private HashMap<String,Complaint> pendingComplaints;
     private HashMap<String,Complaint> completedComplaints;
     private HashMap<String,Machine> myMachines;
+    private String password, empId, department, designation, longitude, latitude;
 
     public Object clone() throws
             CloneNotSupportedException
@@ -23,18 +24,25 @@ public class Manager implements Cloneable{
     {
     }
 
-    public Manager(String email, String userName, String profilePicLink, String phoneNumber, String savedAddress, HashMap<String, Request> pendingApprovalRequest, HashMap<String, Complaint> pendingComplaints, HashMap<String, Complaint> completedComplaints, HashMap<String, Machine> myMachines, String uid) {
+    public Manager(String email, String userName, String profilePicLink, String phoneNumber, String savedAddress, String uid, HashMap<String, Request> pendingApprovalRequest, HashMap<String, Complaint> pendingComplaints, HashMap<String, Complaint> completedComplaints, HashMap<String, Machine> myMachines, String password, String empId, String department, String designation, String longitude, String latitude) {
         this.email = email;
         this.userName = userName;
         this.profilePicLink = profilePicLink;
         this.phoneNumber = phoneNumber;
         this.savedAddress = savedAddress;
+        this.uid = uid;
         this.pendingApprovalRequest = pendingApprovalRequest;
         this.pendingComplaints = pendingComplaints;
         this.completedComplaints = completedComplaints;
         this.myMachines = myMachines;
-        this.uid = uid;
+        this.password = password;
+        this.empId = empId;
+        this.department = department;
+        this.designation = designation;
+        this.longitude = longitude;
+        this.latitude = latitude;
     }
+
 
     public String getEmail() {
         return email;
@@ -114,5 +122,53 @@ public class Manager implements Cloneable{
 
     public void setUid(String uid) {
         this.uid = uid;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getEmpId() {
+        return empId;
+    }
+
+    public void setEmpId(String empId) {
+        this.empId = empId;
+    }
+
+    public String getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
+    }
+
+    public String getDesignation() {
+        return designation;
+    }
+
+    public void setDesignation(String designation) {
+        this.designation = designation;
+    }
+
+    public String getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
+    }
+
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
     }
 }
