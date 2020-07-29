@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@mipmap/background5"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:id="@+id/linearLayout4"
@@ -82,11 +82,14 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/textInputName"
                     style="@style/parent"
-                    android:layout_marginTop="@dimen/loginViewsMargin">
+                    android:layout_marginTop="15dp">
 
                     <EditText
                         android:id="@+id/editTextName"
                         style="@style/modifiedEditText"
+                        android:drawableLeft="@drawable/ic_user"
+                        android:drawablePadding="@dimen/padding_10"
+                        android:drawableTint="#a3a3a3"
                         android:hint="Name"
                         android:inputType="textPersonName"
                         android:maxLines="1" />
@@ -95,11 +98,14 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/textInputEmail"
                     style="@style/parent"
-                    android:layout_marginTop="@dimen/loginViewsMargin">
+                    android:layout_marginTop="15dp">
 
                     <EditText
                         android:id="@+id/editTextEmail"
                         style="@style/modifiedEditText"
+                        android:drawableLeft="@drawable/ic_baseline_email_24"
+                        android:drawablePadding="@dimen/padding_10"
+                        android:drawableTint="#a3a3a3"
                         android:hint="@string/login_email_hint"
                         android:inputType="textEmailAddress"
                         android:maxLines="1" />
@@ -109,12 +115,15 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/textInputPassword"
                     style="@style/parent"
-                    android:layout_marginTop="@dimen/loginViewsMargin">
+                    android:layout_marginTop="15dp">
 
                     <EditText
                         android:id="@+id/editTextPassword"
                         style="@style/modifiedEditText"
                         android:hint="@string/login_password_hint"
+                        android:drawableLeft="@drawable/ic_password1"
+                        android:drawablePadding="@dimen/padding_10"
+                        android:drawableTint="#a3a3a3"
                         android:inputType="textPassword"
                         android:maxLines="1" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -152,7 +161,7 @@
             android:id="@+id/expandableLayout1"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="6"
+            android:layout_weight="10"
             app:ael_duration="1000"
             app:ael_interpolator="anticipateOvershoot">
 
@@ -166,11 +175,14 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/textInputName1"
                     style="@style/parent"
-                    android:layout_marginTop="@dimen/loginViewsMargin">
+                    android:layout_marginTop="5dp">
 
                     <EditText
                         android:id="@+id/editTextName1"
                         style="@style/modifiedEditText"
+                        android:drawableLeft="@drawable/ic_staff_number1"
+                        android:drawablePadding="@dimen/padding_10"
+                        android:drawableTint="#a3a3a3"
                         android:hint="Employee ID"
                         android:inputType="textPersonName"
                         android:maxLines="1" />
@@ -179,12 +191,15 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/textInputEmail1"
                     style="@style/parent"
-                    android:layout_marginTop="@dimen/loginViewsMargin">
+                    android:layout_marginTop="5dp">
 
                     <EditText
                         android:id="@+id/editTextEmail1"
                         style="@style/modifiedEditText"
                         android:hint="Department"
+                        android:drawableLeft="@drawable/ic_department1"
+                        android:drawablePadding="@dimen/padding_10"
+                        android:drawableTint="#a3a3a3"
                         android:inputType="textPersonName"
                         android:maxLines="1" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -193,11 +208,14 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/textInputPassword1"
                     style="@style/parent"
-                    android:layout_marginTop="@dimen/loginViewsMargin">
+                    android:layout_marginTop="5dp">
 
                     <EditText
                         android:id="@+id/editTextPassword1"
                         style="@style/modifiedEditText"
+                        android:drawableLeft="@drawable/ic_job_title1"
+                        android:drawablePadding="@dimen/padding_10"
+                        android:drawableTint="#a3a3a3"
                         android:hint="Designation"
                         android:inputType="textPassword"
                         android:maxLines="1" />
@@ -206,14 +224,24 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/textInputAddress"
                     style="@style/parent"
-                    android:layout_marginTop="@dimen/loginViewsMargin">
-
-                    <EditText
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    >
+                   <ScrollView
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       >
+                    <TextView
                         android:id="@+id/editTextAddress"
                         style="@style/modifiedEditText"
-                        android:hint="Address"
-                        android:inputType = "textPostalAddress"
-                        android:maxLines="1" />
+                        android:drawableLeft="@drawable/ic_baseline_location_on_24"
+                        android:drawablePadding="@dimen/padding_10"
+                        android:drawableTint="#03A9F4"
+                        android:text="Select Address From Map"
+                        android:textSize="15sp"
+                        android:textColor="#03A9F4"
+                        />
+                   </ScrollView>
                 </com.google.android.material.textfield.TextInputLayout>
 
 

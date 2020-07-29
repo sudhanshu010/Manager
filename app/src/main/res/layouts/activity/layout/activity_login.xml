@@ -53,7 +53,7 @@
                 android:id="@+id/textInputEmail"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+
                 android:layout_marginTop="@dimen/loginViewsMargin"
                 app:boxStrokeColor="@color/colorPrimary">
 
@@ -70,7 +70,7 @@
                 android:id="@+id/textInputPassword"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+
                 app:boxStrokeColor="@color/colorPrimary"
                 android:layout_marginTop="@dimen/loginViewsMargin">
 
