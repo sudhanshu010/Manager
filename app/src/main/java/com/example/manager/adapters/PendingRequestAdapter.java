@@ -198,7 +198,7 @@ public class PendingRequestAdapter extends FirebaseRecyclerPagingAdapter<Request
                 //[ ReplacementAlgo Starts-->]
 
 
-                /*
+
 
                 complaintReference.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -352,7 +352,7 @@ public class PendingRequestAdapter extends FirebaseRecyclerPagingAdapter<Request
                     }
                 });
 
-                */
+
                 //[ReplacementAlgo end --> ]
 
 

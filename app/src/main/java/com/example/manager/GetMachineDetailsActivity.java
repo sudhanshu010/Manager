@@ -28,6 +28,13 @@ import com.example.manager.models.Machine;
 import com.example.manager.models.Manager;
 import com.example.manager.models.PastRecord;
 import com.firebase.ui.database.paging.DatabasePagingOptions;
+import com.github.mikephil.charting.animation.Easing;
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -38,8 +45,10 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.lang.reflect.Array;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -53,10 +62,13 @@ import lecho.lib.hellocharts.view.ColumnChartView;
 public class GetMachineDetailsActivity extends AppCompatActivity {
 
     FirebaseDatabase firebaseDatabase;
-    DatabaseReference machineReference, complaintIdReference, serviceManListReference, responsibleReference, complaintReference;
+    DatabaseReference machineReference, complaintIdReference, serviceManListReference, responsibleReference,complaintReference;
+    BarChart barChart;
+    TextView AdvanceAge,AdvanceLifeCompleted,AdvanceCostIncurred,AdvanceNextServiceDate,AdvanceServiceCount;
+    TextView more_details;
 
     public static int[] MONTHS_SHORT = {0,
-            R.string.january_short, R.string.february_short, R.string.march_short, R.string.april_short, R.string.may_short, R.string.june_short, R.string.july_short, R.string.august_short, R.string.september_short, R.string.october_short, R.string.november_short, R.string.december_short
+            R.string.january_short,R.string.february_short,R.string.march_short, R.string.april_short, R.string.may_short, R.string.june_short, R.string.july_short, R.string.august_short, R.string.september_short, R.string.october_short, R.string.november_short, R.string.december_short
     };
     private static String[] Colors = {"#F44336", "#E91E63", "#9C27B0", "#673AB7", "#3F51B5", "#2196F3", "#03A9F4", "#00BCD4", "#009688", "#4CAF50", "#8BC34A", "#CDDC39", "#FFEB3B", "#FFC107", "#FF9800", "#FF5722", "#795548", "#9E9E9E", "#607D8B"};
     FirebaseAuth auth;
@@ -72,8 +84,8 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
     TextView show_history;
     ScrollView ScrollViewHistory;
     Button generateComplaint;
-    TextView companyName, machineType, modelNumber, price;
-    TextView serialNo, department, serviceTime, dateOfInstallation, generator;
+    TextView companyName,machineType,modelNumber,price;
+    TextView serialNo,department,serviceTime,dateOfInstallation, generator;
 
     Complaint complaint;
 
@@ -90,23 +102,42 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_get_machine_details);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+
+        AdvanceAge = findViewById(R.id.AdvanceAge);
+        AdvanceLifeCompleted = findViewById(R.id.AdvanceLifeCompleted);
+        AdvanceCostIncurred = findViewById(R.id.AdvanceCostIncurred);
+        AdvanceNextServiceDate = findViewById(R.id.AdvanceNextServiceDate);
+        AdvanceServiceCount = findViewById(R.id.AdvanceServiceCount);
+
         generateComplaint = findViewById(R.id.generateComplaint);
-        show_history = findViewById(R.id.show_history);
-        NoMachineHistory = findViewById(R.id.xyz);
-        ScrollViewHistory = (ScrollView) findViewById(R.id.scrollViewHistory);
+       show_history = findViewById(R.id.show_history);
+       NoMachineHistory = findViewById(R.id.xyz);
+       ScrollViewHistory = (ScrollView) findViewById(R.id.scrollViewHistory);
 
         description = new String("");
         modelNumber = findViewById(R.id.machineModelNumber);
         price = findViewById(R.id.price);
 
 
-        machineType = findViewById(R.id.machine_type);
+        machineType= findViewById(R.id.machine_type);
         companyName = findViewById(R.id.company_name);
         serialNo = findViewById(R.id.machineDetailsSerialNo);
         department = findViewById(R.id.machineDetailsDepartment);
         serviceTime = findViewById(R.id.machineDetailsServiceTime);
         dateOfInstallation = findViewById(R.id.machineDetailsInstallationDate);
         generator = findViewById(R.id.generator_name);
+
+        barChart = findViewById(R.id.barChart);
+        barChart.setDrawBarShadow(false);
+        barChart.setDrawValueAboveBar(true);
+        barChart.setMaxVisibleValueCount(50);
+        barChart.setPinchZoom(false);
+        barChart.setDoubleTapToZoomEnabled(false);
+        barChart.setDrawGridBackground(false);
+        barChart.animateY(3000, Easing.EaseOutBack);
+        Description description = barChart.getDescription();
+        description.setEnabled(false);
 
 
         generationCode = getIntent().getStringExtra("generationCode");
@@ -124,11 +155,23 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
 
                 machine = dataSnapshot.getValue(Machine.class);
 
-                //Toast.makeText(GetMachineDetailsActivity.this, machine.getDepartment(), Toast.LENGTH_SHORT).show();
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                String today = simpleDateFormat.format(new Date());
+                String[] arrT = today.split("/",4);
+                String[] arrS = machine.getDateOfInstallation().split("/",4);
+
+                int age = Integer.parseInt(arrT[1])-Integer.parseInt(arrS[1]) + 12*(Integer.parseInt(arrT[2])-Integer.parseInt(arrS[2]));
+                AdvanceAge.setText(String.valueOf(age)+" months");
+
+                final double LifeC = (double)(age)/(double)(machine.getLife()*12);
+                AdvanceLifeCompleted.setText(String.valueOf(LifeC));
+
+
+
 
                 serialNo.setText(machine.getSerialNumber());
                 department.setText(machine.getDepartment());
-                serviceTime.setText(machine.getServiceTime() + " months");
+                serviceTime.setText(machine.getServiceTime()+" months");
                 dateOfInstallation.setText(machine.getDateOfInstallation());
                 generator.setText(machine.getManager().getUserName());
                 companyName.setText(machine.getCompany());
@@ -144,7 +187,8 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         String realManager = dataSnapshot.child("userName").getValue().toString();
-                        if (!realManager.equals(manager1)) {
+                        if(!realManager.equals(manager1))
+                        {
                             generateComplaint.setVisibility(View.GONE);
                         }
                     }
@@ -164,7 +208,9 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
         });
 
 
-        recyclerView = findViewById(R.id.machine_history_rv);
+
+
+        recyclerView=findViewById(R.id.machine_history_rv);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         HorizontalLayout
                 = new LinearLayoutManager(
@@ -174,49 +220,53 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(HorizontalLayout);
 
         firebaseDatabase = FirebaseDatabase.getInstance();
-        Query baseQuery1 = firebaseDatabase.getReference("Machines").child(generationCode).child("pastRecords");
+             Query baseQuery1 = firebaseDatabase.getReference("Machines").child(generationCode).child("pastRecords");
 
-        DatabaseReference reference1 = firebaseDatabase.getReference().child("Machines").child(generationCode).child("pastRecords");
-        reference1.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (!dataSnapshot.exists()) {
-                    show_history.setVisibility(View.GONE);
-                    ScrollViewHistory.setVisibility(View.GONE);
-                    recyclerView.setVisibility(View.GONE);
-                    NoMachineHistory.setVisibility(View.VISIBLE);
-                }
-            }
+             DatabaseReference reference1 = firebaseDatabase.getReference().child("Machines").child(generationCode).child("pastRecords");
+             reference1.addListenerForSingleValueEvent(new ValueEventListener() {
+                 @Override
+                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                     if(!dataSnapshot.exists())
+                     {
+                         show_history.setVisibility(View.GONE);
+                         ScrollViewHistory.setVisibility(View.GONE);
+                         recyclerView.setVisibility(View.GONE);
+                         NoMachineHistory.setVisibility(View.VISIBLE);
+                     }
+                 }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+                 @Override
+                 public void onCancelled(@NonNull DatabaseError databaseError) {
 
-            }
-        });
+                 }
+             });
 
-        PagedList.Config config = new PagedList.Config.Builder()
-                .setEnablePlaceholders(false)
-                .setPrefetchDistance(10)
-                .setPageSize(20)
-                .build();
+             PagedList.Config config = new PagedList.Config.Builder()
+                     .setEnablePlaceholders(false)
+                     .setPrefetchDistance(10)
+                     .setPageSize(20)
+                     .build();
 
-        DatabasePagingOptions<PastRecord> options = new DatabasePagingOptions.Builder<PastRecord>()
-                .setLifecycleOwner(this)
-                .setQuery(baseQuery1, config, PastRecord.class)
-                .build();
+             DatabasePagingOptions<PastRecord> options = new DatabasePagingOptions.Builder<PastRecord>()
+                     .setLifecycleOwner(this)
+                     .setQuery(baseQuery1, config, PastRecord.class)
+                     .build();
 
-        showDetailsAdapter = new ShowDetailsAdapter(options, GetMachineDetailsActivity.this);
-        recyclerView.setAdapter(showDetailsAdapter);
-        showDetailsAdapter.startListening();
+             showDetailsAdapter = new ShowDetailsAdapter(options, GetMachineDetailsActivity.this);
+             recyclerView.setAdapter(showDetailsAdapter);
+             showDetailsAdapter.startListening();
 
         show_history.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(GetMachineDetailsActivity.this, ShowDetailsActivity.class);
-                i.putExtra("machine_id", machineId);
+                i.putExtra("machine_id",machineId);
                 startActivity(i);
             }
         });
+
+
+
 
 
         generateComplaint.setOnClickListener(new View.OnClickListener() {
@@ -247,13 +297,13 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
                 Calendar cal = Calendar.getInstance();
                 int year = cal.get(Calendar.YEAR);
                 int month = cal.get(Calendar.MONTH);
-                month = month + 1;
+                month = month+1;
                 int day = cal.get(Calendar.DAY_OF_MONTH);
 
-                complaint.setGeneratedDate(day + "/" + month + "/" + year);
+                complaint.setGeneratedDate(day+"/"+month+"/"+year);
                 complaint.setStatus(Complaint.generatedOnly);
 
-                ComplaintDescriptionDialog complaintDescriptionDialog = new ComplaintDescriptionDialog(GetMachineDetailsActivity.this, complaint);
+                ComplaintDescriptionDialog complaintDescriptionDialog = new ComplaintDescriptionDialog(GetMachineDetailsActivity.this,complaint);
                 complaintDescriptionDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 complaintDescriptionDialog.show();
 
@@ -262,7 +312,7 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
 
 
         //Circle Display
-        final CircleDisplay cd1 = (CircleDisplay) findViewById(R.id.circle_display1);
+        final CircleDisplay cd1 = (CircleDisplay)findViewById(R.id.circle_display1);
         cd1.setAnimDuration(1500);
         cd1.setValueWidthPercent(5f);
         cd1.setTextSize(18f);
@@ -277,19 +327,7 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
 
         final Handler handler = new Handler();
 
-
-        // sets a custom array of text
-
-//        Handler delay = new Handler();
-//        delay.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                cd1.startAnim();
-//            }
-//        },5000);
-
-
-        final CircleDisplay cd2 = (CircleDisplay) findViewById(R.id.circle_display2);
+        final CircleDisplay cd2 = (CircleDisplay)findViewById(R.id.circle_display2);
         cd2.setAnimDuration(1500);
         cd2.setValueWidthPercent(5f);
         cd2.setTextSize(18f);
@@ -303,36 +341,62 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
         // sets a custom array of text
 
 
+
         // continuously check its circle is completely on screen or not. If yes, start the animation.
         final Runnable runnable = new Runnable() {
             public void run() {
                 // code for checking component is on screen or not.
                 Rect rect = new Rect();
-                if (cd1.getGlobalVisibleRect(rect)
-                        && cd1.getHeight() / 2 <= rect.height()) {
-
-
-                    //Checking the life of machine
-                    //TODO:Uncomment this when finalise
-                    /*
-
+                if(cd1.getGlobalVisibleRect(rect)
+                        && cd1.getHeight()/2 <= rect.height())
+                {
                     DatabaseReference reference2 = firebaseDatabase.getReference().child("comparisonMachine").child(machine.getDepartment()).child(machine.getType()).child(machine.getMachineId());
                     reference2.addListenerForSingleValueEvent(new ValueEventListener() {
+                        ArrayList<BarEntry>barEntries = new ArrayList<>();
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                            AdvanceCostIncurred.setText(dataSnapshot.child("sum").getValue().toString());
+                            AdvanceNextServiceDate.setText(dataSnapshot.child("nextServiceTime").getValue().toString());
+                            AdvanceServiceCount.setText(dataSnapshot.child("serviceCount").getValue().toString());
+
+                            //Pie graph
+                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                            String today = simpleDateFormat.format(new Date());
+                            String[] arrT = today.split("/",4);
+                            String[] arrS = machine.getDateOfInstallation().split("/",4);
+
+                            int age = Integer.parseInt(arrT[1])-Integer.parseInt(arrS[1]) + 12*(Integer.parseInt(arrT[2])-Integer.parseInt(arrS[2]));
+                            float LifeC = (float)(age)/(float)(machine.getLife()*12);
+                            LifeC *= 100;
 
                             int a = Integer.valueOf(dataSnapshot.child("sum").getValue().toString());
                             int serviceCount = Integer.valueOf(dataSnapshot.child("serviceCount").getValue().toString());
                             Float ExpectedLife = machine.getLife();
                             int serviceTime = machine.getServiceTime();
-                            Float ans1 = (serviceCount*serviceTime)/(ExpectedLife*12);
-                            ans1*=100;
+                            Float ans1 = LifeC;
+
 
                             Float buyCost = machine.getPrice();
                             Float ans2 = (a*100f)/buyCost;
 
                             cd1.showValue(ans1, 100f,false);
                             cd2.showValue(ans2, 100f, false);
+
+                            //Bar graph
+                            int x = serviceCount;
+                            for(int i =0 ;i<=x;i++)
+                            {
+                                barEntries.add(new BarEntry(i+1,Integer.valueOf(dataSnapshot.child("OverallCost").child(String.valueOf(i)).getValue().toString())));
+                            }
+                            BarDataSet barDataSet = new BarDataSet(barEntries,"");
+                            barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+
+                            BarData data = new BarData(barDataSet);
+                            data.setBarWidth(0.9f);
+                            barChart.setData(data);
+
+
                         }
 
                         @Override
@@ -341,88 +405,26 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
                         }
                     });
 
-                    */
-
-
-                    cd1.showValue(75f, 100f, false);
+                    cd1.showValue(75f, 100f,false);
                     cd2.showValue(30f, 100f, false);
                     cd1.startAnim();
                     cd2.startAnim();
-                } else {
+                }
+                else
+                {
                     handler.postDelayed(this, 1000);
                 }
-
             }
         };
 
         handler.postDelayed(runnable, 1);
 
-        //Histogram
-
-
-        final ColumnChartView chart = findViewById(R.id.chart);
-        ColumnChartData columnChartData;
-        List<Column> columns;
-        columns = new ArrayList<>();
-        List<SubcolumnValue> subcolumnValues;
-
-
-        int numColumns = 12;
-        for (int i = 0; i < numColumns; i++) {
-            subcolumnValues = new ArrayList<>();
-            Random rand = new Random();
-            int r = rand.nextInt(50);
-            SubcolumnValue value = new SubcolumnValue(
-                    r,
-                    GetRandomColor());
-            subcolumnValues.add(value);
-            Column column = new Column(subcolumnValues);
-            column.setHasLabels(false);
-            column.setHasLabelsOnlyForSelected(false);
-            columns.add(column);
-        }
-
-        columnChartData = new ColumnChartData(columns);
-
-        Axis axisX = new Axis();
-        List<AxisValue> axisValueList = new ArrayList<>();
-        for (int i = 0; i < numColumns; i++) {
-            axisValueList.add(new AxisValue(i)
-                    .setLabel(GetMonthShort(i + 1)));
-        }
-        axisX.setValues(axisValueList);
-        Axis axisY = new Axis().setHasLines(false);
-        columnChartData.setAxisXBottom(axisX);
-        columnChartData.setAxisYLeft(axisY);
-        columnChartData.setStacked(true);
-        chart.setColumnChartData(columnChartData);
-        chart.setZoomEnabled(false);
-        for (Column column : columnChartData.getColumns()) {
-            for (SubcolumnValue value : column.getValues()) {
-                value.setTarget((float) Math.random() * 100);//some random target value
-            }
-        }
-
-        final Runnable runnable1 = new Runnable() {
-            public void run() {
-                // code for checking component is on screen or not.
-                Rect rect = new Rect();
-                if (chart.getGlobalVisibleRect(rect)
-                        && chart.getHeight() / 2 <= rect.height()) {
-                    chart.startDataAnimation(1500);
-                } else {
-                    handler.postDelayed(this, 1000);
-                }
-
-            }
-        };
-        handler.postDelayed(runnable1, 1);
 
 
     }
 
-    private static String lastColor0, lastColor1, lastColor2;
 
+    private static String lastColor0, lastColor1, lastColor2;
     public static int GetRandomColor() {
         Random random = new Random();
         int p = random.nextInt(Colors.length);
@@ -436,7 +438,6 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
         lastColor2 = Colors[p];
         return Color.parseColor(Colors[p]);
     }
-
     public String GetMonthShort(int i) {
         return this.getResources().getString(MONTHS_SHORT[i]);
     }

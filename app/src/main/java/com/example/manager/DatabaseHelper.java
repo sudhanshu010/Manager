@@ -26,11 +26,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COL_4 = "message";
 
     public DatabaseHelper(@Nullable Context context) {
-        super(context,DATABASE_NAME,null,1);
+        super(context,DATABASE_NAME,null,2);
     }
+
     public DatabaseHelper(@Nullable Context context, String user)
     {
-        super(context, DATABASE_NAME, null, 1);
+        super(context, DATABASE_NAME, null, 2);
         TABLE_NAME = "notificationTable"+user;
         SQLiteDatabase db = this.getWritableDatabase();
     }

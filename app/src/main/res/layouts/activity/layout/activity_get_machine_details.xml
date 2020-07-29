@@ -73,7 +73,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginLeft="20dp"
             android:textColor="#6699cc"
-            ></TextView>
+            />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -215,7 +215,8 @@
             android:layout_marginLeft="20dp"
             android:layout_marginTop="10dp"
             android:textColor="#6699cc"
-            ></TextView>
+            />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -391,16 +392,188 @@
             </LinearLayout>
         </LinearLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Statistics:"
-            android:textStyle="bold"
-            android:textColor="#5B9FE3"
-            android:textSize="18sp"
+            android:orientation="vertical"
+            android:layout_marginTop="20dp"
+            android:padding="5dp"
+            android:layout_margin="20dp"
+            app:cardCornerRadius="5dp"
+            app:cardBackgroundColor="#abcdef"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingTop="5dp"
+                >
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_margin="5dp"
+                    android:padding="5dp"
+                    android:background="@android:color/transparent"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorBlack"
+                        android:text="Age :  "
+                        android:fontFamily="@font/imprima"
+                        android:textSize="16dp"
+                        />
+                    <TextView
+                        android:id="@+id/AdvanceAge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:textColor="@color/colorBlack"
+                        android:fontFamily="@font/imprima"
+                        android:textSize="16dp"
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="5dp"
+                    android:layout_margin="5dp"
+                    android:background="@android:color/transparent"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Life Completed :  "
+                        android:fontFamily="@font/imprima"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="16dp"
+                        />
+                    <TextView
+                        android:id="@+id/AdvanceLifeCompleted"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorBlack"
+                        android:text=""
+                        android:fontFamily="@font/imprima"
+                        android:textSize="16dp"
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="5dp"
+                    android:layout_margin="5dp"
+                    android:background="@android:color/transparent"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Cost Incurred :  "
+                        android:textColor="@color/colorBlack"
+                        android:fontFamily="@font/imprima"
+                        android:textSize="16dp"
+                        />
+                    <TextView
+                        android:id="@+id/AdvanceCostIncurred"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorBlack"
+                        android:text=""
+                        android:fontFamily="@font/imprima"
+                        android:textSize="16dp"
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="5dp"
+                    android:layout_margin="5dp"
+                    android:background="@android:color/transparent"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Next Service Date :  "
+                        android:textColor="@color/colorBlack"
+                        android:fontFamily="@font/imprima"
+                        android:textSize="16dp"
+                        />
+                    <TextView
+                        android:id="@+id/AdvanceNextServiceDate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:textColor="@color/colorBlack"
+                        android:fontFamily="@font/imprima"
+                        android:textSize="16dp"
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="5dp"
+                    android:layout_margin="5dp"
+                    android:background="@android:color/transparent"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Services Count :  "
+                        android:textColor="@color/colorBlack"
+                        android:fontFamily="@font/imprima"
+                        android:textSize="16dp"
+                        />
+                    <TextView
+                        android:id="@+id/AdvanceServiceCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:textColor="@color/colorBlack"
+                        android:fontFamily="@font/imprima"
+                        android:textSize="16dp"
+                        />
+                </LinearLayout>
+            </LinearLayout>
+
+
+        </androidx.cardview.widget.CardView>
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+
             android:layout_marginLeft="20dp"
             android:layout_marginTop="20dp"
-            ></TextView>
+            android:layout_marginRight="20dp"
+
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Statistics:"
+                android:textStyle="bold"
+                android:textColor="#5B9FE3"
+                android:textSize="18sp"
+                />
+
+
+
+
+        </LinearLayout>
        <LinearLayout
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
@@ -457,6 +630,43 @@
            </LinearLayout>
 
        </LinearLayout>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="5dp"
+            android:padding="5dp"
+            android:layout_margin="20dp"
+            app:cardCornerRadius="5dp"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="25dp"
+                    android:text="Cost vs Service Period"
+                    android:fontFamily="@font/imprima"
+                    android:textSize="20sp"
+                    android:textColor="#2ea6aa"
+                    android:textFontWeight="700"
+
+                    />
+
+                <com.github.mikephil.charting.charts.BarChart
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:layout_marginTop="15dp"
+                    android:id="@+id/barChart"
+                    />
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -479,7 +689,7 @@
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:textColor="#6699cc"
-                    ></TextView>
+                    />
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -490,7 +700,7 @@
                     android:textAlignment="viewEnd"
                     android:layout_marginEnd="10dp"
                     android:textSize="16sp"
-                    ></TextView>
+                    />
 
             </LinearLayout>
             <ScrollView
@@ -520,38 +730,7 @@
                 />
         </LinearLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Bar Graph:"
-            android:textStyle="bold"
-            android:textColor="#6699cc"
-            android:textSize="18sp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="20dp"
-            ></TextView>
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            app:cardCornerRadius="7dp"
-            app:cardElevation="0dp"
-            android:backgroundTint="@color/list_color_1"
-            app:cardPreventCornerOverlap="false"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="20dp"
-            app:contentPadding="0dp">
 
-
-        <lecho.lib.hellocharts.view.ColumnChartView
-            android:id="@+id/chart"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            >
-        </lecho.lib.hellocharts.view.ColumnChartView>
-        </androidx.cardview.widget.CardView>
 
         <Button
             android:id="@+id/generateComplaint"
