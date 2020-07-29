@@ -12,6 +12,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class SettingActivity extends AppCompatActivity {
 
+    LinearLayout linearLayoutEditProfile;
     LinearLayout linearLayout_notification;
     LinearLayout linearLayout_fingerprint;
     LinearLayout linearLayout_feedback;
@@ -33,6 +34,7 @@ public class SettingActivity extends AppCompatActivity {
         linearLayout_faq=findViewById(R.id.setting_faq);
         linearLayout_terms_and_conditions=findViewById(R.id.setting_terms_and_condition);
         linearLayout_about_our_app=findViewById(R.id.setting_about_our_app);
+        linearLayoutEditProfile = findViewById(R.id.edit_profile_ll);
 
         logout = findViewById(R.id.logout);
 
@@ -43,6 +45,14 @@ public class SettingActivity extends AppCompatActivity {
                 FirebaseAuth.getInstance().signOut();
                 startActivity(new Intent(getApplicationContext(),LoginActivity.class));
                 finish();
+            }
+        });
+
+        linearLayoutEditProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(),EditProfileActivity.class);
+                startActivity(intent);
             }
         });
 
