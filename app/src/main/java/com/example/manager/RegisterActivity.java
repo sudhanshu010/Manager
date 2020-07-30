@@ -167,14 +167,14 @@ public class RegisterActivity extends AppCompatActivity {
                 final String department = registerDepartment.getText().toString();
                 final String designation = registerDesignation.getText().toString();
 
-                Manager manager = new Manager(email, userName, null, phone, address, null, null, null, null, null, password, empId, department, designation, String.valueOf(longitude), String.valueOf(latitude),"Manager");
+                Manager manager = new Manager(email, userName, null, phone, address, null, null, null, null, null, password, empId, department, designation, String.valueOf(longitude), String.valueOf(latitude));
 
                 userReference = firebaseDatabase.getReference("UnverifiedAccounts");
 //                HashMap<String, Object> hashMap = new HashMap<>();
 //                hashMap.put("/UnverifiedAccounts/Manager/" + email, manager);
 //                FirebaseDatabase.getInstance().getReference().updateChildren(hashMap);
 
-                userReference.child(empId).setValue(manager);
+                userReference.child("Manager").child(empId).setValue(manager);
                 SweetToast.success(RegisterActivity.this,"wait for verification");
 
 

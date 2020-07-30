@@ -12,13 +12,7 @@ public class Manager implements Cloneable{
     private HashMap<String,Complaint> pendingComplaints;
     private HashMap<String,Complaint> completedComplaints;
     private HashMap<String,Machine> myMachines;
-    private String password;
-    private String empId;
-    private String department;
-    private String designation;
-    private String longitude;
-    private String latitude;
-    private String type;
+    private String password, empId, department, designation, longitude, latitude;
 
     public Object clone() throws
             CloneNotSupportedException
@@ -30,7 +24,7 @@ public class Manager implements Cloneable{
     {
     }
 
-    public Manager(String email, String userName, String profilePicLink, String phoneNumber, String savedAddress, String uid, HashMap<String, Request> pendingApprovalRequest, HashMap<String, Complaint> pendingComplaints, HashMap<String, Complaint> completedComplaints, HashMap<String, Machine> myMachines, String password, String empId, String department, String designation, String longitude, String latitude, String type) {
+    public Manager(String email, String userName, String profilePicLink, String phoneNumber, String savedAddress, String uid, HashMap<String, Request> pendingApprovalRequest, HashMap<String, Complaint> pendingComplaints, HashMap<String, Complaint> completedComplaints, HashMap<String, Machine> myMachines, String password, String empId, String department, String designation, String longitude, String latitude) {
         this.email = email;
         this.userName = userName;
         this.profilePicLink = profilePicLink;
@@ -47,7 +41,6 @@ public class Manager implements Cloneable{
         this.designation = designation;
         this.longitude = longitude;
         this.latitude = latitude;
-        this.type = type;
     }
 
 
@@ -57,14 +50,6 @@ public class Manager implements Cloneable{
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public String getUserName() {
