@@ -341,28 +341,28 @@ public class RegisterActivity extends AppCompatActivity {
             }
         }
 
-            if (resultCode == 0) {
-                Log.d("RESULT****", "CANCELLED");
-            }
-        }
-
-        private final void initializeLocationPickerTracker () {
-            LocationPicker.INSTANCE.setTracker((LocationPickerTracker) (new RegisterActivity.MyPickerTracker((Context) this)));
-        }
-
-
-        private static final class MyPickerTracker implements LocationPickerTracker {
-            private final Context context;
-
-            public void onEventTracked(@NotNull TrackEvents event) {
-                Intrinsics.checkParameterIsNotNull(event, "event");
-                Toast.makeText(this.context, (CharSequence) ("Event: " + event.getEventName()), Toast.LENGTH_SHORT).show();
-            }
-
-            public MyPickerTracker(@NotNull Context context) {
-                super();
-                Intrinsics.checkParameterIsNotNull(context, "context");
-                this.context = context;
-            }
+        if (resultCode == 0) {
+            Log.d("RESULT****", "CANCELLED");
         }
     }
+
+    private final void initializeLocationPickerTracker () {
+        LocationPicker.INSTANCE.setTracker((LocationPickerTracker) (new RegisterActivity.MyPickerTracker((Context) this)));
+    }
+
+
+    private static final class MyPickerTracker implements LocationPickerTracker {
+        private final Context context;
+
+        public void onEventTracked(@NotNull TrackEvents event) {
+            Intrinsics.checkParameterIsNotNull(event, "event");
+            Toast.makeText(this.context, (CharSequence) ("Event: " + event.getEventName()), Toast.LENGTH_SHORT).show();
+        }
+
+        public MyPickerTracker(@NotNull Context context) {
+            super();
+            Intrinsics.checkParameterIsNotNull(context, "context");
+            this.context = context;
+        }
+    }
+}
