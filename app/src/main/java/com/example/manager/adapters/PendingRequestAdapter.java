@@ -23,6 +23,7 @@ import com.example.manager.models.Request;
 import com.firebase.ui.database.paging.DatabasePagingOptions;
 import com.firebase.ui.database.paging.FirebaseRecyclerPagingAdapter;
 import com.firebase.ui.database.paging.LoadingState;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -30,6 +31,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.functions.FirebaseFunctions;
+import com.google.firebase.functions.HttpsCallableResult;
 
 import org.parceler.Parcels;
 
@@ -290,6 +293,43 @@ public class PendingRequestAdapter extends FirebaseRecyclerPagingAdapter<Request
                                                 }
 
                                                 Log.i("Replacement machine is working bad,change with ", best);
+
+                                                String uid = user.getUid();
+                                                Log.i("ankit uid",uid);
+                                                FirebaseDatabase.getInstance().getReference("tokens").child(uid).addValueEventListener(new ValueEventListener() {
+                                                    @Override
+                                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                        String token = (String) dataSnapshot.getValue();
+                                                        Log.i("ankit token fetch checking",token);
+
+                                                        HashMap<String,String> data = new HashMap<>();
+                                                        data.put("best",best);
+                                                        data.put("token",token);
+
+                                                        FirebaseFunctions firebaseFunctions;
+                                                        firebaseFunctions = FirebaseFunctions.getInstance();
+                                                        firebaseFunctions.getHttpsCallable("comparision")
+                                                                .call(data)
+                                                                .addOnSuccessListener(new OnSuccessListener<HttpsCallableResult>() {
+                                                                    @Override
+                                                                    public void onSuccess(HttpsCallableResult httpsCallableResult) {
+                                                                        HashMap<String,String> hashMap = (HashMap<String, String>) httpsCallableResult.getData();
+                                                                        if(hashMap.get("status").equals("successful")){
+                                                                            Log.d("ankit successful","notification successfully sent");
+                                                                        }
+                                                                        else{
+                                                                            Log.d("ankit error occured",hashMap.get("status").toString());
+                                                                        }
+                                                                    }
+                                                                });
+
+                                                    }
+
+                                                    @Override
+                                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                                    }
+                                                });
                                             };
 
                                             @Override

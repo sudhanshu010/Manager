@@ -65,54 +65,95 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
         Map<String, String> data = remoteMessage.getData();
+        String type;
+        type = data.get("type").toString();
+        if(type.equals("broadcast")){
+            String subject,message;
+            subject = data.get("subject").toString();
+            message = data.get("message").toString();
 
-        String subject,message;
-        int type;
+            saveInDB(subject,message);
 
+            Intent intent = new Intent(getApplicationContext(), BottomNavigationActivity.class);
+            PendingIntent pi = PendingIntent.getActivity(getApplicationContext(), 101, intent, 0);
 
+            NotificationManager nm = (NotificationManager) getApplicationContext().getSystemService(NOTIFICATION_SERVICE);
 
-        subject = data.get("subject").toString();
-        message = data.get("message").toString();
+            NotificationChannel channel = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                AudioAttributes att = new AudioAttributes.Builder()
+                        .setUsage(AudioAttributes.USAGE_NOTIFICATION)
+                        .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
+                        .build();
 
+                channel = new NotificationChannel("222", "my_channel", NotificationManager.IMPORTANCE_HIGH);
+                nm.createNotificationChannel(channel);
+            }
 
-        saveInDB(subject,message);
+            NotificationCompat.Builder builder =
+                    new NotificationCompat.Builder(getApplicationContext(), "222")
+                            .setContentTitle(subject)
+                            .setAutoCancel(true)
 
-        Intent intent = new Intent(getApplicationContext(), BottomNavigationActivity.class);
-        PendingIntent pi = PendingIntent.getActivity(getApplicationContext(), 101, intent, 0);
+                            .setSmallIcon(R.mipmap.ic_launcher)
+                            .setStyle(new NotificationCompat.BigTextStyle()
+                                    .setSummaryText("Broadcast Message")
+                                    .setBigContentTitle(subject)
+                                    .bigText(message))
 
-        NotificationManager nm = (NotificationManager) getApplicationContext().getSystemService(NOTIFICATION_SERVICE);
+            .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+                            .setContentText(message)
+                            //.setColor(Color.BLUE)
+                            .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                            .setContentIntent(pi);
 
-        NotificationChannel channel = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            AudioAttributes att = new AudioAttributes.Builder()
-                    .setUsage(AudioAttributes.USAGE_NOTIFICATION)
-                    .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
-                    .build();
-
-            channel = new NotificationChannel("222", "my_channel", NotificationManager.IMPORTANCE_HIGH);
-            nm.createNotificationChannel(channel);
+            builder.setPriority(NotificationCompat.PRIORITY_HIGH);
+            nm.notify(101, builder.build());
         }
+        else if(type.equals("comparision")){
 
-        NotificationCompat.Builder builder =
-                new NotificationCompat.Builder(getApplicationContext(), "222")
-                        .setContentTitle(subject)
-                        .setAutoCancel(true)
+            String best;
+            best = data.get("best").toString();
 
-                        .setSmallIcon(R.mipmap.ic_launcher)
-                        .setStyle(new NotificationCompat.BigTextStyle()
-                                .setSummaryText("Manager")
-                                .setBigContentTitle(subject)
-                                .bigText(message))
 
-        .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
-                        .setContentText(message)
-                        //.setColor(Color.BLUE)
-                        .setCategory(NotificationCompat.CATEGORY_MESSAGE)
-                        .setContentIntent(pi);
+            saveInDB( "Machine to be Replaced" , best );
 
-        builder.setPriority(NotificationCompat.PRIORITY_HIGH);
-        nm.notify(101, builder.build());
+            Intent intent = new Intent(getApplicationContext(), BottomNavigationActivity.class);
+            PendingIntent pi = PendingIntent.getActivity(getApplicationContext(), 101, intent, 0);
 
+            NotificationManager nm = (NotificationManager) getApplicationContext().getSystemService(NOTIFICATION_SERVICE);
+
+            NotificationChannel channel = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                AudioAttributes att = new AudioAttributes.Builder()
+                        .setUsage(AudioAttributes.USAGE_NOTIFICATION)
+                        .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
+                        .build();
+
+                channel = new NotificationChannel("222", "my_channel", NotificationManager.IMPORTANCE_HIGH);
+                nm.createNotificationChannel(channel);
+            }
+
+            NotificationCompat.Builder builder =
+                    new NotificationCompat.Builder(getApplicationContext(), "222")
+                            .setContentTitle("Replacement Required")
+                            .setAutoCancel(true)
+
+                            .setSmallIcon(R.mipmap.ic_launcher)
+                            .setStyle(new NotificationCompat.BigTextStyle()
+                                    .setSummaryText("Replacement Message")
+                                    .setBigContentTitle("Suggested Machines to be Replaced")
+                                    .bigText(best))
+
+                            .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+                            .setContentText(best)
+                            //.setColor(Color.BLUE)
+                            .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                            .setContentIntent(pi);
+
+            builder.setPriority(NotificationCompat.PRIORITY_HIGH);
+            nm.notify(101, builder.build());
+        }
     }
 
     public void saveInDB(String subject, String message)
