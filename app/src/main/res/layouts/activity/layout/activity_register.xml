@@ -39,7 +39,7 @@
         </TextView>
 
         <LinearLayout
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -148,7 +148,7 @@
         </com.github.aakira.expandablelayout.ExpandableWeightLayout>
 
         <LinearLayout
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="15dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -176,7 +176,7 @@
             android:id="@+id/expandableLayout1"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="10"
+            android:layout_weight="15"
             app:ael_duration="1000"
             app:ael_interpolator="anticipateOvershoot">
 
@@ -190,6 +190,7 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/textInputName1"
                     style="@style/parent"
+                    android:layout_height="60dp"
                     android:layout_marginTop="5dp">
 
                     <EditText
@@ -206,6 +207,7 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/textInputEmail1"
                     style="@style/parent"
+                    android:layout_height="60dp"
                     android:layout_marginTop="5dp">
 
                     <EditText
@@ -223,6 +225,7 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/textInputPassword1"
                     style="@style/parent"
+                    android:layout_height="60dp"
                     android:layout_marginTop="5dp">
 
                     <EditText
@@ -239,7 +242,7 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/textInputAddress"
                     style="@style/parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="50dp"
                     android:layout_marginTop="5dp"
                     >
                    <ScrollView
@@ -259,13 +262,36 @@
                    </ScrollView>
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_margin="5dp"
+                    android:background="@color/primaryTextColor"
+                    />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/text_attachment"
+                    style="@style/parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="5dp"
+                    >
                 <TextView
                     android:id="@+id/attach_file"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/ic_access"
+                    android:drawablePadding="@dimen/padding_10"
+                    android:drawableTint="#03A9F4"
                     android:textSize="15sp"
                     android:textColor="#FF03A9F4"
                     android:text="Attach ID Proof" />
+                </com.google.android.material.textfield.TextInputLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_margin="5dp"
+                    android:background="@color/primaryTextColor"
+                    />
 
 
             </LinearLayout>

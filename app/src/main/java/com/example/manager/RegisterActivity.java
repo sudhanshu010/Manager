@@ -3,12 +3,14 @@ package com.example.manager;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.location.Address;
 import android.media.Image;
 import android.net.Uri;
@@ -263,6 +265,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     //Map Result ..
+    @SuppressLint({"SetTextI18n", "ResourceAsColor"})
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1 && resultCode == RESULT_OK && data != null) {
@@ -328,6 +331,9 @@ public class RegisterActivity extends AppCompatActivity {
                     ByteArrayOutputStream baos = new ByteArrayOutputStream();
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
                     documentImage = baos.toByteArray();
+                    attachFile.setText("1 File Attached");
+                    attachFile.setTextColor(Color.RED);
+
 
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
