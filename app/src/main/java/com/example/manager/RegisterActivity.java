@@ -3,13 +3,19 @@ package com.example.manager;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Address;
 import android.media.Image;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -20,9 +26,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.manager.DialogBox.CustomDialogBox;
+import com.example.manager.fragments.ProfileFragment;
 import com.example.manager.models.Manager;
 import com.github.aakira.expandablelayout.ExpandableWeightLayout;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -33,14 +42,23 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.functions.FirebaseFunctions;
 import com.google.firebase.functions.HttpsCallableResult;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.schibstedspain.leku.LocationPicker;
 import com.schibstedspain.leku.LocationPickerActivity;
 import com.schibstedspain.leku.tracker.LocationPickerTracker;
 import com.schibstedspain.leku.tracker.TrackEvents;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -52,7 +70,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     Button registerButton;
     EditText registerName, registerEmail, registerPassword, registerPhone, registerEmpId, registerDepartment, registerDesignation;
-    TextView textAddress;
+    TextView textAddress, attachFile;
 
     double latitude;
     double longitude;
@@ -64,14 +82,18 @@ public class RegisterActivity extends AppCompatActivity {
     FirebaseDatabase firebaseDatabase;
     DatabaseReference userReference;
     FirebaseFunctions firebaseFunctions;
-    ImageView image,image1;
+    ImageView image, image1;
+
+    byte[] documentImage = null;
+    UploadTask uploadTask;
+    String imageLink;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        registerButton  = findViewById(R.id.registerButton1);
+        registerButton = findViewById(R.id.registerButton1);
         registerName = findViewById(R.id.editTextName);
         registerPhone = findViewById(R.id.editTextPhone);
         registerEmail = findViewById(R.id.editTextEmail);
@@ -82,9 +104,61 @@ public class RegisterActivity extends AppCompatActivity {
         textAddress = findViewById(R.id.editTextAddress);
         image = findViewById(R.id.image);
         image1 = findViewById(R.id.image1);
+        attachFile = findViewById(R.id.attach_file);
+
+        final ExpandableWeightLayout expandableLayout = (ExpandableWeightLayout) findViewById(R.id.expandableLayout);
+        final ExpandableWeightLayout expandableLayout1 = (ExpandableWeightLayout) findViewById(R.id.expandableLayout1);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (!expandableLayout.isExpanded()) {
+                    image.animate().rotationBy(180).setDuration(200).start();
+                    expandableLayout.toggle();
+                    if (expandableLayout1.isExpanded()) {
+                        expandableLayout1.collapse();
+                        image1.animate().rotationBy(180).start();
+                    }
+                }
+            }
+        }, 1000);
+
+        image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                image.animate().rotationBy(180).setDuration(200).start();
+                expandableLayout.toggle();
+                if (expandableLayout1.isExpanded()) {
+                    expandableLayout1.collapse();
+                    image1.animate().rotationBy(180).start();
+                }
+            }
+        });
+
+        image1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                image1.animate().rotationBy(180).start();
+                expandableLayout1.toggle();
+                if (expandableLayout.isExpanded()) {
+                    expandableLayout.collapse();
+                    image.animate().rotationBy(180).setDuration(200).start();
+                }
+            }
+        });
+
+        // front end done till here----------------------------------------------------------------------------------------------
+
+        // call for picking ID proof from external file
+        attachFile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(i, 12);
+            }
+        });
 
         //Address Picker
-
         textAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -100,7 +174,7 @@ public class RegisterActivity extends AppCompatActivity {
                 Intrinsics.checkExpressionValueIsNotNull(var10001, "applicationContext");
 
                 locationPickerIntent.putExtra("test", "this is a test");
-                RegisterActivity.this.startActivityForResult(locationPickerIntent,1);
+                RegisterActivity.this.startActivityForResult(locationPickerIntent, 1);
 
 
             }
@@ -108,56 +182,19 @@ public class RegisterActivity extends AppCompatActivity {
         this.initializeLocationPickerTracker();
 
 
-        final ExpandableWeightLayout expandableLayout = (ExpandableWeightLayout) findViewById(R.id.expandableLayout);
-        final ExpandableWeightLayout expandableLayout1 = (ExpandableWeightLayout) findViewById(R.id.expandableLayout1);
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if(!expandableLayout.isExpanded())
-                {
-                    image.animate().rotationBy(180).setDuration(200).start();
-                    expandableLayout.toggle();
-                    if(expandableLayout1.isExpanded()) {
-                        expandableLayout1.collapse();
-                        image1.animate().rotationBy(180).start();
-                    }
-                }
-            }
-        },1000);
-
-        image.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                image.animate().rotationBy(180).setDuration(200).start();
-                expandableLayout.toggle();
-                if(expandableLayout1.isExpanded()) {
-                    expandableLayout1.collapse();
-                    image1.animate().rotationBy(180).start();
-                }
-            }
-        });
-
-        image1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                image1.animate().rotationBy(180).start();
-                expandableLayout1.toggle();
-                if(expandableLayout.isExpanded()) {
-                    expandableLayout.collapse();
-                    image.animate().rotationBy(180).setDuration(200).start();
-                }
-            }
-        });
 
         auth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();
 
         firebaseFunctions = FirebaseFunctions.getInstance();
 
+
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                CustomDialogBox dialogBox = new CustomDialogBox(RegisterActivity.this);
+                dialogBox.show();
 
                 final String userName = registerName.getText().toString();
                 final String phone = registerPhone.getText().toString();
@@ -167,81 +204,55 @@ public class RegisterActivity extends AppCompatActivity {
                 final String department = registerDepartment.getText().toString();
                 final String designation = registerDesignation.getText().toString();
 
-                Manager manager = new Manager(email, userName, null, phone, address, null, null, null, null, null, password, empId, department, designation, String.valueOf(longitude), String.valueOf(latitude));
+                StorageReference storageReference = FirebaseStorage.getInstance().getReference("/idProof/"+registerEmpId.getText().toString());
+                uploadTask = storageReference.putBytes(documentImage);
 
-                userReference = firebaseDatabase.getReference("UnverifiedAccounts");
-//                HashMap<String, Object> hashMap = new HashMap<>();
-//                hashMap.put("/UnverifiedAccounts/Manager/" + email, manager);
-//                FirebaseDatabase.getInstance().getReference().updateChildren(hashMap);
+                uploadTask.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onProgress(@NonNull UploadTask.TaskSnapshot taskSnapshot) {
 
-                userReference.child("Manager").child(empId).setValue(manager);
-                SweetToast.success(RegisterActivity.this,"wait for verification");
+                    }
+                }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                String imageLink = uri.toString();
+                                Manager manager = new Manager(email, userName, null, phone, address, null, null, null, null, null, password, empId, department, designation, String.valueOf(longitude), String.valueOf(latitude),imageLink);
 
+                                userReference = firebaseDatabase.getReference("UnverifiedAccounts");
+                //                HashMap<String, Object> hashMap = new HashMap<>();
+                //                hashMap.put("/UnverifiedAccounts/Manager/" + email, manager);
+                //                FirebaseDatabase.getInstance().getReference().updateChildren(hashMap);
 
-//                auth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<AuthResult> task) {
-//
-//                        if(task.isSuccessful())
-//                        {
-//                            user = auth.getCurrentUser();
-//                            userReference = firebaseDatabase.getReference("Users");
-//
-//                            HashMap<String,String> data = new HashMap<>();
-//
-//                            data.put("claim","manager");
-//                            data.put("email",user.getEmail());
-//
-//                            firebaseFunctions.getHttpsCallable("setCustomClaim")
-//                                    .call(data)
-//                                    .addOnSuccessListener(new OnSuccessListener<HttpsCallableResult>() {
-//                                        @Override
-//                                        public void onSuccess(HttpsCallableResult httpsCallableResult) {
-//
-//                                            user = auth.getCurrentUser();
-//                                            HashMap<String,String> hashMap = (HashMap<String, String>) httpsCallableResult.getData();
-//                                            if(hashMap.get("status").equals("Successful"))
-//                                            {
-//                                                Manager manager = new Manager();
-//                                                manager.setEmail(email);
-//                                                manager.setUserName(userName);
-//                                                manager.setUid(user.getUid());
-//
-//                                                userReference.child("Manager").child(user.getUid()).setValue(manager);
-//                                                SweetToast.success(RegisterActivity.this,"SuccesFully Registered");
-//                                                startActivity(new Intent(getApplicationContext(), BottomNavigationActivity.class));
-//                                                finish();
-//                                            }
-//                                            else
-//                                            {
-//                                                user.delete();
-//                                                SweetToast.error(RegisterActivity.this, "Some Error Occured \n Please try again");
-//                                            }
-//                                        }
-//                                    });
-//
-//                        }
-//                        else
-//                        {
-//                            SweetToast.error(RegisterActivity.this, "Some Error Occured");
-//                        }
-//
-//                    }
-//                });
+                                userReference.child("Manager").child(empId).setValue(manager);
+                                dialogBox.dismiss();
+                                SweetToast.success(RegisterActivity.this, "wait for verification");
 
 
-
+                            }
+                        });
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        dialogBox.dismiss();
+                    }
+                });
 
 
             }
         });
     }
-    public void onLoginClick(View view){
-        startActivity(new Intent(this,LoginActivity.class));
-        overridePendingTransition(R.anim.slide_in_left,android.R.anim.slide_out_right);
+
+    public void onLoginClick(View view) {
+        startActivity(new Intent(this, LoginActivity.class));
+        overridePendingTransition(R.anim.slide_in_left, android.R.anim.slide_out_right);
 
         changeStatusBarColor();
     }
+
     private void changeStatusBarColor() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
@@ -254,7 +265,7 @@ public class RegisterActivity extends AppCompatActivity {
     //Map Result ..
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK && data != null) {
+        if (requestCode == 1 && resultCode == RESULT_OK && data != null) {
             Log.i("RESULT****", "OK");
 
             StringBuilder stringBuilder = new StringBuilder();
@@ -303,28 +314,49 @@ public class RegisterActivity extends AppCompatActivity {
             textAddress.setText(stringBuilder.toString());
         }
 
-        if (resultCode == 0) {
-            Log.d("RESULT****", "CANCELLED");
+        if (requestCode == 12) {
+            if (resultCode == Activity.RESULT_OK && data != null) {
+                Log.i("PRofile", "helo1");
+
+                //dialogBox.show();
+
+                Uri imageUri = data.getData();
+                try {
+                    ContentResolver cr = getBaseContext().getContentResolver();
+                    InputStream inputStream = cr.openInputStream(imageUri);
+                    Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                    documentImage = baos.toByteArray();
+
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+            if (resultCode == 0) {
+                Log.d("RESULT****", "CANCELLED");
+            }
+        }
+
+        private final void initializeLocationPickerTracker () {
+            LocationPicker.INSTANCE.setTracker((LocationPickerTracker) (new RegisterActivity.MyPickerTracker((Context) this)));
+        }
+
+
+        private static final class MyPickerTracker implements LocationPickerTracker {
+            private final Context context;
+
+            public void onEventTracked(@NotNull TrackEvents event) {
+                Intrinsics.checkParameterIsNotNull(event, "event");
+                Toast.makeText(this.context, (CharSequence) ("Event: " + event.getEventName()), Toast.LENGTH_SHORT).show();
+            }
+
+            public MyPickerTracker(@NotNull Context context) {
+                super();
+                Intrinsics.checkParameterIsNotNull(context, "context");
+                this.context = context;
+            }
         }
     }
-
-    private final void initializeLocationPickerTracker() {
-        LocationPicker.INSTANCE.setTracker((LocationPickerTracker)(new RegisterActivity.MyPickerTracker((Context)this)));
-    }
-
-
-    private static final class MyPickerTracker implements LocationPickerTracker {
-        private final Context context;
-
-        public void onEventTracked(@NotNull TrackEvents event) {
-            Intrinsics.checkParameterIsNotNull(event, "event");
-            Toast.makeText(this.context, (CharSequence)("Event: " + event.getEventName()), Toast.LENGTH_SHORT).show();
-        }
-
-        public MyPickerTracker(@NotNull Context context) {
-            super();
-            Intrinsics.checkParameterIsNotNull(context, "context");
-            this.context = context;
-        }
-    }
-}
