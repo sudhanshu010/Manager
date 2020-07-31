@@ -180,7 +180,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                             .setSmallIcon(R.mipmap.ic_launcher)
                             .setStyle(new NotificationCompat.BigTextStyle()
                                     .setSummaryText("Request Approval Message")
-                                    .setBigContentTitle(status)
+                                    .setBigContentTitle("Machine Working Status:"+status)
                                     .bigText(description))
 
                             .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
