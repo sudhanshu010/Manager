@@ -282,6 +282,9 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
                 }
                 if (tempManager != null) {
                     tempManager.setPendingComplaints(null);
+                    tempManager.setPendingApprovalRequest(null);
+                    tempManager.setCompletedComplaints(null);
+                    tempManager.setMyMachines(null);
                 }
                 complaint.setManager(tempManager);
 
@@ -289,6 +292,7 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
                 try {
                     tempMachine = (Machine) machine.clone();
                     tempMachine.setManager(null);
+                    tempMachine.setPastRecordList(null);
                 } catch (CloneNotSupportedException e) {
                     e.printStackTrace();
                 }
