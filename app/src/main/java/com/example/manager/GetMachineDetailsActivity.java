@@ -126,7 +126,8 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
 
         sliderView.setIndicatorAnimation(IndicatorAnimationType.DROP);
         //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
-        sliderView.setSliderTransformAnimation(SliderAnimations.CUBEOUTROTATIONTRANSFORMATION);
+        sliderView.setSliderTransformAnimation(SliderAnimations.GATETRANSFORMATION);
+        sliderView.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_RIGHT);
         sliderView.setIndicatorSelectedColor(Color.parseColor("#275F73"));
         sliderView.setIndicatorUnselectedColor(Color.GRAY);
 
