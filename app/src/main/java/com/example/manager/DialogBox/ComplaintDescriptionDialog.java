@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -55,6 +56,7 @@ public class ComplaintDescriptionDialog extends Dialog implements
     ImageView closeButton;
     RadioGroup radioGroup;
     RadioButton radioButton;
+    Button generate;
 
     String serviceType;
 
@@ -80,6 +82,7 @@ public class ComplaintDescriptionDialog extends Dialog implements
 
     public ComplaintDescriptionDialog(Activity a, Complaint complaint) {
         super(a);
+        generate = a.findViewById(R.id.generateComplaint);
         this.complaint = complaint;
         this.setCanceledOnTouchOutside(false);
         // TODO Auto-generated constructor stub
@@ -156,6 +159,8 @@ public class ComplaintDescriptionDialog extends Dialog implements
             @Override
             public void onClick(View v) {
 
+                generate.setText("generated");
+                generate.setEnabled(false);
 //                animationView.setVisibility(View.VISIBLE);
 //                animationView.playAnimation();
                 dismiss();
@@ -243,6 +248,7 @@ public class ComplaintDescriptionDialog extends Dialog implements
                         HashMap<String,Object> updateDatabaseValue1 = new HashMap<>();
 
                         updateDatabaseValue1.put("/Complaints/"+complaintId+"/mechanic/load",mechanic.getLoad()+1);
+                        updateDatabaseValue1.put("/Machines/" + complaint.getMachine().getMachineId() + "/working", false);
                         updateDatabaseValue1.put("/Users/Manager/"+user.getUid()+"/pendingComplaints/"+complaintId+"/mechanic/load",mechanic.getLoad()+1);
 
                         FirebaseDatabase.getInstance().getReference().updateChildren(updateDatabaseValue1);

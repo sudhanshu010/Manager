@@ -402,6 +402,7 @@ public class PendingRequestAdapter extends FirebaseRecyclerPagingAdapter<Request
                 updateDatabaseValue.put("/Complaints/"+model.getComplaint().getComplaintId()+"/completedDate",day+"/"+month+"/"+year);
                 updateDatabaseValue.put("/Complaints/"+model.getComplaint().getComplaintId()+"/status",5);
                 updateDatabaseValue.put("/FaultMachines", faultMachine-1);
+                updateDatabaseValue.put("/Machines/" + model.getComplaint().getMachine().getMachineId() + "/working", true);
 
                 updateDatabaseValue.put("/Users/Manager/"+user.getUid()+"/completedComplaints/"+model.getComplaint().getComplaintId(),model.getComplaint());
 
@@ -525,9 +526,9 @@ public class PendingRequestAdapter extends FirebaseRecyclerPagingAdapter<Request
 
                 updateDatabaseValue.put("/Users/Mechanic/"+model.getComplaint().getMechanic().getUid()+"/pendingComplaints/"+model.getComplaint().getComplaintId()+"/status",2);
 
-                updateDatabaseValue.put("/Users/Manager/"+user.getUid()+"/pendingRequests/"+model.getRequestId()+"/complaint/status",2);
+                //updateDatabaseValue.put("/Users/Manager/"+user.getUid()+"/pendingRequests/"+model.getRequestId()+"/complaint/status",2);
 
-                updateDatabaseValue.put("/Users/Mechanic/"+model.getComplaint().getMechanic().getUid()+"/pendingRequests/"+model.getRequestId()+"/complaint/status",2);
+                //updateDatabaseValue.put("/Users/Mechanic/"+model.getComplaint().getMechanic().getUid()+"/pendingRequests/"+model.getRequestId()+"/complaint/status",2);
 
 
                 updateDatabaseValue.put("/Users/Mechanic/"+model.getComplaint().getMechanic().getUid()+"/pendingComplaints/"+model.getComplaint().getComplaintId()+"/status",2);
