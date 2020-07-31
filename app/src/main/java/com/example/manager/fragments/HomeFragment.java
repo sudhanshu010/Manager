@@ -14,25 +14,24 @@ import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.cardview.widget.CardView;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
-
-
 import com.example.manager.ComplaintsTabActivity;
 import com.example.manager.GenerateQRActivity;
 import com.example.manager.PendingRequestActivity;
 import com.example.manager.R;
 import com.example.manager.ScanQRActivity;
 import com.example.manager.adapters.ViewPagerAdapter;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
 import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
 
 import java.util.Timer;
-import java.util.TimerTask;
-
 
 public class HomeFragment extends Fragment {
 
@@ -44,6 +43,7 @@ public class HomeFragment extends Fragment {
     private ImageView[] dots;
     Timer timer;
 
+
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -54,6 +54,8 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.home_fragment, container, false);
+
+
 
 
         final Toolbar toolbar=view.findViewById(R.id.toolbar);
@@ -78,6 +80,16 @@ public class HomeFragment extends Fragment {
         sliderView.setIndicatorUnselectedColor(Color.GRAY);
         sliderView.setScrollTimeInSec(2); //set scroll delay in seconds :
         sliderView.startAutoCycle();
+
+        MobileAds.initialize(getActivity(), new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            }
+        });
+        AdView adView = view.findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        adView.loadAd(adRequest);
+
 
 
         scan = view.findViewById(R.id.scan);

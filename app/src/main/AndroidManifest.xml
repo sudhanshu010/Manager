@@ -12,7 +12,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:label">
-        <activity android:name=".ChatBotActivity"></activity>
+
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-1696135509391025~2527537016"/>
+
+
+        <activity android:name=".ChatBotActivity"/>
 
         <activity android:name=".BarCodeLoginActivity" />
         <activity android:name=".ComplaintDetails" />
