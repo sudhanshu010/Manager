@@ -191,4 +191,7 @@ dependencies {
 
     //Chatbot Integration
     implementation 'io.kommunicate.sdk:kommunicateui:2.0.4.1'
+
+    //Adsense
+    implementation 'com.google.android.gms:play-services-ads:19.3.0'
 }
