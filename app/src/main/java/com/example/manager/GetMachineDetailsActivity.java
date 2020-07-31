@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import com.example.manager.DialogBox.ComplaintDescriptionDialog;
 import com.example.manager.adapters.ShowDetailsAdapter;
+import com.example.manager.adapters.ViewPagerAdapter;
 import com.example.manager.models.Complaint;
 import com.example.manager.models.Machine;
 import com.example.manager.models.Manager;
@@ -43,6 +44,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
+import com.smarteist.autoimageslider.SliderAnimations;
+import com.smarteist.autoimageslider.SliderView;
 
 import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
@@ -102,6 +106,19 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_get_machine_details);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        //Image Slider
+        SliderView sliderView = findViewById(R.id.imageSlider);
+
+        ViewPagerAdapter adapter = new ViewPagerAdapter(this);
+
+        sliderView.setSliderAdapter(adapter);
+
+        sliderView.setIndicatorAnimation(IndicatorAnimationType.DROP);
+        //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
+        sliderView.setSliderTransformAnimation(SliderAnimations.CUBEOUTROTATIONTRANSFORMATION);
+        sliderView.setIndicatorSelectedColor(Color.parseColor("#275F73"));
+        sliderView.setIndicatorUnselectedColor(Color.GRAY);
 
 
         AdvanceAge = findViewById(R.id.AdvanceAge);

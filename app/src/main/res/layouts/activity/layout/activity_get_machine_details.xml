@@ -36,7 +36,33 @@
         android:layout_gravity="center_horizontal"
         android:layout_margin="18dp"
         android:src="@drawable/ic_machine" />
+          <androidx.constraintlayout.widget.ConstraintLayout
+              android:layout_width="match_parent"
+              android:layout_height="250dp"
+              >
 
+              <com.smarteist.autoimageslider.SliderView
+                  android:id="@+id/imageSlider"
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  app:layout_constraintBottom_toBottomOf="parent"
+                  app:layout_constraintEnd_toEndOf="parent"
+                  app:layout_constraintStart_toStartOf="parent"
+                  app:layout_constraintTop_toTopOf="parent"
+                  app:sliderAnimationDuration="600"
+                  app:sliderAutoCycleDirection="right"
+                  app:sliderAutoCycleEnabled="false"
+                  app:sliderIndicatorAnimationDuration="600"
+                  app:sliderIndicatorGravity="center_horizontal|bottom"
+                  app:sliderIndicatorMargin="7dp"
+                  app:sliderIndicatorOrientation="horizontal"
+                  app:sliderIndicatorPadding="3dp"
+                  app:sliderIndicatorRadius="1.5dp"
+                  app:sliderIndicatorSelectedColor="#5A5A5A"
+                  app:sliderIndicatorUnselectedColor="#fff"
+                  app:sliderScrollTimeInSec="1"
+                  app:sliderStartAutoCycle="false" />
+          </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
         android:id="@+id/Nothing_much"
@@ -636,13 +662,17 @@
             android:layout_height="wrap_content"
             android:elevation="5dp"
             android:padding="5dp"
-            android:layout_margin="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="10dp"
             app:cardCornerRadius="5dp"
             >
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:padding="10dp"
                 android:orientation="vertical"
                 >
                 <TextView
@@ -734,13 +764,13 @@
 
         <Button
             android:id="@+id/generateComplaint"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Generate Complaint"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:background="#abcdef"
+            android:layout_margin="20dp"
+            android:textColor="#fff"
+            android:background="@drawable/btn_round_corner"
+            android:backgroundTint="#FF4F5A"
             android:padding="5dp"
 
             />
