@@ -115,12 +115,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             String best;
             best = data.get("best").toString();
 
-
             saveInDB( "Machine to be Replaced" , best );
 
             Intent intent = new Intent(getApplicationContext(), BottomNavigationActivity.class);
             PendingIntent pi = PendingIntent.getActivity(getApplicationContext(), 101, intent, 0);
-
             NotificationManager nm = (NotificationManager) getApplicationContext().getSystemService(NOTIFICATION_SERVICE);
 
             NotificationChannel channel = null;
@@ -138,7 +136,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     new NotificationCompat.Builder(getApplicationContext(), "222")
                             .setContentTitle("Replacement Required")
                             .setAutoCancel(true)
-
                             .setSmallIcon(R.mipmap.ic_launcher)
                             .setStyle(new NotificationCompat.BigTextStyle()
                                     .setSummaryText("Replacement Message")
@@ -147,6 +144,47 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
                             .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
                             .setContentText(best)
+                            //.setColor(Color.BLUE)
+                            .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                            .setContentIntent(pi);
+
+            builder.setPriority(NotificationCompat.PRIORITY_HIGH);
+            nm.notify(101, builder.build());
+        }
+        else if(type.equals("sendRequest")){
+            String description,status;
+            description = data.get("description").toString();
+            status = data.get("status").toString();
+
+            saveInDB( description , status );
+
+            Intent intent = new Intent(getApplicationContext(), PendingRequestActivity.class);
+            PendingIntent pi = PendingIntent.getActivity(getApplicationContext(), 101, intent, 0);
+            NotificationManager nm = (NotificationManager) getApplicationContext().getSystemService(NOTIFICATION_SERVICE);
+
+            NotificationChannel channel = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                AudioAttributes att = new AudioAttributes.Builder()
+                        .setUsage(AudioAttributes.USAGE_NOTIFICATION)
+                        .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
+                        .build();
+
+                channel = new NotificationChannel("222", "my_channel", NotificationManager.IMPORTANCE_HIGH);
+                nm.createNotificationChannel(channel);
+            }
+
+            NotificationCompat.Builder builder =
+                    new NotificationCompat.Builder(getApplicationContext(), "222")
+                            .setContentTitle("Replacement Required")
+                            .setAutoCancel(true)
+                            .setSmallIcon(R.mipmap.ic_launcher)
+                            .setStyle(new NotificationCompat.BigTextStyle()
+                                    .setSummaryText("Request Approval Message")
+                                    .setBigContentTitle(status)
+                                    .bigText(description))
+
+                            .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+                            .setContentText(description)
                             //.setColor(Color.BLUE)
                             .setCategory(NotificationCompat.CATEGORY_MESSAGE)
                             .setContentIntent(pi);

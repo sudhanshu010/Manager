@@ -466,7 +466,6 @@ public class PendingRequestAdapter extends FirebaseRecyclerPagingAdapter<Request
                 FirebaseDatabase.getInstance().getReference().updateChildren(hashMap);
 
 
-
             }
             else
             {
