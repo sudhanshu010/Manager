@@ -22,6 +22,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.example.manager.DialogBox.ComplaintDescriptionDialog;
+import com.example.manager.adapters.MachineImageAdapter;
 import com.example.manager.adapters.ShowDetailsAdapter;
 import com.example.manager.adapters.ViewPagerAdapter;
 import com.example.manager.models.Complaint;
@@ -78,6 +79,14 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
     FirebaseAuth auth;
     FirebaseUser user;
 
+    public int[] bdds = {R.drawable.bdds,R.drawable.bdds1};
+    public int[] eds = {R.drawable.eds,R.drawable.eds2};
+    public int[] hhmd = {R.drawable.hhmd,R.drawable.hhmd1,R.drawable.hhmd2};
+    public int[] xbis = {R.drawable.xbis,R.drawable.xbis1,R.drawable.xbis2,R.drawable.xbis3};
+    public int[] dfmd = {R.drawable.dfmd1,R.drawable.dfmd2,R.drawable.dfmd3};
+    public int[] fids = {R.drawable.fids,R.drawable.fids0,R.drawable.fids1,R.drawable.fids1,
+                             R.drawable.fids2,R.drawable.fids3};
+
     String generationCode;
     Machine machine;
     TextView NoMachineHistory;
@@ -110,9 +119,10 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
         //Image Slider
         SliderView sliderView = findViewById(R.id.imageSlider);
 
-        ViewPagerAdapter adapter = new ViewPagerAdapter(this);
+        final MachineImageAdapter[] adapter = new MachineImageAdapter[6];
+        adapter[0] = new MachineImageAdapter(this,new int[1]);
 
-        sliderView.setSliderAdapter(adapter);
+        sliderView.setSliderAdapter(adapter[0]);
 
         sliderView.setIndicatorAnimation(IndicatorAnimationType.DROP);
         //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
@@ -183,6 +193,26 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
                 final double LifeC = (double)(age)/(double)(machine.getLife()*12);
                 AdvanceLifeCompleted.setText(String.valueOf(LifeC));
 
+                //Images according to machine type
+                if(machine.getType().toLowerCase().equals("hhmd")){
+                    adapter[1] = new MachineImageAdapter(GetMachineDetailsActivity.this,hhmd);
+                    sliderView.setSliderAdapter(adapter[1]);
+                }else  if(machine.getType().toLowerCase().equals("bdds")){
+                    adapter[2] = new MachineImageAdapter(GetMachineDetailsActivity.this,bdds);
+                    sliderView.setSliderAdapter(adapter[2]);
+                }else  if(machine.getType().toLowerCase().equals("etd")){
+                    adapter[3] = new MachineImageAdapter(GetMachineDetailsActivity.this,eds);
+                    sliderView.setSliderAdapter(adapter[3]);
+                }else  if(machine.getType().toLowerCase().equals("xbis")){
+                    adapter[4] = new MachineImageAdapter(GetMachineDetailsActivity.this,xbis);
+                    sliderView.setSliderAdapter(adapter[4]);
+                }else  if(machine.getType().toLowerCase().equals("fids")){
+                    adapter[5] = new MachineImageAdapter(GetMachineDetailsActivity.this,fids);
+                    sliderView.setSliderAdapter(adapter[5]);
+                }else{
+                    adapter[5] = new MachineImageAdapter(GetMachineDetailsActivity.this,xbis);
+                    sliderView.setSliderAdapter(adapter[5]);
+                }
 
 
 
