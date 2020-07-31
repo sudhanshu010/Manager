@@ -538,6 +538,43 @@ public class PendingRequestAdapter extends FirebaseRecyclerPagingAdapter<Request
                 updateDatabaseValue.put("/Users/Mechanic/"+model.getComplaint().getMechanic().getUid()+"/pendingRequests/"+model.getRequestId(),null);
 
                 FirebaseDatabase.getInstance().getReference().updateChildren(updateDatabaseValue);
+
+                //send notification to mechanic for request declined
+
+                FirebaseDatabase.getInstance().getReference("tokens").child(model.getComplaint().getMechanic().getUid()).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        String token = (String) dataSnapshot.getValue();
+                        Log.i("ankit token fetch checking",token);
+
+                        HashMap<String,String> data = new HashMap<>();
+                        data.put("description","Your Request has been declined");
+                        data.put("token",token);
+
+                        FirebaseFunctions firebaseFunctions;
+                        firebaseFunctions = FirebaseFunctions.getInstance();
+                        firebaseFunctions.getHttpsCallable("requestDeclined")
+                                .call(data)
+                                .addOnSuccessListener(new OnSuccessListener<HttpsCallableResult>() {
+                                    @Override
+                                    public void onSuccess(HttpsCallableResult httpsCallableResult) {
+                                        HashMap<String,String> hashMap = (HashMap<String, String>) httpsCallableResult.getData();
+                                        if(hashMap.get("status").equals("successful")){
+                                            Log.d("ankit successful","notification successfully sent");
+                                        }
+                                        else{
+                                            Log.d("ankit error occured",hashMap.get("status").toString());
+                                        }
+                                    }
+                                });
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
             }
         });
 

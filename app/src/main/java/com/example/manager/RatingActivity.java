@@ -15,6 +15,7 @@ import androidx.appcompat.widget.Toolbar;
 import com.example.manager.models.Manager;
 import com.example.manager.models.MechRating;
 import com.example.manager.models.Mechanic;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -22,6 +23,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.functions.FirebaseFunctions;
+import com.google.firebase.functions.HttpsCallableResult;
 
 import org.parceler.Parcels;
 
@@ -125,6 +128,46 @@ public class RatingActivity extends AppCompatActivity {
                         update.put("/Users/Mechanic/" + serviceManUid + "/Ratings/" + number, mechRatingValue);
 
                         FirebaseDatabase.getInstance().getReference().updateChildren(update);
+
+                        //send notification to mechanic for work done
+
+                        FirebaseDatabase.getInstance().getReference("tokens").child(serviceManUid).addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                String token = (String) dataSnapshot.getValue();
+                                Log.i("ankit token fetch checking",token);
+
+                                HashMap<String,String> data = new HashMap<>();
+                                data.put("description","Request Approved! well Done");
+                                data.put("rating",Float.toString(mechRating.getStars()));
+                                data.put("token",token);
+
+                                FirebaseFunctions firebaseFunctions;
+                                firebaseFunctions = FirebaseFunctions.getInstance();
+                                firebaseFunctions.getHttpsCallable("requestApproved")
+                                        .call(data)
+                                        .addOnSuccessListener(new OnSuccessListener<HttpsCallableResult>() {
+                                            @Override
+                                            public void onSuccess(HttpsCallableResult httpsCallableResult) {
+                                                HashMap<String,String> hashMap = (HashMap<String, String>) httpsCallableResult.getData();
+                                                if(hashMap.get("status").equals("successful")){
+                                                    Log.d("ankit successful","notification successfully sent");
+                                                }
+                                                else{
+                                                    Log.d("ankit error occured",hashMap.get("status").toString());
+                                                }
+                                            }
+                                        });
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+
+
                         SweetToast.success(RatingActivity.this,"Review Submitted");
                         Intent intent = new Intent(getApplicationContext(), BottomNavigationActivity.class);
                         startActivity(intent);
