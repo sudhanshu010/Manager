@@ -16,6 +16,7 @@ public class Machine implements Cloneable{
     private  int serviceNumber;
 
     private boolean status;
+    private boolean working;
 
     private Manager manager;
     private HashMap<String,Request> pastRecordList;
@@ -31,7 +32,7 @@ public class Machine implements Cloneable{
 
     public Machine(String serialNumber, String dateOfInstallation, String department, String machineId,
                    String type, String company, String modelNumber, String qrImageLink, int serviceTime,
-                   int[] cost, float price, boolean status, Manager manager, HashMap<String, Request> pastRecordList, float scrap, float life) {
+                   int[] cost, float price, boolean status, Manager manager, HashMap<String, Request> pastRecordList, float scrap, float life, boolean working) {
 
         this.serialNumber = serialNumber;
         this.dateOfInstallation = dateOfInstallation;
@@ -51,6 +52,7 @@ public class Machine implements Cloneable{
         this.life = life;
         this.serviceNumber = 0;
         this.averageCost = price-scrap;
+        this.working = working;
     }
 
     public String getSerialNumber() {
@@ -195,5 +197,13 @@ public class Machine implements Cloneable{
 
     public void setServiceNumber(int serviceNumber) {
         this.serviceNumber = serviceNumber;
+    }
+
+    public boolean isWorking() {
+        return working;
+    }
+
+    public void setWorking(boolean working) {
+        this.working = working;
     }
 }

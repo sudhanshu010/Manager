@@ -493,7 +493,7 @@ public class GenerateQRActivity extends AppCompatActivity {
                         tempManager.setPendingComplaints(null);
                     }
                     Machine machine = new Machine(serialNo, installationdate, dept, machineId, type, company, model,
-                            Objects.requireNonNull(task.getResult()).toString(), servicetime, null, price, true, tempManager, null, scrap, machineLife);
+                            Objects.requireNonNull(task.getResult()).toString(), servicetime, null, price, true, tempManager, null, scrap, machineLife,true);
 
                     //TODO: Check once
 
