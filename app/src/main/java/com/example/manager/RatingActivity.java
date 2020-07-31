@@ -116,7 +116,20 @@ public class RatingActivity extends AppCompatActivity {
                         int day = cal.get(Calendar.DAY_OF_MONTH);
 
                         mechRating.setRevDate(day + "/" + month + "/" + year);
-                        mechRating.setManager(manager);
+
+                        Manager tempManager = null;
+                        try {
+                            tempManager = (Manager) manager.clone();
+                        } catch (Exception ignored) {
+
+                        }
+                        if (tempManager != null) {
+                            tempManager.setMyMachines(null);
+                            tempManager.setCompletedComplaints(null);
+                            tempManager.setPendingApprovalRequest(null);
+                            tempManager.setPendingComplaints(null);
+                        }
+                        mechRating.setManager(tempManager);
 
                         Map<String, Object> mechRatingValue = mechRating.toMap();
 

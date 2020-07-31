@@ -199,6 +199,10 @@ public class ComplaintDescriptionDialog extends Dialog implements
                         }
                         if (tempMechanic != null) {
                             tempMechanic.setPendingComplaints(null);
+                            tempMechanic.setCompletedComplaints(null);
+                            tempMechanic.setCompletedRequest(null);
+                            tempMechanic.setPendingRequest(null);
+                            tempMechanic.setRatings(null);
                         }
                         complaint.setMechanic(tempMechanic);
 
