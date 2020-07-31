@@ -173,8 +173,6 @@ dependencies {
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
 
-
-
     implementation 'com.github.aakira:expandable-layout:1.6.0@aar'
 
     //horizontal fixed progress bar
@@ -191,4 +189,6 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.72"
 
 
+    //Chatbot Integration
+    implementation 'io.kommunicate.sdk:kommunicateui:2.0.4.1'
 }

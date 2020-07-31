@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -23,6 +24,7 @@ import com.example.manager.fragments.RecentChatFragment;
 import com.example.manager.fragments.HomeFragment;
 import com.example.manager.fragments.NotificationFragment;
 import com.example.manager.fragments.ProfileFragment;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.Calendar;
 
@@ -31,6 +33,7 @@ public class BottomNavigationActivity extends AppCompatActivity {
     int old_id = 1;
     public static final String PREFS = "service_reminder";
     SharedPreferences sharedPreferences;
+    FloatingActionButton fabChatButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +41,7 @@ public class BottomNavigationActivity extends AppCompatActivity {
         setOurFragment(new HomeFragment(),1,1);
         setContentView(R.layout.activity_bottom_navigation);
 
+        fabChatButton = findViewById(R.id.fabChatButton);
         SharedPreferences settings = getSharedPreferences(PREFS, MODE_PRIVATE);
 
         sharedPreferences = getSharedPreferences(PREFS, Context.MODE_PRIVATE);
@@ -71,6 +75,13 @@ public class BottomNavigationActivity extends AppCompatActivity {
             Log.i("bhai", s1);
         }
 
+        fabChatButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getApplicationContext(), ChatBotActivity.class);
+                startActivity(i);
+            }
+        });
 
 
         final MeowBottomNavigation bottomNavigation = findViewById(R.id.bottom_bar);
