@@ -159,8 +159,8 @@ public class ComplaintDescriptionDialog extends Dialog implements
             @Override
             public void onClick(View v) {
 
-                generate.setText("generated");
-                generate.setEnabled(false);
+//                generate.setText("generated");
+//                generate.setEnabled(false);
 //                animationView.setVisibility(View.VISIBLE);
 //                animationView.playAnimation();
                 dismiss();
