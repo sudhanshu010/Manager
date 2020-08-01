@@ -73,6 +73,16 @@
     <string name="december_short">Dec.</string>
 
 
+    <string-array name="machine_full_form">
+        <item>Explosive Trace Detector</item>
+        <item>Bomb Detection System</item>
+        <item>X-Ray For Baggage Scanning</item>
+        <item>Hand Held Metal Detector</item>
+        <item>Door Frame Metal Detector</item>
+        <item>Flight Information Display System</item>
+    </string-array>
+
+
     <string name="feedback_text">Please write to us about your concern\n regarding our App.</string>
     <string name="review_text">Please Rate and Review Your work done by Mechanic in order to make our services better</string>
 </resources>

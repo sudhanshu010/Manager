@@ -87,6 +87,7 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
     public int[] fids = {R.drawable.fids,R.drawable.fids0,R.drawable.fids1,R.drawable.fids1,
                              R.drawable.fids2,R.drawable.fids3};
 
+    private String[] mTitles;
     String generationCode;
     Machine machine;
     TextView NoMachineHistory;
@@ -116,6 +117,7 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        mTitles = getResources().getStringArray(R.array.machine_full_form);
         //Image Slider
         SliderView sliderView = findViewById(R.id.imageSlider);
 
@@ -196,23 +198,34 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
 
                 //Images according to machine type
                 if(machine.getType().toLowerCase().equals("hhmd")){
+                    machineType.setText(mTitles[3]);
                     adapter[1] = new MachineImageAdapter(GetMachineDetailsActivity.this,hhmd);
                     sliderView.setSliderAdapter(adapter[1]);
                 }else  if(machine.getType().toLowerCase().equals("bdds")){
                     adapter[2] = new MachineImageAdapter(GetMachineDetailsActivity.this,bdds);
                     sliderView.setSliderAdapter(adapter[2]);
+                    machineType.setText(mTitles[1]);
                 }else  if(machine.getType().toLowerCase().equals("etd")){
                     adapter[3] = new MachineImageAdapter(GetMachineDetailsActivity.this,eds);
                     sliderView.setSliderAdapter(adapter[3]);
+                    machineType.setText(mTitles[0]);
                 }else  if(machine.getType().toLowerCase().equals("xbis")){
                     adapter[4] = new MachineImageAdapter(GetMachineDetailsActivity.this,xbis);
                     sliderView.setSliderAdapter(adapter[4]);
+                    machineType.setText(mTitles[2]);
                 }else  if(machine.getType().toLowerCase().equals("fids")){
                     adapter[5] = new MachineImageAdapter(GetMachineDetailsActivity.this,fids);
                     sliderView.setSliderAdapter(adapter[5]);
-                }else{
+                    machineType.setText(mTitles[5]);
+                }else if(machine.getType().toLowerCase().equals("dfmd")){
+                    adapter[5] = new MachineImageAdapter(GetMachineDetailsActivity.this,dfmd);
+                    sliderView.setSliderAdapter(adapter[5]);
+                    machineType.setText(mTitles[4]);
+                }
+                 else{
                     adapter[5] = new MachineImageAdapter(GetMachineDetailsActivity.this,xbis);
                     sliderView.setSliderAdapter(adapter[5]);
+                    machineType.setText(machine.getType());
                 }
 
 
@@ -224,7 +237,6 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
                 generator.setText(machine.getManager().getUserName());
                 companyName.setText(machine.getCompany());
                 price.setText(String.valueOf(machine.getPrice()));
-                machineType.setText(machine.getType());
                 modelNumber.setText(machine.getModelNumber());
                 machineId = machine.getMachineId();
 
