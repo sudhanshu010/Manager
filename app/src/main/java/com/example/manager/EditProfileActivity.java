@@ -89,9 +89,9 @@ public class EditProfileActivity extends AppCompatActivity {
                 if(!newPhone.isEmpty())
                     hashMap.put("/Users/Manager/" + user.getUid() + "/phoneNumber", newPhone);
                 if(!newStaff.isEmpty())
-                    hashMap.put("/Users/Manager/" + user.getUid() + "/staffNumber", newStaff);
+                    hashMap.put("/Users/Manager/" + user.getUid() + "/empId", newStaff);
                 if(!newJobTitle.isEmpty())
-                    hashMap.put("/Users/Manager/" + user.getUid() + "/jobTitle", newJobTitle);
+                    hashMap.put("/Users/Manager/" + user.getUid() + "/designation", newJobTitle);
                 if(!newDepartment.isEmpty())
                     hashMap.put("/Users/Manager/" + user.getUid() + "/department", newDepartment);
                 if(!newAddress.isEmpty())
@@ -115,9 +115,9 @@ public class EditProfileActivity extends AppCompatActivity {
                                 if(!newPhone.isEmpty())
                                     hashMap.put("/Complaints/" + complaint1.getComplaintId() + "/manager/phoneNumber", newPhone);
                                 if(!newStaff.isEmpty())
-                                    hashMap.put("/Complaints/" + complaint1.getComplaintId() + "/manager/staffNumber", newStaff);
+                                    hashMap.put("/Complaints/" + complaint1.getComplaintId() + "/manager/empId", newStaff);
                                 if(!newJobTitle.isEmpty())
-                                    hashMap.put("/Complaints/" + complaint1.getComplaintId() + "/manager/jobTitle", newJobTitle);
+                                    hashMap.put("/Complaints/" + complaint1.getComplaintId() + "/manager/designation", newJobTitle);
                                 if(!newDepartment.isEmpty())
                                     hashMap.put("/Complaints/" + complaint1.getComplaintId() + "/manager/department", newDepartment);
                                 if(!newAddress.isEmpty())
@@ -153,9 +153,9 @@ public class EditProfileActivity extends AppCompatActivity {
                                 if(!newPhone.isEmpty())
                                     hashMap.put("/Requests/" + request1.getRequestId() + "/complaint/manager/phoneNumber", newPhone);
                                 if(!newStaff.isEmpty())
-                                    hashMap.put("/Requests/" + request1.getRequestId() + "/complaint/manager/staffNumber", newStaff);
+                                    hashMap.put("/Requests/" + request1.getRequestId() + "/complaint/manager/empId", newStaff);
                                 if(!newJobTitle.isEmpty())
-                                    hashMap.put("/Requests/" + request1.getRequestId() + "/complaint/manager/jobTitle", newJobTitle);
+                                    hashMap.put("/Requests/" + request1.getRequestId() + "/complaint/manager/designation", newJobTitle);
                                 if(!newDepartment.isEmpty())
                                     hashMap.put("/Requests/" + request1.getRequestId() + "/complaint/manager/department", newDepartment);
                                 if(!newAddress.isEmpty())
@@ -195,9 +195,9 @@ public class EditProfileActivity extends AppCompatActivity {
                                                 hashMap.put("/Users/Mechanic/" + mechanic1.getUid() + "/pendingComplaints/" + complaint1.getComplaintId() + "/manager/phoneNumber", newPhone);
                                             Log.i("msg", "to check");
                                             if(!newStaff.isEmpty())
-                                                hashMap.put("/Users/Mechanic/" + mechanic1.getUid() + "/pendingComplaints/" + complaint1.getComplaintId() + "/manager/staffNumber", newStaff);
+                                                hashMap.put("/Users/Mechanic/" + mechanic1.getUid() + "/pendingComplaints/" + complaint1.getComplaintId() + "/manager/empId", newStaff);
                                             if(!newJobTitle.isEmpty())
-                                                hashMap.put("/Users/Mechanic/" + mechanic1.getUid() + "/pendingComplaints/" + complaint1.getComplaintId() + "/manager/jobTitle", newJobTitle);
+                                                hashMap.put("/Users/Mechanic/" + mechanic1.getUid() + "/pendingComplaints/" + complaint1.getComplaintId() + "/manager/designation", newJobTitle);
                                             if(!newDepartment.isEmpty())
                                                 hashMap.put("/Users/Mechanic/" + mechanic1.getUid() + "/pendingComplaints/" + complaint1.getComplaintId() + "/manager/department", newDepartment);
                                             if(!newAddress.isEmpty())
@@ -232,9 +232,9 @@ public class EditProfileActivity extends AppCompatActivity {
                                             if(!newPhone.isEmpty())
                                                 hashMap.put("/Users/Mechanic/" + mechanic1.getUid() + "/completedComplaints/" + complaint1.getComplaintId() + "/manager/phoneNumber", newPhone);
                                             if(!newStaff.isEmpty())
-                                                hashMap.put("/Users/Mechanic/" + mechanic1.getUid() + "/completedComplaints/" + complaint1.getComplaintId() + "/manager/staffNumber", newStaff);
+                                                hashMap.put("/Users/Mechanic/" + mechanic1.getUid() + "/completedComplaints/" + complaint1.getComplaintId() + "/manager/empId", newStaff);
                                             if(!newJobTitle.isEmpty())
-                                                hashMap.put("/Users/Mechanic/" + mechanic1.getUid() + "/completedComplaints/" + complaint1.getComplaintId() + "/manager/jobTitle", newJobTitle);
+                                                hashMap.put("/Users/Mechanic/" + mechanic1.getUid() + "/completedComplaints/" + complaint1.getComplaintId() + "/manager/designation", newJobTitle);
                                             if(!newDepartment.isEmpty())
                                                 hashMap.put("/Users/Mechanic/" + mechanic1.getUid() + "/completedComplaints/" + complaint1.getComplaintId() + "/manager/department", newDepartment);
                                             if(!newAddress.isEmpty())
@@ -265,9 +265,9 @@ public class EditProfileActivity extends AppCompatActivity {
                                             if(!newPhone.isEmpty())
                                                 hashMap.put("/Users/Mechanic/" + mechanic1.getUid() + "/pendingRequests/" + request1.getRequestId() + "/complaint/manager/phoneNumber", newPhone);
                                             if(!newStaff.isEmpty())
-                                                hashMap.put("/Users/Mechanic/" + mechanic1.getUid() + "/pendingRequests/" + request1.getRequestId() + "/complaint/manager/staffNumber", newStaff);
+                                                hashMap.put("/Users/Mechanic/" + mechanic1.getUid() + "/pendingRequests/" + request1.getRequestId() + "/complaint/manager/empId", newStaff);
                                             if(!newJobTitle.isEmpty())
-                                                hashMap.put("/Users/Mechanic/" + mechanic1.getUid() + "/pendingRequests/" + request1.getRequestId() + "/complaint/manager/jobTitle", newJobTitle);
+                                                hashMap.put("/Users/Mechanic/" + mechanic1.getUid() + "/pendingRequests/" + request1.getRequestId() + "/complaint/manager/designation", newJobTitle);
                                             if(!newDepartment.isEmpty())
                                                 hashMap.put("/Users/Mechanic/" + mechanic1.getUid() + "/pendingRequests/" + request1.getRequestId() + "/complaint/manager/department", newDepartment);
                                             if(!newAddress.isEmpty())
@@ -298,9 +298,9 @@ public class EditProfileActivity extends AppCompatActivity {
                                             if(!newPhone.isEmpty())
                                                 hashMap.put("/Users/Mechanic/" + mechanic1.getUid() + "/completedRequests/" + request1.getRequestId() + "/complaint/manager/phoneNumber", newPhone);
                                             if(!newStaff.isEmpty())
-                                                hashMap.put("/Users/Mechanic/" + mechanic1.getUid() + "/completedRequests/" + request1.getRequestId() + "/complaint/manager/staffNumber", newStaff);
+                                                hashMap.put("/Users/Mechanic/" + mechanic1.getUid() + "/completedRequests/" + request1.getRequestId() + "/complaint/manager/empId", newStaff);
                                             if(!newJobTitle.isEmpty())
-                                                hashMap.put("/Users/Mechanic/" + mechanic1.getUid() + "/completedRequests/" + request1.getRequestId() + "/complaint/manager/jobTitle", newJobTitle);
+                                                hashMap.put("/Users/Mechanic/" + mechanic1.getUid() + "/completedRequests/" + request1.getRequestId() + "/complaint/manager/designation", newJobTitle);
                                             Log.i("3","4");
                                             if(!newDepartment.isEmpty())
                                                 hashMap.put("/Users/Mechanic/" + mechanic1.getUid() + "/completedRequests/" + request1.getRequestId() + "/complaint/manager/department", newDepartment);
@@ -332,9 +332,9 @@ public class EditProfileActivity extends AppCompatActivity {
                                             if(!newPhone.isEmpty())
                                                 hashMap.put("/Users/Mechanic/" + mechanic1.getUid() + "/Ratings/" + rating1.getRatingId() + "/manager/phoneNumber", newPhone);
                                             if(!newStaff.isEmpty())
-                                                hashMap.put("/Users/Mechanic/" + mechanic1.getUid() + "/Ratings/" + rating1.getRatingId() + "/manager/staffNumber", newStaff);
+                                                hashMap.put("/Users/Mechanic/" + mechanic1.getUid() + "/Ratings/" + rating1.getRatingId() + "/manager/empId", newStaff);
                                             if(!newJobTitle.isEmpty())
-                                                hashMap.put("/Users/Mechanic/" + mechanic1.getUid() + "/Ratings/" + rating1.getRatingId() + "/manager/jobTitle", newJobTitle);
+                                                hashMap.put("/Users/Mechanic/" + mechanic1.getUid() + "/Ratings/" + rating1.getRatingId() + "/manager/designation", newJobTitle);
                                             if(!newDepartment.isEmpty())
                                                 hashMap.put("/Users/Mechanic/" + mechanic1.getUid() + "/Ratings/" + rating1.getRatingId() + "/manager/department", newDepartment);
                                             if(!newAddress.isEmpty())
@@ -374,9 +374,9 @@ public class EditProfileActivity extends AppCompatActivity {
                                 if(!newPhone.isEmpty())
                                     hashMap.put("/Machines/" + machine1.getMachineId() + "/manager/phoneNumber", newPhone);
                                 if(!newStaff.isEmpty())
-                                    hashMap.put("/Machines/" + machine1.getMachineId() + "/manager/staffNumber", newStaff);
+                                    hashMap.put("/Machines/" + machine1.getMachineId() + "/manager/empId", newStaff);
                                 if(!newJobTitle.isEmpty())
-                                    hashMap.put("/Machines/" + machine1.getMachineId() + "/manager/jobTitle", newJobTitle);
+                                    hashMap.put("/Machines/" + machine1.getMachineId() + "/manager/designation", newJobTitle);
                                 Log.i("7","8");
                                 if(!newDepartment.isEmpty())
                                     hashMap.put("/Machines/" + machine1.getMachineId() + "/manager/department", newDepartment);
