@@ -28,13 +28,15 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.concurrent.TimeUnit;
 
+import in.aabhasjindal.otptextview.OTPListener;
+import in.aabhasjindal.otptextview.OtpTextView;
 import xyz.hasnat.sweettoast.SweetToast;
 
 public class VerifyActivity extends AppCompatActivity  {
 
     FirebaseAuth mAuth;
     FirebaseUser user;
-    EditText Otp;
+    OtpTextView otpTextView;
     private ProgressDialog progress;
     DatabaseReference databaseReference;
     private String codesent;
@@ -43,11 +45,25 @@ public class VerifyActivity extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_verify);
         mAuth = FirebaseAuth.getInstance();
-        Otp = findViewById(R.id.editTextOtp);
+
+        otpTextView = findViewById(R.id.otp_view);
+        otpTextView.requestFocusOTP();
+        otpTextView.setOtpListener(new OTPListener() {
+            @Override
+            public void onInteractionListener() {
+                // fired when user types something in the Otpbox
+
+            }
+            @Override
+            public void onOTPComplete(String otp) {
+                // fired when user has entered the OTP fully.
+                Toast.makeText(VerifyActivity.this, "The OTP is " + otp,  Toast.LENGTH_SHORT).show();
+            }
+        });
 
         progress = new ProgressDialog(this);
         progress.setMessage("Verifying Otp..");
-        progress.setCancelable(false);
+        progress.setCancelable(true);
         user = FirebaseAuth.getInstance().getCurrentUser();
 
         databaseReference = FirebaseDatabase.getInstance()
@@ -88,10 +104,10 @@ public class VerifyActivity extends AppCompatActivity  {
             @Override
             public void onClick(View v) {
 
-                String code =Otp.getText().toString().trim();
+                String code =otpTextView.getOTP();
                 if (code.isEmpty() || code.length() < 6) {
-                    Otp.setError("Enter valid code");
-                    Otp.requestFocus();
+                    otpTextView.showError();
+                    otpTextView.requestFocusOTP();
                     return;
                 }
                 progress.show();
@@ -118,7 +134,7 @@ public class VerifyActivity extends AppCompatActivity  {
             String code = phoneAuthCredential.getSmsCode();
             if(code!=null)
             {
-                Otp.setText(code);
+                otpTextView.setOTP(code);
                 verifySignInCode(code);
             }
 
@@ -136,7 +152,6 @@ public class VerifyActivity extends AppCompatActivity  {
         public void onCodeSent(@NonNull String s, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
             super.onCodeSent(s, forceResendingToken);
             codesent = s;
-            SweetToast.success(VerifyActivity.this,codesent);
 
         }
 

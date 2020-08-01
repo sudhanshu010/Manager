@@ -195,4 +195,7 @@ dependencies {
 
     //Adsense
     implementation 'com.google.android.gms:play-services-ads:19.3.0'
+
+    //Otp View
+    implementation 'com.github.aabhasr1:OtpView:v1.1.2'
 }
