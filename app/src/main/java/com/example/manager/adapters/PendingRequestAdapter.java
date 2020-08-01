@@ -184,8 +184,6 @@ public class PendingRequestAdapter extends FirebaseRecyclerPagingAdapter<Request
             {
 
 
-
-
                 final HashMap<String,Object> updateDatabaseValue = new HashMap<>();
 
                 //add data
