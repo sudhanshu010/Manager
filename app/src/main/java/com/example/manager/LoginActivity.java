@@ -4,10 +4,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -47,7 +51,7 @@ public class LoginActivity extends AppCompatActivity {
     Cipher cipher;
     EditText loginEmail, loginPassword;
     Button loginButton;
-
+    private boolean isServiceActivated = false;
     FirebaseAuth mAuth;
     FirebaseUser mUser;
 
@@ -57,6 +61,21 @@ public class LoginActivity extends AppCompatActivity {
     CustomDialogBox customDialogBox;
     TextView ScanBC;
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+            // we have got the permission
+            // go ahead and start the service in the foreground
+            Toast.makeText(this, "Service Started Successfully!", Toast.LENGTH_SHORT).show();
+            ContextCompat.startForegroundService(LoginActivity.this,new Intent(LoginActivity.this,BackgroundService.class));
+        }
+        else{
+            // show an toast message asking for the permission
+            Toast.makeText(this, "Do I really need to tell, why you should give me location access??", Toast.LENGTH_LONG).show();
+        }
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,7 +119,24 @@ public class LoginActivity extends AppCompatActivity {
 
                 String email = loginEmail.getText().toString();
                 String password = loginPassword.getText().toString();
-                login(email,password);
+                if(ContextCompat.checkSelfPermission(LoginActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)
+                        != PackageManager.PERMISSION_GRANTED){
+
+                    // if permission is not granted, ask for the permission
+                    Toast.makeText(LoginActivity.this, "Service Not Started", Toast.LENGTH_LONG).show();
+                    ActivityCompat.requestPermissions(LoginActivity.this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},1);
+                }
+                else{
+                    // location permission is granted
+                    if(!isServiceActivated){
+                        // start the service
+                        Toast.makeText(LoginActivity.this, "Service Started Successfully!", Toast.LENGTH_LONG).show();
+                        ContextCompat.startForegroundService(LoginActivity.this,new Intent(LoginActivity.this,BackgroundService.class));
+                        login(email,password);
+                    }
+
+                }
+
 
             }
         });
@@ -136,8 +172,9 @@ public class LoginActivity extends AppCompatActivity {
 
                                         if(isManager)
                                         {
+
                                             customDialogBox.dismiss();
-                                            SweetToast.info(LoginActivity.this,"Success");
+//                                            SweetToast.info(LoginActivity.this,"Success");
                                             Intent i = new Intent(LoginActivity.this,BottomNavigationActivity.class);
                                             startActivity(i);
                                             finish();
