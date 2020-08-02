@@ -48,7 +48,7 @@ public class BackgroundService extends Service implements GoogleApiClient.Connec
         LocationRequest mLocationRequest;
         AudioManager audioManager;
 private boolean gotOutOfCampusForFirstTime = false;
-final double radiusToCheck = 10.0; // in meter
+final double radiusToCheck = 1000000.0; // in meter
 
 
 @Override

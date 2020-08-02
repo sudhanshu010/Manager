@@ -456,6 +456,8 @@ public class PendingRequestAdapter extends FirebaseRecyclerPagingAdapter<Request
 
                 PastRecord pastRecord = new PastRecord(serviceDate, serviceMan, description, true, complaintId, cost);
 
+                final String machineId = model.getComplaint().getMachine().getMachineId();
+
                 Request tempPastRecord = null;
                 try {
                     tempPastRecord = (Request) model.clone();
@@ -467,14 +469,15 @@ public class PendingRequestAdapter extends FirebaseRecyclerPagingAdapter<Request
                 if(tempPastRecord!=null)
                 {
                     tempPastRecord.getComplaint().setManager(null);
+                    tempPastRecord.getComplaint().setMachine(null);
                 }
 
                 HashMap<String, Object> hashMap = new HashMap<>();
 
-                hashMap.put("/Machines/"+model.getComplaint().getMachine().getMachineId()+"/pastRecords/"+model.getRequestId(),tempPastRecord);
+                hashMap.put("/Machines/"+machineId+"/pastRecords/"+model.getRequestId(),tempPastRecord);
                 FirebaseDatabase.getInstance().getReference().updateChildren(hashMap);
 
-                tempPastRecord = null;
+
                 try {
                     tempPastRecord = (Request) model.clone();
                 } catch (CloneNotSupportedException e)
@@ -484,13 +487,14 @@ public class PendingRequestAdapter extends FirebaseRecyclerPagingAdapter<Request
 
                 if(tempPastRecord!=null)
                 {
+                    Log.i("null h kya", "nhi");
                     tempPastRecord.setComplaint(null);
                 }
 
                 HashMap<String, Object> hashMap1 = new HashMap<>();
-                hashMap1.put("/Users/Manager/"+user.getUid()+"/myMachines/"+model.getComplaint().getMachine().getMachineId()+"/pastRecords/"+model.getRequestId(),tempPastRecord);
+                hashMap1.put("/Users/Manager/"+user.getUid()+"/myMachines/"+machineId+"/pastRecords/"+model.getRequestId(),tempPastRecord);
 
-                FirebaseDatabase.getInstance().getReference().updateChildren(hashMap);
+                FirebaseDatabase.getInstance().getReference().updateChildren(hashMap1);
 
 
             }
