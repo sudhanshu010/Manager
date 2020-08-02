@@ -259,15 +259,15 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
                     }
                 });
 
-//                if(!machine.isWorking())
-//                {
-//                    generateComplaint.setEnabled(false);
-//                    generateComplaint.setText("complaint generated already");
-//                }
-//                else
-//                {
-//                    generateComplaint.setEnabled(true);
-//                }
+                if(!machine.isWorking())
+                {
+                    generateComplaint.setEnabled(false);
+                    generateComplaint.setText("complaint generated already");
+                }
+                else
+                {
+                    generateComplaint.setEnabled(true);
+                }
 
             }
 
