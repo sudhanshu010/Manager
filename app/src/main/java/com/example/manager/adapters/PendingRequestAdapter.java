@@ -456,11 +456,39 @@ public class PendingRequestAdapter extends FirebaseRecyclerPagingAdapter<Request
 
                 PastRecord pastRecord = new PastRecord(serviceDate, serviceMan, description, true, complaintId, cost);
 
+                Request tempPastRecord = null;
+                try {
+                    tempPastRecord = (Request) model.clone();
+                } catch (CloneNotSupportedException e)
+                {
+                    e.printStackTrace();
+                }
+
+                if(tempPastRecord!=null)
+                {
+                    tempPastRecord.getComplaint().setManager(null);
+                }
+
                 HashMap<String, Object> hashMap = new HashMap<>();
 
-                hashMap.put("/Machines/"+model.getComplaint().getMachine().getMachineId()+"/pastRecords/"+model.getRequestId(),pastRecord);
+                hashMap.put("/Machines/"+model.getComplaint().getMachine().getMachineId()+"/pastRecords/"+model.getRequestId(),tempPastRecord);
+                FirebaseDatabase.getInstance().getReference().updateChildren(hashMap);
 
-                hashMap.put("/Users/Manager/"+user.getUid()+"/myMachines/"+model.getComplaint().getMachine().getMachineId()+"/pastRecords/"+model.getRequestId(),pastRecord);
+                tempPastRecord = null;
+                try {
+                    tempPastRecord = (Request) model.clone();
+                } catch (CloneNotSupportedException e)
+                {
+                    e.printStackTrace();
+                }
+
+                if(tempPastRecord!=null)
+                {
+                    tempPastRecord.setComplaint(null);
+                }
+
+                HashMap<String, Object> hashMap1 = new HashMap<>();
+                hashMap1.put("/Users/Manager/"+user.getUid()+"/myMachines/"+model.getComplaint().getMachine().getMachineId()+"/pastRecords/"+model.getRequestId(),tempPastRecord);
 
                 FirebaseDatabase.getInstance().getReference().updateChildren(hashMap);
 
