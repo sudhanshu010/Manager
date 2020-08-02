@@ -48,7 +48,7 @@ public class BackgroundService extends Service implements GoogleApiClient.Connec
         LocationRequest mLocationRequest;
         AudioManager audioManager;
 private boolean gotOutOfCampusForFirstTime = false;
-final double radiusToCheck = 200.0; // in meter
+final double radiusToCheck = 10.0; // in meter
 
 
 @Override
@@ -103,9 +103,8 @@ public void onLocationResult(LocationResult locationResult) {
         Double latitude = location.getLatitude();
         Double longitude = location.getLongitude();
 
-
         // if the location is inside the defined fence, do following
-        if(isInCampus(latitude,longitude)){
+        if(!isInCampus(latitude,longitude)){
         gotOutOfCampusForFirstTime = true;
             FirebaseAuth.getInstance().signOut();
            Intent intent =  new Intent(getApplicationContext(),ServiceStopActivity.class);
@@ -174,8 +173,8 @@ final int R = 6371; // Radius of the earth
 private boolean isInCampus(double x,double y){
 
 // the lat and long of : Webel-It Park
-final double X = 27.8715195;
-final double Y = 79.9472122;
+final double X = 28.2698496;
+final double Y = 76.1503516;
 
         // radius up to 200 m is checked
         if(getDistance(X,Y,x,y) <= radiusToCheck){
@@ -231,6 +230,7 @@ public int onStartCommand(Intent intent, int flags, int startId) {
 @Override
 public void onDestroy() {
         super.onDestroy();
+
         if(mGoogleApiClient.isConnected()){
         mGoogleApiClient.disconnect();
         }
