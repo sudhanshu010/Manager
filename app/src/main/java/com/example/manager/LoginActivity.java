@@ -137,8 +137,8 @@ public class LoginActivity extends AppCompatActivity {
                                         if(isManager)
                                         {
                                             customDialogBox.dismiss();
-                                            SweetToast.info(LoginActivity.this,"Verify OTP");
-                                            Intent i = new Intent(LoginActivity.this,VerifyActivity.class);
+                                            SweetToast.info(LoginActivity.this,"Success");
+                                            Intent i = new Intent(LoginActivity.this,BottomNavigationActivity.class);
                                             startActivity(i);
                                             finish();
                                         }
