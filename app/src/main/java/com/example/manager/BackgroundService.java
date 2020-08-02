@@ -108,7 +108,12 @@ public void onLocationResult(LocationResult locationResult) {
         if(isInCampus(latitude,longitude)){
         gotOutOfCampusForFirstTime = true;
             FirebaseAuth.getInstance().signOut();
-            startActivity(new Intent(getApplicationContext(),LoginActivity.class));
+           Intent intent =  new Intent(getApplicationContext(),LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                Toast.makeText(getApplicationContext(), "Service Stopped!", Toast.LENGTH_SHORT).show();
+
+                stopService(intent);
+//                startActivity(intent);
         // phone is in the campus, switch to silence mode, if not already
         // try to put the phone to vibrate mode
 //        try{
