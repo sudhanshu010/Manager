@@ -6,12 +6,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.manager.models.Manager;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthResult;
@@ -40,10 +42,15 @@ public class VerifyActivity extends AppCompatActivity  {
     private ProgressDialog progress;
     DatabaseReference databaseReference;
     private String codesent;
+
+    private String email,password;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_verify);
+
+        email = getIntent().getStringExtra("Email");
+        password = getIntent().getStringExtra("Password");
         mAuth = FirebaseAuth.getInstance();
 
         otpTextView = findViewById(R.id.otp_view);
@@ -164,17 +171,27 @@ public class VerifyActivity extends AppCompatActivity  {
         signInWithPhoneAuthCredential(credential);
     }
     void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
+
+
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
 
+
                             progress.dismiss();
                             SweetToast.success(VerifyActivity.this,"OTP matched");
-                            Intent intent = new Intent(getApplicationContext(),BottomNavigationActivity.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            startActivity(intent);
+                            mAuth.signOut();
+                            mAuth.signInWithEmailAndPassword(email,password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                                @Override
+                                public void onSuccess(AuthResult authResult) {
+                                    Intent intent = new Intent(getApplicationContext(),BottomNavigationActivity.class);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    startActivity(intent);
+                                }
+                            });
+
 
                         } else {
 

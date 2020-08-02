@@ -48,7 +48,7 @@ public class BackgroundService extends Service implements GoogleApiClient.Connec
         LocationRequest mLocationRequest;
         AudioManager audioManager;
 private boolean gotOutOfCampusForFirstTime = false;
-final double radiusToCheck = 10.0; // in meter
+final double radiusToCheck = 100.0; // in meter1
 
 
 @Override
@@ -67,7 +67,7 @@ public void onConnected(@Nullable Bundle bundle) {
         // get my current location
         mLocationRequest = LocationRequest.create();
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        mLocationRequest.setInterval(1000); // update location every 10 seconds
+        mLocationRequest.setInterval(10000); // update location every 10 seconds
 
         // now if we have the authority to look into user's current location, do update get it
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
