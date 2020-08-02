@@ -15,13 +15,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.manager.R;
 import com.example.manager.models.PastRecord;
+import com.example.manager.models.Request;
 import com.firebase.ui.database.paging.DatabasePagingOptions;
 import com.firebase.ui.database.paging.FirebaseRecyclerPagingAdapter;
 import com.firebase.ui.database.paging.LoadingState;
 
 import java.util.List;
 
-public class ShowDetailsAdapter extends FirebaseRecyclerPagingAdapter<PastRecord, ShowDetailsAdapter.MyHolder> {
+public class ShowDetailsAdapter extends FirebaseRecyclerPagingAdapter<Request, ShowDetailsAdapter.MyHolder> {
 
     Context c;
     /**
@@ -33,7 +34,7 @@ public class ShowDetailsAdapter extends FirebaseRecyclerPagingAdapter<PastRecord
             R.color.list_color_6,R.color.list_color_7,R.color.list_color_8,R.color.list_color_9,R.color.list_color_10,R.color.list_color_11};
 
 
-    public ShowDetailsAdapter(DatabasePagingOptions<PastRecord> options, Context c) {
+    public ShowDetailsAdapter(DatabasePagingOptions<Request> options, Context c) {
         super(options);
         this.c = c;
     }
@@ -48,7 +49,7 @@ public class ShowDetailsAdapter extends FirebaseRecyclerPagingAdapter<PastRecord
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyHolder myholder, int position, PastRecord model) {
+    public void onBindViewHolder(@NonNull MyHolder myholder, int position, Request model) {
         int bgColor = ContextCompat.getColor(c, mColors[position % 10]);
         myholder.cardview.setCardBackgroundColor(bgColor);
         myholder.bind(model);
@@ -91,11 +92,11 @@ public class ShowDetailsAdapter extends FirebaseRecyclerPagingAdapter<PastRecord
 //            });
 
         }
-        public void bind(final PastRecord model)
+        public void bind(final Request model)
         {
-            date.setText(model.getServiceDate());
-            CompliantId.setText(model.getComplaintId());
-            mechanic.setText(model.getServiceMan());
+            date.setText(model.getGeneratedDate());
+            CompliantId.setText(String.valueOf(model.getComplaint().getComplaintId()));
+            mechanic.setText(model.getComplaint().getMechanic().getUserName());
             Description.setText(model.getDescription());
         }
 
