@@ -89,7 +89,7 @@ public class ProfileFragment extends Fragment {
     UploadTask uploadTask;
     CustomDialogBox dialogBox;
 
-    TextView name, email, phoneNumber;
+    TextView name, email, phoneNumber, empId, designation, department, address;
 
     Button editButton;
     ImageView setting_imegeView;
@@ -101,6 +101,7 @@ public class ProfileFragment extends Fragment {
     MachineAdapter machineAdapter;
 
     FirebaseAuth auth;
+    Manager manager;
 
     FirebaseDatabase firebaseDatabase;
     LinearLayoutManager HorizontalLayout;
@@ -142,35 +143,6 @@ public class ProfileFragment extends Fragment {
 
                 Intent intent = new Intent(getActivity().getApplicationContext(), EditProfileActivity.class);
                 startActivity(intent);
-//                Context context = getActivity().getApplicationContext();
-//                AnimatorSet flipOut = (AnimatorSet) AnimatorInflater.loadAnimator(context,R.animator.card_flip_out);
-//                AnimatorSet flipIn = (AnimatorSet) AnimatorInflater.loadAnimator(context,R.animator.card_flip_in);
-//                flipIn.addListener(new Animator.AnimatorListener() {
-//                    @Override
-//                    public void onAnimationStart(Animator animation) {
-//                        profileEditLayout.setVisibility(View.VISIBLE);
-//                    }
-//
-//                    @Override
-//                    public void onAnimationEnd(Animator animation) {
-//                        profileLayout.setVisibility(View.GONE);
-//                    }
-//
-//                    @Override
-//                    public void onAnimationCancel(Animator animation) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onAnimationRepeat(Animator animation) {
-//
-//                    }
-//                });
-//                flipOut.setTarget(profileLayout);
-//                flipIn.setTarget(profileEditLayout);
-//                flipOut.start();
-//                flipIn.start();
-
 
             }
         });
@@ -194,6 +166,10 @@ public class ProfileFragment extends Fragment {
         name = view.findViewById(R.id.rm_profile_name);
         email = view.findViewById(R.id.rm_profile_email);
         phoneNumber = view.findViewById(R.id.rm_profile_phone);
+        empId = view.findViewById(R.id.employee_id);
+        designation = view.findViewById(R.id.employee_job_title);
+        department = view.findViewById(R.id.employee_department);
+        address = view.findViewById(R.id.employee_address);
 
         databaseReference = FirebaseDatabase.getInstance()
                 .getReference("Users")
@@ -205,8 +181,14 @@ public class ProfileFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 //Picasso.get().load(manager.getProfilePicLink()).into(profilePic)
-                name.setText((String) dataSnapshot.child("userName").getValue());
-                email.setText((String) dataSnapshot.child("email").getValue());
+                manager = dataSnapshot.getValue(Manager.class);
+                name.setText(manager.getUserName());
+                email.setText(manager.getEmail());
+                phoneNumber.setText(manager.getPhoneNumber());
+                empId.setText(manager.getEmpId());
+                designation.setText(manager.getDesignation());
+                department.setText(manager.getDepartment());
+                address.setText(manager.getSavedAddress());
                 dialogBox.dismiss();
 
             }
