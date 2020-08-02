@@ -90,6 +90,22 @@ public class LoginActivity extends AppCompatActivity {
         if(mAuth.getCurrentUser()!=null)
         {
             startActivity(new Intent(LoginActivity.this,BottomNavigationActivity.class));
+            if(ContextCompat.checkSelfPermission(LoginActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)
+                    != PackageManager.PERMISSION_GRANTED){
+
+                // if permission is not granted, ask for the permission
+                Toast.makeText(LoginActivity.this, "Service Not Started", Toast.LENGTH_LONG).show();
+                ActivityCompat.requestPermissions(LoginActivity.this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},1);
+            }
+            else{
+                // location permission is granted
+                if(!isServiceActivated){
+                    // start the service
+                    Toast.makeText(LoginActivity.this, "Service Started Successfully!", Toast.LENGTH_LONG).show();
+                    ContextCompat.startForegroundService(LoginActivity.this,new Intent(LoginActivity.this,BackgroundService.class));
+                }
+
+            }
             finish();
         }
         customDialogBox = new CustomDialogBox(LoginActivity.this);

@@ -1,21 +1,30 @@
 package com.example.manager;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.media.AudioManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.renderscript.RenderScript;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 
+import com.example.manager.DialogBox.ComplaintDescriptionDialog;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationCallback;
@@ -25,6 +34,8 @@ import com.google.android.gms.location.LocationServices;
 import com.google.firebase.auth.FirebaseAuth;
 
 import org.jetbrains.annotations.Nullable;
+
+import xyz.hasnat.sweettoast.SweetToast;
 
 import static com.example.manager.App.CHANNEL_ID;
 
@@ -37,7 +48,7 @@ public class BackgroundService extends Service implements GoogleApiClient.Connec
         LocationRequest mLocationRequest;
         AudioManager audioManager;
 private boolean gotOutOfCampusForFirstTime = false;
-final double radiusToCheck = 1.0; // in meter
+final double radiusToCheck = 200.0; // in meter
 
 
 @Override
@@ -179,19 +190,33 @@ public int onStartCommand(Intent intent, int flags, int startId) {
 
 
         // to keep the activity alive in foreground, show an notification, stating the app status
-        Intent notificationIntent = new Intent(this,LoginActivity.class);
-        Intent[] listOfIntents = new Intent[1];
-        listOfIntents[0] = notificationIntent;
-        PendingIntent pendingIntent = PendingIntent.getActivities(
-        this,0,listOfIntents,0);
-        Notification notification = new NotificationCompat.Builder(this,CHANNEL_ID)
-        .setContentTitle("Background Service Active")
-        .setContentText("Tap to return")
-        .setSmallIcon(R.mipmap.ic_launcher_round)
-        .setContentIntent(pendingIntent)
-        .build();
+//        Intent notificationIntent = new Intent(this,LoginActivity.class);
+//        Intent[] listOfIntents = new Intent[1];
+//        listOfIntents[0] = notificationIntent;
+//        PendingIntent pendingIntent = PendingIntent.getActivities(
+//        this,0,listOfIntents,0);
+//        Notification notification = new NotificationCompat.Builder(this,CHANNEL_ID)
+//        .setContentTitle("Background Service Active")
+//        .setContentText("Tap to return")
+//        .setSmallIcon(R.mipmap.ic_launcher_round)
+//        .setContentIntent(pendingIntent)
+//        .build();
+//
+//        startForeground(1,notification);
+        if (Build.VERSION.SDK_INT >= 27) {
+                String CHANNEL_ID = "my_channel_01";
+                NotificationChannel channel = new NotificationChannel(CHANNEL_ID,
+                        "Channel human readable title",
+                        NotificationManager.IMPORTANCE_DEFAULT);
 
-        startForeground(1,notification);
+                ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE)).createNotificationChannel(channel);
+
+                Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
+                        .setContentTitle("")
+                        .setContentText("").build();
+
+                startForeground(1, notification);
+        }
 
         // finally connect the googleApiClient
         if(this.mGoogleApiClient != null){
