@@ -247,7 +247,7 @@ public class PendingRequestAdapter extends FirebaseRecyclerPagingAdapter<Request
                                     sum += currentCost + faultCost;
 
                                     reference1.child("OverallCost").child(String.valueOf(serviceCount+1)).setValue(currentCost+faultCost);
-
+                                    reference1.child("sum").setValue(String.valueOf(sum));
                                     reference1.child("extras").setValue("0");
                                     reference1.child("serviceCount").setValue(String.valueOf(serviceCount+1));
                                     reference1.child("faultCostPM").setValue(String.valueOf(sum/((serviceCount+1)*serviceTime)));
@@ -260,11 +260,11 @@ public class PendingRequestAdapter extends FirebaseRecyclerPagingAdapter<Request
                                     int date = Integer.parseInt(arrOfStr[0]);
                                     int month = Integer.parseInt((arrOfStr[1]));
                                     int year = Integer.parseInt(arrOfStr[2]);
-                                    month--;
+
                                     month += serviceTime;
                                     year += month/12;
                                     month %=12;
-                                    month++;
+
                                     String nextOne = String.valueOf(date)+'/'+String.valueOf(month)+'/'+String.valueOf(year);
                                     reference1.child("nextServiceTime").setValue(nextOne);
 

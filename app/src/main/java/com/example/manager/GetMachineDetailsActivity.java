@@ -438,8 +438,8 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
                             String[] arrT = today.split("/",4);
                             String[] arrS = machine.getDateOfInstallation().split("/",4);
 
-                            int age = Integer.parseInt(arrT[1])-Integer.parseInt(arrS[1]) + 12*(Integer.parseInt(arrT[2])-Integer.parseInt(arrS[2]));
-                            float LifeC = (float)(age)/(float)(machine.getLife()*12);
+                            int age = Integer.parseInt(arrT[0])-Integer.parseInt(arrS[0])+12*Integer.parseInt(arrT[1])-Integer.parseInt(arrS[1]) + 365*(Integer.parseInt(arrT[2])-Integer.parseInt(arrS[2]));
+                            float LifeC = (float)(age)/(float)(machine.getLife()*365);
                             LifeC *= 100;
 
                             int a = Integer.valueOf(dataSnapshot.child("sum").getValue().toString());
@@ -468,7 +468,6 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
                             data.setBarWidth(0.9f);
                             barChart.setData(data);
 
-
                         }
 
                         @Override
@@ -477,8 +476,7 @@ public class GetMachineDetailsActivity extends AppCompatActivity {
                         }
                     });
 
-                    cd1.showValue(75f, 100f,false);
-                    cd2.showValue(30f, 100f, false);
+
                     cd1.startAnim();
                     cd2.startAnim();
                 }
