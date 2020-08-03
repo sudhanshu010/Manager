@@ -191,7 +191,7 @@ public class LoginActivity extends AppCompatActivity {
 
                                             customDialogBox.dismiss();
 //                                            SweetToast.info(LoginActivity.this,"Success");
-                                            Intent i = new Intent(LoginActivity.this,VerifyActivity.class);
+                                            Intent i = new Intent(LoginActivity.this,BottomNavigationActivity.class);
                                             i.putExtra("Email",email);
                                             i.putExtra("Password",password);
                                             startActivity(i);
