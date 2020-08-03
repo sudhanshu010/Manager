@@ -552,9 +552,9 @@ public class PendingRequestAdapter extends FirebaseRecyclerPagingAdapter<Request
                 updateDatabaseValue.put("/Complaints/"+model.getComplaint().getComplaintId()+"/status",2);
                 updateDatabaseValue.put("/Requests/"+model.getRequestId()+"/complaint/status",2);
 
-                updateDatabaseValue.put("/Users/Manager/"+user.getUid()+"/pendingComplaints/"+model.getComplaint().getComplaintId()+"/status",2);
+                //updateDatabaseValue.put("/Users/Manager/"+user.getUid()+"/pendingComplaints/"+model.getComplaint().getComplaintId()+"/status",2);
 
-                updateDatabaseValue.put("/Users/Mechanic/"+model.getComplaint().getMechanic().getUid()+"/pendingComplaints/"+model.getComplaint().getComplaintId()+"/status",2);
+                //updateDatabaseValue.put("/Users/Mechanic/"+model.getComplaint().getMechanic().getUid()+"/pendingComplaints/"+model.getComplaint().getComplaintId()+"/status",2);
 
                 //updateDatabaseValue.put("/Users/Manager/"+user.getUid()+"/pendingRequests/"+model.getRequestId()+"/complaint/status",2);
 
