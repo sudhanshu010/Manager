@@ -48,7 +48,7 @@ public class BackgroundService extends Service implements GoogleApiClient.Connec
         LocationRequest mLocationRequest;
         AudioManager audioManager;
 private boolean gotOutOfCampusForFirstTime = false;
-final double radiusToCheck = 100.0; // in meter1
+final double radiusToCheck = 10.0; // in meter1
 
 
 @Override
@@ -67,7 +67,7 @@ public void onConnected(@Nullable Bundle bundle) {
         // get my current location
         mLocationRequest = LocationRequest.create();
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        mLocationRequest.setInterval(10000); // update location every 10 seconds
+        mLocationRequest.setInterval(1000); // update location every 10 seconds
 
         // now if we have the authority to look into user's current location, do update get it
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
@@ -107,9 +107,8 @@ public void onLocationResult(LocationResult locationResult) {
         if(!isInCampus(latitude,longitude)){
         gotOutOfCampusForFirstTime = true;
             FirebaseAuth.getInstance().signOut();
-           Intent intent =  new Intent(getApplicationContext(),ServiceStopActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
+            stopSelf();
+
         // phone is in the campus, switch to silence mode, if not already
         // try to put the phone to vibrate mode
 //        try{
@@ -234,6 +233,9 @@ public void onDestroy() {
         if(mGoogleApiClient.isConnected()){
         mGoogleApiClient.disconnect();
         }
+        Intent intent =  new Intent(getApplicationContext(),ServiceStopActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
         }
 
 @Nullable

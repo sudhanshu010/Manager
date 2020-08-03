@@ -13,7 +13,7 @@ public class ServiceStopActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_service_stop);
         Toast.makeText(getApplicationContext(), "You are Logged Out!", Toast.LENGTH_SHORT).show();
-        getApplicationContext().stopService(new Intent(ServiceStopActivity.this,BackgroundService.class));
+        //getApplicationContext().stopService(new Intent(ServiceStopActivity.this,BackgroundService.class));
 
     }
 }
