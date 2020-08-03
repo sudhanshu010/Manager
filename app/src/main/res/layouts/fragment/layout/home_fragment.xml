@@ -401,12 +401,10 @@
                         android:id="@+id/AdOpenerLL"
                         >
 
-                        <com.google.android.gms.ads.AdView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            ads:adSize="BANNER"
-                            ads:adUnitId="ca-app-pub-3940256099942544/6300978111"
+                        <ImageView
+                            android:layout_height="50dp"
+                            android:layout_width="match_parent"
+                            android:src="@drawable/ad_main"
                             />
 
 

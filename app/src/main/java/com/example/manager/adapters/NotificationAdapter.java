@@ -47,12 +47,25 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     @Override
     public void onBindViewHolder(@NonNull NotificationAdapter.ViewHolder holder, int position) {
 
+
+        if(notifications.get(position).getSubject().equals("Machine to be Replaced"))
+        {
+            notifications.get(position).setMessage("");
+            notifications.get(position).setSubject("Machine should be replaced. It is not performing good.");
+        }
         NotificationModel x = notifications.get(position);
         holder.subject.setText(x.getSubject());
         holder.message.setText(x.getMessage());
         int bgColor = ContextCompat.getColor(c, mColors[position % 10]);
         holder.imageView.setCircleBackgroundColor(bgColor);
         holder.imageView.setImageResource(images[position % 4]);
+
+        if(notifications.get(position).getSubject().equals("Machine to be Replaced"))
+        {
+            notifications.get(position).setMessage("");
+            notifications.get(position).setSubject("Machine should be replaced. It is not performing good.");
+        }
+
     }
 
     @Override
