@@ -85,7 +85,7 @@ public class PendingRequestAdapter extends FirebaseRecyclerPagingAdapter<Request
     class MyHolder extends RecyclerView.ViewHolder {
 
 
-        TextView serviceman1,requestid1,complain_id,description, accept_button,decline_button;
+        TextView serviceman1,requestid1,complain_id,description, accept_button,decline_button,RequestCost;
 
         String load;
         FirebaseDatabase firebaseDatabase;
@@ -108,6 +108,7 @@ public class PendingRequestAdapter extends FirebaseRecyclerPagingAdapter<Request
             accept_button = itemView.findViewById(R.id.accept_button);
             decline_button = itemView.findViewById(R.id.decline_button);
             cardView = itemView.findViewById(R.id.cardview12);
+            RequestCost = itemView.findViewById(R.id.RequestCost);
 
         }
 
@@ -117,7 +118,8 @@ public class PendingRequestAdapter extends FirebaseRecyclerPagingAdapter<Request
             requestid1.setText(String.valueOf(model.getRequestId()));
             complain_id.setText(String.valueOf(model.getComplaint().getComplaintId()));
             description.setText(model.getDescription());
-
+            RequestCost.setText(String.valueOf(model.getCost()));
+            float cost = model.getCost();
 
 
             auth = FirebaseAuth.getInstance();
@@ -216,7 +218,7 @@ public class PendingRequestAdapter extends FirebaseRecyclerPagingAdapter<Request
 
                         //TODO: lets assume faultCost as 100, change after the input says
 
-                        final int faultCost = 100;
+                        final float faultCost = cost;
 
                         if(complaintType.equals("Regular Service"))
                         {
@@ -245,7 +247,7 @@ public class PendingRequestAdapter extends FirebaseRecyclerPagingAdapter<Request
                                     currentCost = Integer.parseInt(dataSnapshot.child("extras").getValue().toString());
 
                                     sum += currentCost + faultCost;
-
+                                    currentCost += faultCost;
                                     reference1.child("OverallCost").child(String.valueOf(serviceCount+1)).setValue(currentCost+faultCost);
                                     reference1.child("sum").setValue(String.valueOf(sum));
                                     reference1.child("extras").setValue("0");

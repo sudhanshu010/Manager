@@ -105,6 +105,31 @@
                         android:textSize="15sp" />
 
                 </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Cost :"
+                        android:fontFamily="@font/imprima"
+                        android:textStyle="bold"
+                        android:textColor="#363333"
+                        android:textSize="15sp" />
+                    <TextView
+                        android:id="@+id/RequestCost"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text=""
+                        android:fontFamily="@font/imprima"
+                        android:textColor="#1A1717"
+                        android:textSize="15sp" />
+
+                </LinearLayout>
 
 
             </LinearLayout>

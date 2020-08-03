@@ -87,6 +87,7 @@ public class LoginActivity extends AppCompatActivity {
        // FirebaseDatabase.getInstance().setPersistenceEnabled(true);
 
         mAuth = FirebaseAuth.getInstance();
+
         if(mAuth.getCurrentUser()!=null)
         {
             startActivity(new Intent(LoginActivity.this,BottomNavigationActivity.class));
