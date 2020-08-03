@@ -9,6 +9,7 @@ import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.widget.TextView;
 
@@ -44,6 +45,10 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -95,6 +100,34 @@ public class ImportExcelActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 manager = dataSnapshot.getValue(Manager.class);
                 myMachines = manager != null ? manager.getMyMachines() : null;
+
+                totalMachineReference.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        totalMachines = (long) dataSnapshot.getValue();
+                        Log.i("3","4");
+                        generationCodeReference.addValueEventListener(new ValueEventListener() {
+                            @Override
+
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                generationCodeValue = (long) Objects.requireNonNull(dataSnapshot.getValue());
+                                Log.i("5","6");
+                                readExcelFileFromAssets();
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
             }
 
             @Override
@@ -102,33 +135,9 @@ public class ImportExcelActivity extends AppCompatActivity {
 
             }
         });
-        totalMachineReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                totalMachines = (long) dataSnapshot.getValue();
-                Log.i("3","4");
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
 
-            }
-        });
 
-        generationCodeReference.addValueEventListener(new ValueEventListener() {
-            @Override
-
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                generationCodeValue = (long) Objects.requireNonNull(dataSnapshot.getValue());
-                Log.i("5","6");
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
 
         if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
@@ -136,7 +145,7 @@ public class ImportExcelActivity extends AppCompatActivity {
         if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
         }
-        readExcelFileFromAssets();
+
     }
 
     private void uploadQR(Bitmap bitmap) {
@@ -232,8 +241,30 @@ public class ImportExcelActivity extends AppCompatActivity {
                             BitMatrix bitMatrix = multiFormatWriter.encode(String.valueOf(generationCodeValue), BarcodeFormat.QR_CODE, 200, 200);
                             BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
                             Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);// bitmap contains QRCode image.
-                            GenerateQRDialogBox generateQRDialogBox = new GenerateQRDialogBox(ImportExcelActivity.this,generationCodeValue,bitmap);
-                            generateQRDialogBox.show();
+
+                            FileOutputStream outStream = null;
+                            File sdCard = Environment.getExternalStorageDirectory();
+                            File dir = new File(sdCard.getAbsolutePath() + "/QRcode");
+                            dir.mkdirs();
+                            File outFile = new File(dir, generationCodeValue +".jpg");
+                            try {
+                                outStream = new FileOutputStream(outFile);
+                            } catch (FileNotFoundException e) {
+                                e.printStackTrace();
+                            }
+                            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
+                            //Toast.makeText(this, "Image Saved Successfully", Toast.LENGTH_SHORT).show();
+                            try {
+                                assert outStream != null;
+                                outStream.flush();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            try {
+                                outStream.close();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
                             //qrcode.setImageBitmap(bitmap);
 
                             uploadQR(bitmap); // upload QRcode image to FirebaseStorage
@@ -300,7 +331,7 @@ public class ImportExcelActivity extends AppCompatActivity {
                         tempManager.setPendingComplaints(null);
                     }
                     Machine machine = new Machine(sno, date, department, machineId, type, company, model,
-                            Objects.requireNonNull(task.getResult()).toString(), Integer.parseInt(servicetime), null, Float.parseFloat(price), true, tempManager, null, Float.parseFloat(scrap), Float.parseFloat(life),true);
+                            Objects.requireNonNull(task.getResult()).toString(), (int) Float.parseFloat(servicetime), null, Float.parseFloat(price), true, tempManager, null, Float.parseFloat(scrap), Float.parseFloat(life),true);
 
                     //TODO: Check once
 
@@ -343,9 +374,14 @@ public class ImportExcelActivity extends AppCompatActivity {
                     }
                     hashMap.put("/Users/Manager/" + user.getUid() + "/myMachines/" + machineId, tempMachine);
 
-                    firebaseDatabase.getReference().updateChildren(hashMap);
-                    generationCodeValue = generationCodeValue + 1;
-                    totalMachines = totalMachines+1;
+                    firebaseDatabase.getReference().updateChildren(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            generationCodeValue = generationCodeValue + 1;
+                            totalMachines = totalMachines+1;
+                        }
+                    });
+
 
                 }
             }
