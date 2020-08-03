@@ -164,7 +164,7 @@ public class ImportExcelActivity extends AppCompatActivity {
             InputStream myInput;
             Log.i("13", "14");
             // initialize asset manager
-            AssetManager assetManager = getApplicationContext().getAssets();
+            AssetManager assetManager = getApplicationContext().getResources().getAssets();
             Log.i("15", "16");
             //  open excel sheet
             myInput = assetManager.open("machineDetails.xls");
