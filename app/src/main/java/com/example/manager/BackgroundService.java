@@ -48,7 +48,7 @@ public class BackgroundService extends Service implements GoogleApiClient.Connec
         LocationRequest mLocationRequest;
         AudioManager audioManager;
 private boolean gotOutOfCampusForFirstTime = false;
-final double radiusToCheck = 10.0; // in meter1
+final double radiusToCheck = 1.0; // in meter1
 
 
 @Override
@@ -104,7 +104,7 @@ public void onLocationResult(LocationResult locationResult) {
         Double longitude = location.getLongitude();
 
         // if the location is inside the defined fence, do following
-        if(!isInCampus(latitude,longitude)){
+        if(isInCampus(latitude,longitude)){
         gotOutOfCampusForFirstTime = true;
             FirebaseAuth.getInstance().signOut();
             stopSelf();
