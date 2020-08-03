@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 import com.example.manager.ComplaintsTabActivity;
 import com.example.manager.GenerateQRActivity;
+import com.example.manager.GenerateQrOptions;
 import com.example.manager.ImportExcelActivity;
 import com.example.manager.PendingRequestActivity;
 import com.example.manager.R;
@@ -109,18 +110,12 @@ public class HomeFragment extends Fragment {
         generate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity().getApplicationContext(), GenerateQRActivity.class);
+                Intent intent = new Intent(getActivity().getApplicationContext(), GenerateQrOptions.class);
                 startActivity(intent);
             }
         });
 
-        excel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(getActivity().getApplicationContext(), ImportExcelActivity.class);
-                startActivity(i);
-            }
-        });
+
 
 
         pendingComplaints.setOnClickListener(new View.OnClickListener() {

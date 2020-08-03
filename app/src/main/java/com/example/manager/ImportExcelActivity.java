@@ -10,6 +10,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
 
 import com.example.manager.DialogBox.GenerateQRDialogBox;
 import com.example.manager.models.ComparisonMachine;
@@ -52,6 +53,8 @@ import xyz.hasnat.sweettoast.SweetToast;
 
 public class ImportExcelActivity extends AppCompatActivity {
 
+    private TextView textView;
+
     FirebaseStorage firebaseStorage;
     StorageReference storageReference;
     StorageReference machineQRCodeRefernce;
@@ -74,6 +77,8 @@ public class ImportExcelActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_import_excel);
 
+        textView = findViewById(R.id.textview);
+
         firebaseDatabase = FirebaseDatabase.getInstance();
         generationCodeReference = firebaseDatabase.getReference("GenerationCode");
         machineReference = firebaseDatabase.getReference("Machines");
@@ -82,6 +87,7 @@ public class ImportExcelActivity extends AppCompatActivity {
 
         totalMachineReference = firebaseDatabase.getReference("TotalMachines");
         firebaseStorage = FirebaseStorage.getInstance();
+        Log.i("1","2");
         storageReference = firebaseStorage.getReference();
 
         managerReference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -100,6 +106,7 @@ public class ImportExcelActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 totalMachines = (long) dataSnapshot.getValue();
+                Log.i("3","4");
             }
 
             @Override
@@ -114,6 +121,7 @@ public class ImportExcelActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 generationCodeValue = (long) Objects.requireNonNull(dataSnapshot.getValue());
+                Log.i("5","6");
             }
 
             @Override
@@ -148,15 +156,22 @@ public class ImportExcelActivity extends AppCompatActivity {
 
     public void readExcelFileFromAssets() {
 
+        Log.i("hi", "vikas");
+
         try {
 
+            Log.i("11", "12");
             InputStream myInput;
+            Log.i("13", "14");
             // initialize asset manager
-            AssetManager assetManager = getAssets();
+            AssetManager assetManager = getApplicationContext().getAssets();
+            Log.i("15", "16");
             //  open excel sheet
             myInput = assetManager.open("machineDetails.xls");
+            Log.i("17", "18");
             // Create a POI File System object
             POIFSFileSystem myFileSystem = new POIFSFileSystem(myInput);
+            Log.i("7","8");
 
             // Create a workbook using the File System
             HSSFWorkbook myWorkBook = new HSSFWorkbook(myFileSystem);
@@ -167,7 +182,7 @@ public class ImportExcelActivity extends AppCompatActivity {
             // We now need something to iterate through the cells.
             Iterator<Row> rowIter = mySheet.rowIterator();
             int rowno =0;
-
+            textView.append("\n");
             while (rowIter.hasNext()) {
                 Log.i("row", " row no "+ rowno );
                 HSSFRow myRow = (HSSFRow) rowIter.next();
@@ -179,6 +194,7 @@ public class ImportExcelActivity extends AppCompatActivity {
                         HSSFCell myCell = (HSSFCell) cellIter.next();
                         if (colno==0){
                             department = myCell.toString();
+                            Log.i("9","10");
                         }else if (colno==1){
                             type = myCell.toString();
                         }else if (colno==2){
@@ -235,6 +251,7 @@ public class ImportExcelActivity extends AppCompatActivity {
                     } else {
                         SweetToast.error(ImportExcelActivity.this, "failed");
                     }
+                    textView.append( sno + " -- "+ date+ "  -- "+ company+"\n");
 
 
                 }

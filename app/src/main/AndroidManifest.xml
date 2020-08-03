@@ -34,7 +34,6 @@
         <activity android:name=".ImportExcelActivity"></activity>
         <activity android:name=".ServiceStopActivity" />
         <activity android:name=".GenerateQrOptions"></activity>
-        <activity android:name=".ServiceStopActivity" />
         <activity android:name=".VerifyActivity" />
 
         <meta-data
