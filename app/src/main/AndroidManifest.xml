@@ -31,7 +31,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:label">
-        <activity android:name=".ServiceStopActivity"></activity>
+        <activity android:name=".GenerateQrOptions"></activity>
+        <activity android:name=".ServiceStopActivity" />
         <activity android:name=".VerifyActivity" />
 
         <meta-data
