@@ -198,4 +198,8 @@ dependencies {
 
     //Otp View
     implementation 'com.github.aabhasr1:OtpView:v1.1.2'
+
+    //import excel
+    implementation "org.apache.poi:poi:3.17"
+    implementation "org.apache.poi:poi-ooxml:3.17"
 }

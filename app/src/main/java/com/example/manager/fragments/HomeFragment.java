@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -18,6 +19,7 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 import com.example.manager.ComplaintsTabActivity;
 import com.example.manager.GenerateQRActivity;
+import com.example.manager.ImportExcelActivity;
 import com.example.manager.PendingRequestActivity;
 import com.example.manager.R;
 import com.example.manager.ScanQRActivity;
@@ -37,6 +39,7 @@ public class HomeFragment extends Fragment {
 
     LinearLayout pendingComplaints;
     LinearLayout generate,scan,pending_approval_request;
+    Button excel;
     ViewPager viewPager;
     LinearLayout sliderdotspanel;
     private int dotscount;
@@ -108,6 +111,14 @@ public class HomeFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity().getApplicationContext(), GenerateQRActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        excel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getActivity().getApplicationContext(), ImportExcelActivity.class);
+                startActivity(i);
             }
         });
 
